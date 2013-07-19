@@ -1,0 +1,50 @@
+<style type="text/css"> .wrapper .main .col-wrapper .col-main{float:none;margin:0px auto 0px auto;}</style>
+<?php          
+     //Process form. Send emails to Experience Maker(Guide) and confirmation mail to user. Check if post variables have values. 
+     if(isset($_POST['contactSubmit']) && !empty($_POST['custemail']) && !empty($_POST['phone']) && !empty($_POST['fullName']) && !empty($_POST['category'])) { 
+     $regexPhone = '/\(?\d{3}\)?[-\s.]?\d{3}[-\s.]\d{4}/x';
+	     if(filter_var($_POST['custemail'], FILTER_VALIDATE_EMAIL) && preg_match($regexPhone, $_POST['phone'])) {
+	     	$category = $_POST['category'];
+			($_POST['category']=="allguides" ? $categoryName="None Selected" : $categoryName = $_POST['category']);
+	     	//The Experience Maker Id is passed from Experience Maker select menu. Its name is a combination of the category name and Exp
+	     	//We do this because a experience maker select menu is outputted for each category, so we need to find that goes with the category the user selected
+	     	(!(empty($_POST[$category."Exp"])) ? $expId = $_POST[$category."Exp"] : $expId = $_POST['expMakerId']);
+		$expGuide = Mage::getModel('catalog/product')->load($expId);
+	     	$emailTemplateVariables = array();     
+	     	//load the email template and set the variables for the users and experience makers email
+	        $emailTemplate  = Mage::getModel('core/email_template')->loadByCode("contact_form"); 
+	        $emailTemplateGuide  = Mage::getModel('core/email_template')->loadByCode("contact_expguide"); 
+		$emailTemplateVariables['fullname'] = $_POST['fullName'];  
+		$emailTemplateVariables['custemail'] = $_POST['custemail']; 
+		$emailTemplateVariables['category'] = $categoryName;
+		$emailTemplateVariables['experience_guide'] = $expGuide->getName();
+		$emailTemplateVariables['comments'] = $_POST['comments'];
+		$emailTemplateVariables['phone'] = $_POST['phone'];
+		
+		//Set Email info subject, sender, and email, then send the emails using the zend send function.	
+	        $emailTemplate->setSenderName("Escape Locally");
+	        $emailTemplate->setTemplateSubject("Thank you for your interest in our experience packages");
+	        $emailTemplate->setSenderEmail("experience@escapelocally.com");
+	        $emailTemplate->setReturnPath("admin@escapelocally.com");
+		$emailTemplate->send($_POST['custemail'], $_POST['fullName'],$emailTemplateVariables); 
+	   
+	        $emailTemplateGuide->setSenderName("Escape Locally");
+	        $emailTemplateGuide->setTemplateSubject("Experience Package Request From - ". $_POST['fullName']);
+	        $emailTemplateGuide->setSenderEmail("experience@escapelocally.com");
+	        $emailTemplateGuide->setReturnPath("admin@escapelocally.com");
+		$emailTemplateGuide->send($expGuide->getVendorEmail(), $expGuide->getName(),$emailTemplateVariables);
+		
+		//Get our modules model and put the info into our database table - Later I will create the admin portion of this module to display the contact info
+		//in admin so that they can be managed
+		$contactAdd = Mage::getModel('contact/contact');
+		$contactAdd->setName($_POST['fullName'])->setEmail($_POST['custemail'])->setPhone($_POST['phone'])->setCategory($_POST['category'])->setExpMaker($expId)->setComment($_POST['comments']);
+		$contactAdd->save();
+		echo "<div>Thank you for your request. You will be contacted shortly at your email address ". $_POST['custemail']." by ".$expGuide->getName()." - ".$expGuide->getVendorEmail()." to discuss options and assist with booking for your Experience Package.</div>";
+	     } else {
+	     	echo "You did not enter your email or phone number correctly. Please try again. <a href='http://escapelocally.com/contact'>Go Back</a>";
+	     }
+     } else {
+     	echo "You did not enter all required information correctly. Please try again. <a href='http://escapelocally.com/contact'>Go Back</a>";
+     	
+     }
+ ?>

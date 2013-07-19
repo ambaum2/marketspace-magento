@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <default>
+    </default>
+    <purchase_index_index>
+        <update handle="customer_account"/>
+        <reference name="my.account.wrapper">
+            <block type="purchase/purchase" name="purchase" template="purchase/purchase.phtml" />
+        </reference>
+    </purchase_index_index>
+
+    <purchase_index_view>
+        <reference name="my.account.wrapper">
+            <block type="purchase/purchase" name="purchase" template="purchase/view.phtml" />
+        </reference>
+    </purchase_index_view>
+
+    <purchase_index_response>
+        <reference name="my.account.wrapper">
+            <block type="purchase/purchase" name="response" template="purchase/response.phtml" />
+        </reference>
+    </purchase_index_response>
+
+    <purchase_index_receipt>
+        <reference name="my.account.wrapper">
+            <block type="purchase/purchase" name="receipt" template="purchase/receipt.phtml" />
+        </reference>
+    </purchase_index_receipt>
+
+
+
+    <customer_account>
+        <!-- Mage_Wishlist -->
+        <reference name="customer_account_navigation">
+            <action method="addLink" translate="label" module="purchase" ifconfig="wishlist/general/active"><name>purchase</name><path>purchase/</path><label>Purchase Experience</label></action>
+        </reference>
+    </customer_account>
+
+<!--
+Customer account home dashboard layout
+-->
+
+    <customer_account_index>
+
+        <reference name="right">
+            <action method="unsetChild"><name>wishlist</name></action>
+        </reference>
+    </customer_account_index>
+
+</layout> 

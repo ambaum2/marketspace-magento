@@ -1,0 +1,3 @@
+[25-Feb-2011 10:52:27] PHP Fatal error:  Class 'Mage' not found in /home/thedotwo/public_html/ccdemo2/ticketing/skin/frontend/base/default/updateProd.php on line 4
+[25-Feb-2011 10:53:38] PHP Fatal error:  Class 'Mage' not found in /home/thedotwo/public_html/ccdemo2/ticketing/skin/frontend/base/default/updateProd.php on line 4
+[04-Mar-2012 01:46:02] PHP Fatal error:  Class 'Mage' not found in /home/thedotwo/public_html/ccdemo2/ticketing/skin/frontend/base/default/updateProd.php on line 4

@@ -1,0 +1,520 @@
+<link HREF="http://escapelocally.com/ticketing/skin/adminhtml/default/default/frontendAdmin.css" TYPE="text/css" rel="stylesheet" media="all">
+<link HREF="http://escapelocally.com/ticketing/skin/frontend/base/default/css/demo_table_jui.css" TYPE="text/css" rel="stylesheet">
+<link HREF="http://escapelocally.com/ticketing/skin/frontend/base/default/css/demo_table.css" TYPE="text/css" rel="stylesheet">
+<link HREF="http://escapelocally.com/ticketing/skin/frontend/base/default/css/demo_page.css" TYPE="text/css" rel="stylesheet">
+<link HREF="http://escapelocally.com/ticketing/skin/frontend/base/default/css/frontendTabs.css" TYPE="text/css" rel="stylesheet">
+<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
+<link HREF="http://escapelocally.com/ticketing/skin/frontend/base/default/js/jwysi/jquery.wysiwyg.css" TYPE="text/css" rel="stylesheet">
+
+<!--<script type="text/javascript" src="http://escapelocally.com/ticketing/skin/js/jquery.js"></script>https://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.js http://jqueryjs.googlecode.com/files/jquery-1.3.1.min.js
+-->
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.js" ></script> 
+<script type="text/javascript" src="http://escapelocally.com/ticketing/skin/frontend/base/default/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="http://escapelocally.com/ticketing/skin/frontend/base/default/js/jwysi/jquery.wysiwyg.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js
+"></script>
+<script type="text/javascript" src="http://www.kunalbabre.com/projects/table2CSV.js" ></script>
+<script type="text/javascript" src="http://swip.codylindley.com/jquery.DOMWindow.js"></script>
+<script type="text/javascript"> 
+$('.lightbox2').openDOMWindow({ 
+eventType:'click', 
+loader:1, 
+loaderImagePath:'animationProcessing.gif', 
+loaderHeight:16, 
+loaderWidth:17 
+}); 
+</script> 
+<script type="text/javascript">
+  $(function(){
+      $('textarea').wysiwyg();
+  });
+</script>
+<script type="text/javascript"> 
+$(document).ready(function() {
+   //$(".pointerRoll").css("background","red");
+   slideOut();
+//hover(function() { jQuery(this).children('.hiddenProdForm').show("normal");},function() { jQuery(this).children('.hiddenProdForm').hide("normal");});
+});
+function slideOut() {
+   //$(".pointerRoll").click(function() { $(this).next('.slider').show("normal");},(function() { $(this).next('.slider').hide("normal");});
+   $(".pointerRoll").click(function() { $(this).next('.slider').toggleClass("hide-row")});
+}
+</SCRIPT>
+
+<script type="text/javascript">
+$.fn.dataTableExt.afnFiltering.push(
+	function( oSettings, aData, iDataIndex ) {
+		var iMin = document.getElementById('min').value*1; //get rid of * 1 for text
+		var iMax = document.getElementById('max').value*1; //get rid of * 1 for text
+               //I want to take the above and convert them to time stamps from their text literal values
+		var iVersion = aData[2] == "-" ? 0 : aData[2]*1; //aData[i]*1 controls the col used (aData[3] and then aData[1]
+		if ( iMin == "" && iMax == "" )
+		{
+			return true;
+		}
+		else if ( iMin == "" && iVersion < iMax )
+		{
+			return true;
+		}
+		else if ( iMin < iVersion && "" == iMax )
+		{
+			return true;
+		}
+		else if ( iMin < iVersion && iVersion < iMax )
+		{
+			return true;
+		}
+		return false;
+	}
+);
+$.fn.dataTableExt.oApi.fnGetFilteredData = function ( oSettings ) {
+	var a = [];
+	for ( var i=0, iLen=oSettings.aiDisplay.length ; i<iLen ; i++ ) {
+		a.push(oSettings.aoData[ oSettings.aiDisplay[i] ]._aData);
+	}
+	return a;
+}
+
+
+$(document).ready(function() {
+	var oTable = $('#productGrid_tableProd').dataTable();
+	$('#min').keyup( function() { oTable.fnDraw(); } );
+	$('#max').keyup( function() { oTable.fnDraw(); } );
+
+} );
+</script>
+<script type="text/javascript">
+function fnFormatDetails ( oTable, nTr )
+{
+	var aData = oTable.fnGetData( nTr );
+	var sOut = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">';
+	sOut += '<tr><td width="25%">Address:</td><td>'+aData[6]+' '+aData[7]+', '+aData[8]+'</td></tr>';
+	sOut += '<tr><td width="25%">Email Address:</td><td>'+aData[12]+'</td></tr>';
+	sOut += '<tr><td width="25%">Phone Number:</td><td>'+aData[13]+'</td></tr>';
+	sOut += '</table>';
+	
+	return sOut;
+}
+
+$(document).ready(function() {
+	/*
+	 * Insert a 'details' column to the table
+	 */
+	var nCloneTh = document.createElement( 'th' );
+	var nCloneTd = document.createElement( 'td' );
+	nCloneTd.innerHTML = '<img src="http://escapelocally.com/ticketing/skin/adminhtml/default/default/images/entry_edit_head_arrow_up.gif">';
+	nCloneTd.className = "center";
+	
+	$('#productGrid_tableCust thead tr').each( function () {
+		this.insertBefore( nCloneTh, this.childNodes[0] );
+	} );
+	
+	$('#productGrid_tableCust tbody tr').each( function () {
+		this.insertBefore(  nCloneTd.cloneNode( true ), this.childNodes[0] );
+	} );
+	
+	/*
+	 * Initialse DataTables, with no sorting on the 'details' column
+	 */
+	var oTable = $('#productGrid_tableCust').dataTable( {
+		"aoColumnDefs": [
+			{ "bSortable": false, "aTargets": [ 0 ] }
+		],
+		"aaSorting": [[1, 'asc']]
+	});
+	
+	/* Add event listener for opening and closing details
+	 * Note that the indicator for showing which row is open is not controlled by DataTables,
+	 * rather it is done here
+	 */
+	$('#productGrid_tableCust tbody td img').live('click', function () {
+		var nTr = this.parentNode.parentNode;
+		if ( this.src.match('entry_edit_head_arrow_down') )
+		{
+			/* This row is already open - close it */
+			this.src = "http://escapelocally.com/ticketing/skin/adminhtml/default/default/images/entry_edit_head_arrow_up.gif";
+			oTable.fnClose( nTr );
+		}
+		else
+		{
+			/* Open this row */
+			this.src = "http://escapelocally.com/ticketing/skin/adminhtml/default/default/images/entry_edit_head_arrow_down.gif";
+			oTable.fnOpen( nTr, fnFormatDetails(oTable, nTr), 'details' );
+		}
+	} );
+} );
+</script>
+<script>
+	$(function() {
+		$("#minDate").datepicker({showOn: "button",changeMonth: true,changeYear: true,dateFormat: 'DD, d MM, yy',altField: "#min",altFormat: "@"});
+	});
+	    $(function() {
+        $("#maxDate").datepicker({showOn: "button",changeMonth: true,changeYear: true,dateFormat: 'DD, d MM, yy',altField: "#max",altFormat: "@"});
+    });
+ $(function() {
+        $(".startdate").datepicker({showOn: "button",changeMonth: true,changeYear: true,dateFormat: 'mm/d/yy'});
+    });
+
+</script>
+<?php require_once("Includes/ajax.php"); ?>
+<script type="text/javascript">
+$(document).ready(function(){
+	$("form#submit").submit(function() {
+	
+    var myURL = location.href.substring(0,location.href.lastIndexOf("/")+1);
+	var fname     = $('#fname').attr('value');
+	var lname     = $('#lname').attr('value');
+		$.ajax({
+			type: "POST",
+			url: "news/Includes/ajax.php",
+			data: "fname="+ fname +"& lname="+ lname,
+			success: function(){
+				$('form#submit').hide(function(){$('div.success').fadeIn();});
+
+			}
+		});
+	return false;
+	});
+});
+function resetDateSearch() {
+$('.dateSearch').each(function() {  
+   $(this).val('');  
+});  
+}
+function dateSearch() {
+$("#goDate").click(function() {  
+   $("#productGrid_table:first(.dateCol:first)").click(); 
+});  
+}
+</script>
+<script type="text/javascript">
+$(document).ready(function() {
+
+	//When page loads...
+	$(".tab_content").hide(); //Hide all content
+	$("ul.tabs li:first").addClass("active").show(); //Activate first tab
+	$(".tab_content:first").show(); //Show first tab content
+	$("#productGrid_table:first").addClass("active");
+	$(".tab_container:first").addClass("active");
+
+	//On Click Event
+	$("ul.tabs li").click(function() {
+		$(".tab_content #productGrid_table").removeClass("active");
+		$("ul.tabs li").removeClass("active"); //Remove any "active" class
+		$(".tab_container").removeClass("active");
+		$(this).addClass("active"); //Add "active" class to selected tab
+		$(".tab_content").hide(); //Hide all tab content
+		$(".tab_container").hide();
+		
+
+		var activeTab = $(this).find("a").attr("href"); //Find the href attribute value to identify the active tab + content
+		$(activeTab).fadeIn();
+		$(activeTab + " #productGrid_table").addClass("active"); //Fade in the active ID content
+		$(activeTab).parents(".tab_container").show();
+		return false;
+	});
+
+});
+</script>
+
+<!--
+<div class="container">
+<form id="submit" method="post">
+<fieldset>
+<legend>Enter Information</legend>
+
+			<label for="fname">Client First Name:</label>
+<input id="fname" class="text" name="fname" size="20" type="text">
+
+			<label for="lname">Client Last Name:</label>
+<input id="lname" class="text" name="lname" size="20" type="text">
+
+			<button class="button positive"> <img src="../images/icons/tick.png" alt=""> Add Client </button>
+</fieldset>
+</form>
+<div class="success" style="display: none;">Client has been added.</div>
+</div> -->
+
+<style type="text/css">
+.col-left {display:none;}
+.col3-layout .col-wrapper {width:917px;background:#FBFAF6;}
+.col3-layout .col-main {width:927px;padding:0px;}
+.col-right {display:none;}
+.pointerRoll {cursor:pointer;}
+.pointerRoll :hover {background:#CCF;}
+.dataTables_length {float:none;}
+.dataTables_filter {float:left;margin-top:10px;text-align:left;}
+.main {padding:25px 5px 80px 5px;background:none;}
+.tab_content {padding:0px 5px 0px 5px;}
+.header-container {display:none;}
+.hide-row{display:none;}
+.report .headings {cursor:pointer;}
+</style>
+<?php require_once("Includes/session.php"); ?>
+<?php require_once("Includes/connection.php"); ?>
+<?php require_once("Includes/functions.php"); ?>
+<h3><?php //echo $this->__('Vendor Reports') ?>Vendor Reports</h3>
+
+<?php
+//$singleton = Mage::getSingleton('catalog/session');
+//echo '<pre>';
+////var_export($singleton->debug());
+//echo '</pre>';
+//?>
+<?php 
+
+//ini_set('display_errors',1);
+//error_reporting(E_ALL & ~ E_NOTICE); 
+$reports = false;
+$login = true;
+//$data='';
+//if(isset($_GET['submit2'])) {
+//			//header("Content-type: application/octet-stream");
+////header("Content-Disposition: attachment; filename=\"my-data.csv\"");
+//$data=$_GET['csv_text'];
+//$filename = $file."_".date("Y-m-d_H-i",time());
+//
+////Generate the CSV file header
+//header("Content-type: application/vnd.ms-excel");
+//header("Content-disposition: csv" . date("Y-m-d") . ".csv");
+//header("Content-disposition: filename=".$filename.".csv");
+//
+////Print the contents of out to the generated file.
+//print $data;
+//exit();
+////Exit the script
+//
+//}
+if(isset($_POST["qty"])==true) {
+$qty=$_POST['qty'];
+$product_id = $_POST['id'];
+$is_in_stock = $_POST['is_in_stock'];
+$location = $_POST['location'];
+$venues = $_POST['venues'];
+$price = $_POST['price'];
+if(isset($_POST['specialprice'])==true) {
+   $specialprice = $_POST['specialprice'];
+}
+$refund = $_POST['refund'];
+$startdate = $_POST['startdate'];
+$details = $_POST['details'];
+$description = $_POST['description'];
+
+
+      $product = Mage::getModel('catalog/product');
+      $product->load($product_id);
+      $stockData = $product->getStockData();
+      $productInfoData = $product->getData();
+      $productInfoData['price'] = $price;
+if(isset($_POST['specialprice'])==true) {
+      $productInfoData['special_price'] = $specialprice;
+}
+      $productInfoData['location'] = $location;
+      $productInfoData['venues'] = $venues;
+      $productInfoData['refund'] = $refund;
+      $productInfoData['date'] = $startdate;
+      $productInfoData['short_description'] = $details;
+      $productInfoData['description'] = $description;
+
+
+      $product->setData($productInfoData);
+
+      $stockData['qty'] = $qty;
+      $stockData['is_in_stock'] = $is_in_stock;
+      $product->setStockData($stockData);
+
+      $product->save();
+
+}
+if($_GET["logout"]==true) {
+
+	logout();
+
+}
+	if (logged_in()) {
+		$reports = true;
+		$login = false;
+	}
+
+	include_once("Includes/form_functions.php");
+	
+	// START FORM PROCESSING
+	if (isset($_POST['submit'])) { // Form has been submitted.
+		$errors = array();
+//echo "submit checked";
+		// perform validations on the form data
+		$required_fields = array('username', 'password');
+		$errors = array_merge($errors, check_required_fields($required_fields, $_POST));
+
+		$fields_with_lengths = array('username' => 30, 'password' => 30);
+		$errors = array_merge($errors, check_max_field_lengths($fields_with_lengths, $_POST));
+
+		$username = trim(mysql_prep($_POST['username']));
+		$password = trim(mysql_prep($_POST['password']));
+		//$hashed_password = sha1($password);
+		
+		if ( empty($errors) ) {
+			// Check database to see if username and the hashed password exist there.
+			$query = "SELECT email, password,user_id ";
+			$query .= "FROM admin_user ";
+			$query .= "WHERE username = '{$username}' ";
+			$query .= "LIMIT 1";
+			$result_set = mysql_query($query);
+			confirm_query($result_set);
+			if (mysql_num_rows($result_set) == 1) {
+				$found_user = mysql_fetch_array($result_set);
+				$_SESSION['user_id'] = $found_user['user_id'];
+				$_SESSION['username'] = $found_user['username'];
+				$_SESSION['email'] = $found_user['email'];
+				echo "<br />";
+				$pass = $found_user['password'];
+				echo "<br />";
+				$sentPass = $_POST['password']; //have to use post are else validate hash won't pick up
+				if(Mage::helper('core')->validateHash($password,$pass)) { //$sentPass
+					$reports = true;
+					$login = false;
+				} else {
+					$reports = false;
+					$login = true;
+				}
+			} else {
+				// username/password combo was not found in the database
+				$message = "Username/password combination incorrect.<br /> Please make sure your caps lock key is off and try again.";
+			}
+		} else {
+			if (count($errors) == 1) {
+				$message = "There was 1 error in the form.";
+			} else {
+				$message = "There were " . count($errors) . " errors in the form.";
+			}
+		}
+		
+	} else { // Form has not been submitted.
+		if (isset($_GET['logout']) && $_GET['logout'] == 1) {
+			$message = "You are now logged out.";
+		} 
+		$username = "";
+		$password = "";
+	}
+	?>
+    <?php if ($reports == true) {
+       	$currUsername = $_SESSION['username'];
+		$currEmail = $_SESSION['email'];
+		echo "Hello, " . $currUsername . " Your Email is: " . $currEmail;
+		//Check catalog_product_entity_varchar for each attribute id = 125 for vend emails (value) make an And string for each match of entity_id Then check sales_flat_order_item for each product_id
+		$query = "Select value,entity_id From catalog_product_entity_varchar Where attribute_id = 125";
+		$querySales = "Select * From sales_flat_order_item Where product_id = "; //for cust info sales_flat_order_address
+		$queryCust = "Select * From sales_flat_order_item, sales_flat_order_address Where sales_flat_order_item.item_id = sales_flat_order_address.entity_id";
+		$productsWhere = "";
+		$productsCommaDel = "";
+		$prodCount = 0;
+		$prodArray = array();
+		$tableExport ="";
+		if($r = mysql_query($query)) {
+			//echo "<table id='productGrid_table' class='data'>";
+          while($row = mysql_fetch_array($r)) {
+			  $vendorEmail = "{$row['value']}";
+			  //echo "<tr>";		   
+			   if(substr_count($vendorEmail,",")>0) {
+               $vendorEmail = str_replace(" ","",$vendorEmail); 
+               $vendTok = strtok($vendorEmail, ",");              
+				   while ($vendTok !== false) {
+				      //echo "<td>" . $vendTok . "</td>";
+					  if(($vendTok == $currEmail) && ($prodCount == 0)) {
+						  $productsWhere .= "{$row['entity_id']}";
+						  $productCommaDel .= "{$row['entity_id']}";
+						  $prodArray[$prodCount] = "{$row['entity_id']}";
+						  $prodCount++;
+						  } elseif(($vendTok == $currEmail)) {
+							  $productsWhere .= " OR product_id = {$row['entity_id']}";
+							  $productCommaDel .= ",{$row['entity_id']}";
+							  $prodArray[$prodCount] = "{$row['entity_id']}";
+							  $prodCount++;
+						  }
+					  $vendTok = strtok(",");
+				   }
+				   //echo "</tr>";
+			   } else {
+				   //echo "<td>" . $vendorEmail . "</td></tr>";
+				   $productsWhere .= "{$row['entity_id']}";
+			   }
+		  }
+		  //echo "</table>";
+		  $querySales .= $productsWhere;
+		  $queryCust .= " AND sales_flat_order_item.product_id IN(" . $productCommaDel . ")";
+		  
+		  echo "<br /><h1 style='font-weight:bolder'>Your products</h1><div class='grid'><div class='hor-scroll'><table id='productGrid2_table' class='data'><col><col width='100'><col width='100'><thead><tr class='headings'><th><span class='nobr'>Name</span></th><th><span class='nobr'>Inventory</span></th><th><span class='nobr'>Price</span></th>";
+		  $i=0;
+		  while($i<count($prodArray)) {
+			$currProd = Mage::getModel('catalog/product')->load($prodArray[$i]);
+			$currProdInv = Mage::getModel('cataloginventory/stock_item')->load($prodArray[$i]);
+                        $productInfoData = $currProd->getData();
+			echo "<tr class='pointerRoll'><td>" . $currProd->getName() . "</td><td>". (int) Mage::getModel('cataloginventory/stock_item')->load($prodArray[$i])->getQty() . "<br />". ($currProd->isSaleable()==1 ? 'In Stock' : 'Out of Stock')."</td><td>".number_format((float)$currProd->getPrice(),2)."</td></tr><tr class='slider hide-row'><td colspan='3'><br /><table><form class='prodsubmit' method='post'><tr><td width='25%'>Inventory</td><td><input type='text' name='qty' value='".(int) Mage::getModel('cataloginventory/stock_item')->load($prodArray[$i])->getQty()."'><input type='hidden' name='id' value='".$prodArray[$i]."'><br /></td></tr><tr><td>Status: </td><td><select name='is_in_stock'><option value='1'>In Stock </option><option value='0'>Not In Stock</option></select><br /></td></tr><tr><td>Price: </td><td><input name='price' value='". $currProd->getPrice() ."'><br /></td></tr><tr><td>Special Price: </td><td><input name='specialprice' value='". $currProd->getSpecialPrice() ."'><br /></td></tr><tr><td>Start Date: </td><td><input class='startdate' name='startdate' value='". $currProd->getDate() ."'><br /></td></tr><tr><td>Description: </td><td><textarea name='details' cols='80' rows='7'>" . $currProd->getShortDescription() ."</textarea><br /></td></tr><tr><td>Details: </td><td><textarea name='description' cols='80' rows='7'>" . $currProd->getDescription() ."</textarea><br /></td></tr><tr><td>Location: </td><td><textarea name='location' cols='80' rows='7'>" . $currProd->getLocation() ."</textarea><br /></td></tr><tr><td>Venues: </td><td><textarea name='venues' cols='80' rows='7'>" . $currProd->getVenues() ."</textarea><br /></td></tr><tr><td>Refund Policy: </td><td><textarea name='refund' cols='80' rows='7'>" . $currProd->getRefund() ."</textarea><br /></td></tr><tr><td>Image Upload: </td><td><img name='small_image' src='". $currProd->getImageUrl() ."'><br /></td></tr><tr><td><input type='submit' name='submitprod' value='Update Product' /></tr></td></form></table></td>
+</tr></div>";
+			$i++;  
+		  } 
+/////////////////////////Product INFO ///////////////////////////////////////////////
+		  echo "</table></div></div><br /><ul class='tabs'><li><a href='#tab1'>Sales</a></li><li><a href='#tab2'>Customers</a></li></ul><br /><div class='tab_container'><div class='grid'><div class='hor-scroll'><br /><span>Date From:</span><input type='text' class='dateSearch' id='minDate' name='minDate'> <input type='hidden' class='dateSearch' id='min' name='min'><span>Date To: </span><input type='text' class='dateSearch' id='maxDate' name='maxDate'> <input type='hidden' class='dateSearch' id='max' name='min'><button type='button' style='width: 60px; height: 20px;' onclick='resetDateSearch()'>Reset</button><button type='button' style='width: 40px; height: 20px;' id='goDate' onclick='dateSearch()'>Go</button>";
+		  if($r = mysql_query($querySales)) {
+		 print "<div id='tab1' class='tab_content'><h1 style='font-weight:bolder'>Sales Report</h1><table id='productGrid_tableProd' class='data report sales'><col width='40'><col width='130'><col><col><col width='60'><col width='50'><thead><tr class='headings'><th><span class='nobr'>Order Id</span></th><th><span class='nobr dateCol'>Date</span></th><th style='display:none;'><span class='nobr'>TimeTest</span></th><th><span class='nobr'>Name</span></th><th><span class='nobr'>Price</span></th><th><span class='nobr'>Quantity</span></th><th><span class='nobr'>Total Price</span></th></thead><tbody>";
+            while($row = mysql_fetch_array($r)) {
+			 echo "<tr><td>{$row['order_id']}</td><td>". strftime("%B %d, %G",strtotime($row['created_at'])) ."</td><td style='display:none;'>". ((int) strtotime(strftime("%B %d %G",strtotime($row['created_at'])))+21600)*1000 ."</td><td>{$row['name']}</td><td>".(float) number_format((float)$row['price'],2)."</td><td>".(int)$row['qty_ordered']."</td><td>". number_format((float)$row['row_total'],2)."</td></tr>";
+			}
+			echo "</tbody></table></div></div></div></div>";//</div></div></div>";<div class='grid'><div class='hor-scroll'>
+		  }
+		  ////////////////////Customer Report ////////////////////////////////////////////////////////////////////
+		 echo "<div class='tab_container'><div class='grid'><div class='hor-scroll'>";
+		 if($r = mysql_query($queryCust)) {
+		 print "<div id='tab2' class='tab_content'><h1 style='font-weight:bolder'>Sales Customer Report</h1><table id='productGrid_tableCust' class='data report cust'><col width='40'><col width='40'><col width='130'><col><col><col width='60'><col><col width='50'><col width='40'><col><col width='50'><col width='50'><col width='50'><col width='50'><thead><tr class='headings'><th><span class='nobr'>Order Id</span></th><th><span class='nobr dateCol'>Date</span></th><th style='display:none;'><span class='nobr'>TimeTest</span></th><th><span class='nobr'>Product Name</span></th><th><span class='nobr'>Name</span></th><th style='display:none;'><span class='nobr'>Address</span></th><th style='display:none;'><span class='nobr'>City</span></th><th style='display:none;'><span class='nobr'>State</span></th><th><span class='nobr'>Price</span></th><th><span class='nobr'>Quantity</span></th><th><span class='nobr'>Total Price</span></th><th style='display:none;'><span class='nobr'>Email</span></th><th style='display:none;'><span class='nobr'>Phone Number</span></th></thead><tbody>";
+            while($row = mysql_fetch_array($r)) {
+			 echo "<tr><td>{$row['order_id']}</td><td>". strftime("%B %d, %G",strtotime($row['created_at'])) ."</td><td style='display:none;'>". ((int) strtotime(strftime("%B %d %G",strtotime($row['created_at'])))+21600)*1000 ."</td><td>{$row['name']}</td><td>{$row['firstname']} {$row['lastname']}</td><td style='display:none;'>".$row['street']."</td><td style='display:none;'>". $row['city']."</td><td style='display:none;'>". $row['region']."</td><td>".(float) number_format((float)$row['price'],2)."</td><td>".(int)$row['qty_ordered']."</td><td>".number_format((float)$row['row_total'],2)."</td><td style='display:none;'>{$row['email']}</td><td style='display:none;'>{$row['telephone']}</td></tr>";
+			}
+			echo "</tbody></table></div></div></div></div>";
+		  }
+		}
+		//echo "</div></div></div>";
+
+
+?>
+    <a href="news?logout=true" class="textButton">Logout</a><br />
+
+    		<form method="POST" action="http://www.escapelocally.com/ticketing/skin/frontend/base/default/getCSV.php" > 
+<input type="hidden" name="csv_text" id="csv_text" />
+<input type="submit" name="submit2" value="Get CSV File" onclick="getCSVData()" /></form>
+<?php
+	}
+	?>
+<script>
+function getCSVData(){
+
+ var csv_value=$('#productGrid_table.active').table2CSV({delivery:'value'});
+ $("#csv_text").val(csv_value);	
+}
+</script>
+    <?php if($login == true) : ?>
+        <div id="e17" style="position:absolute; left:540px; top:320px; width:522; height:247;">
+
+		<form action="" method="post">
+		  <table>
+		    <tr>
+		      <td>Username:</td>
+		      <td>
+		        <input type="text" name="username" maxlength="30" value="<?php echo htmlentities($username); ?>" />
+		      </td>
+		    </tr>
+		    <tr>
+		      <td>Password:</td>
+		      <td>
+		        <input type="password" name="password" maxlength="30" value="<?php echo htmlentities($password); ?>" />
+		      </td>
+		    </tr>
+		    <tr>
+		      <td colspan="2">
+		        <input type="submit" name="submit" value="Login" />
+		      </td>
+		    </tr>
+		  </table>
+		</form>
+        </div>
+    <?php Endif; ?>

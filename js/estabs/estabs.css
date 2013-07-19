@@ -1,0 +1,16 @@
+.subCatTab {float:left;font-weight:bold;font-size:14px;color:white;margin:7px;background:tan;}
+.subCatTab a {text-decoration:none;}
+.ui-widget-content {border:none;}
+#mktSubCats .ui-tabs-panel {border:1px solid #cccccc;background:none;}
+.ui-widget-content {background:none;}
+#mktSubCats {border:none;}
+#mktSubCatList {border-bottom:#99CC99;}
+#mktSubCats ul {list-style: disc outside none;margin-left: 33px;}
+#mktSubCats .ui-widget-header {background:none;border:none;}
+#mktSubCats .ui-state-active {color:white;}
+#mktSubCats .ui-state-default {color:white;}
+#mktSubCats .ui-state-default a, .ui-state-default a:link, .ui-state-default a:visited {color:white;}
+#mktSubCats .ui-tabs .ui-tabs-nav li {background:#99CC99;}
+#mktSubCats .ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited {color:white;}
+#mktSubCatList {border-bottom:13px solid #99CC99;}
+#mktSubCats .subCatsTab {border-top-left-radius: 18px;border-top-right-radius: 18px;}

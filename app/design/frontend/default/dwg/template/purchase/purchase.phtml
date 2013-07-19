@@ -1,0 +1,202 @@
+  <style> 
+  p.dwg_notice { color:red; margin:5px; } 
+  p.hilite { background:yellow; } 
+  #orderSummary th, td {font-weight:bold;}
+  .tipTable {width:450px;}
+  .tipTable td {padding:5px;}
+  
+  #tipForm .btn-cart {margin-top:8px;}
+  #tip {margin-left:6px;width:90px;}
+  #tipForm {width:300px;display:block;padding:6px;}
+  .tipAmtCol {border-bottom:1px solid black;}
+  #setDate {display:none;}
+  </style> 
+
+<script type="text/javascript">
+
+jQuery(document).ready(function() {
+	//var d = new Date();
+	//var curr_date = d.getDate();
+	//$('input[name="x_exp_date"]').css("border","red 3px solid");
+	//jQuery('input[name="x_exp_date"]').datepick({minDate: curr_date, dateFormat: 'mm/yy', showTrigger: '<img id="calImg" style="cursor:pointer;width:25px;height:25px;" src="http://escapelocally.com/skin/frontend/default/default/images/date_picker.jpg" />'});
+	var d = new Date();
+	for(i=1; i<13;i++) {
+		((i<10) ? month ="0"+i : month=i)
+		year = d.getFullYear()+i-1;
+		jQuery("#setMonth").append('<option value='+month+'>'+month+'</option>');
+		jQuery("#setYear").append('<option value='+year+'>'+year+'</option>');
+	}
+	//set 
+	jQuery("#setDate").val("01/"+d.getFullYear());
+	jQuery("#setMonth,#setYear").change(function () {
+	        month = jQuery("#setMonth").val();
+		year = jQuery("#setYear").val();
+		jQuery("#setDate").val(month+'/'+year);
+	});
+
+    jQuery("#ccvhelp").hover(function () { 
+      jQuery("#ccvtip").slideToggle("slow");
+    });
+    //tip calculator
+    changeTipAmount(); // run tip calc on page load to get default tip%
+    jQuery("#tip").change(function() {
+		changeTipAmount();
+    })
+    
+});
+	/* simple tip calculator get the tip from the 
+	 * tip input and turn it into a %. Then round the orderTotal before
+	 * tip calculate the total and round that total to two decimal 
+	 * places. Then change the inner html for the table
+	 */
+	function changeTipAmount() {
+		var tip = jQuery("#tip").val();
+    	tip = tip/100;
+    	var orderTotal = parseFloat(jQuery("#orderTotal").val());
+    	var total = (orderTotal * tip) + (orderTotal);
+    	//round total to 2 decimal places
+    	total = Math.round(total*100)/100; 
+    	jQuery("#tipAmount").html("$" + Math.round((orderTotal*tip)*100)/100);
+    	jQuery("#tipCalculation").html("$" + total);
+	}
+</script>
+
+<?php 
+/*
+ *  logic for user to click button see a form to put their cc
+ * info in and then process it at Authorize.net
+ * From the customer account page they press purchase under recent order (sales/order/recent.phtml or 
+ * sales/order/history.phtml) then they go to the concierge fee form they add a % tip. they click 
+ * complete order and get the credit card form. (the fee is passed through get to this page
+ * and the order increment id) the user sees the original price plus the concierge fee and then the total
+ * below. The fee is not added to the order price until they click to submit the order. They fill out
+ * the cc form and then click submit. Authorize.net verifies and if successful they are sent to the 
+ * confirmation page and the order is completed. The user sees a message. if authorize.net had a 
+ * problem they are taken to the same page but see a failure message
+ * @todo clear out js and css
+ * @todo clean up code and
+ * @todo use built in magento functions to do this stuff instead of dpm
+ * @todo should add order invoice code from confirmation page to authorize.net verify step
+ */
+require_once 'anet_php_sdk/AuthorizeNet.php'; // The SDK
+if(isset($_GET['conciergeStep']) && isset($_GET['orderId'])) {
+	$orderObj = Mage::getModel('sales/order')->loadByIncrementId($_GET['orderId']);
+	$orderNumber= $orderObj->getRealOrderId();
+	$orderAmt = $orderObj->getGrandTotal();
+	$orderId = $orderObj->getRealOrderId();
+	$tipOptions = "<option value=0>None</option>";
+	for($i=1;$i<=20;$i++) {
+		($i==4) ? $selection = 'selected=selected' : $selection = ''; 
+		$tipOptions .= "<option " . $selection . " value='". $i . "'>". $i . "%</option>";
+	}
+	$tipCalculator = '<label for="tip">Enter Tip:</label><select id="tip" name="conciergeFee">'.$tipOptions.'</select>
+					<input id="orderTotal" type="hidden" value="'.$orderAmt .'" name="orderAmt" />
+	                <input type="hidden" value="'. $orderId .'" name="orderId" />
+	                <input type="hidden" value="'. $orderNumber .'" name="orderNum" />';
+	$output  = Mage::getModel('cms/block')->load('experience_guide_concierge_service')->getContent();
+	$output .= "<form id='tipForm' action='https://escapelocally.com/purchase' method='post'>";
+	$output .= "<table class='tipTable'>";
+	$output .= "<tr><td>Experience Cost – Before Tip</td><td>$" . number_format($orderAmt,2) . "</td></tr>";
+	$output .= "<tr class='tipAmountRow'><td class='tipAmtCol'>Concierge Tip Amount</td><td class='tipAmtCol' id='tipAmount'>$0.00</td><td>" . $tipCalculator . "</td></tr>";
+	$output .= "<tr><td>Experience Cost – With Tip</td><td id='tipCalculation'>$".number_format($orderAmt,2)."</td></tr></table>";
+	$output .= "<input class='btn-cart btn-cart-standalone btn-cart-hover' type='submit' value='Continue to Checkout' /></form>";
+
+	echo $output;
+			 
+}
+if(isset($_POST['conciergeFee'])) { //took out isset($_POST['orderAmt']) && 
+	// if the user pressed the purchase button then go to order page
+	// get form info and api info 
+	//@todo get this stuff out of here
+	$api_login_id = '522LbKuKU'; //'3B6hVAx7p'; //
+	$transaction_key = '5FsHc24t2GZt2w6D'; //'7su8KfBZ83M62afw'; //
+	$fp_sequence = $_POST['orderNum'];
+	$orderId = $_POST['orderId'];
+	
+	//load the order by increment id and get customer information (address region etc)
+	$orderObj = Mage::getModel('sales/order')->loadByIncrementId($orderId); 
+	$orderEntityId = $orderObj->getId();
+	//$amount = $orderObj->getGrandTotal();
+	$amount = $orderObj->getGrandTotal() + ($orderObj->getGrandTotal()*(($_POST["conciergeFee"])/100));
+	$order = Mage::getModel('sales/order_Address')->getCollection()->addAttributeToFilter('parent_id',$orderEntityId)->getFirstItem();
+	$regionId = $order->getRegionId();
+	$regionModel = Mage::getModel('directory/region')->load($regionId);
+	$regionCode = $regionModel->getCode();
+	$md5_setting = '3e64fb030074ed8c5ab8'; // Any sequential number like an invoice number.
+	$relay_response_url = "http://escapelocally.com/formprocess?orderId=".$orderId."&amount=" . number_format($amount,2); // need order id and amount (for now) to pass along to end
+	//where we complete order and change the amount to include the tip
+	echo "<p class='dwg_notice' style='font-size:16px;'>Please confirm your order price and fill out this form to purchase your experience.<br /><b> Order Price:</b> " . number_format($amount, 2);
+	
+	//check if this order can be invoice and display form
+	//this form is in AuthorizeNetDPM.php under lib
+	if($orderObj->canInvoice()) {
+		echo AuthorizeNetDPM::getCreditCardForm($amount, $fp_sequence, $relay_response_url,$api_login_id,$transaction_key,false,true,$order, $regionCode);
+	}
+
+} elseif(isset($_GET['orderId'])) { //if cc form submitted then ask authorize.net to approve
+	//@todo don't know why we are not completing the order here and sending an email
+	$redirect_url = "https://escapelocally.com/purchase";
+	$api_login_id = '522LbKuKU'; //'3B6hVAx7p';  //
+	$md5_setting = "3e64fb030074ed8c5ab8"; // Your MD5 Setting
+	$response = new AuthorizeNetSIM($api_login_id, $md5_setting);
+	$transaction_id = $_GET['orderId'];
+	$amount = $_GET["amount"];
+	if ($response->isAuthorizeNet())
+	{
+	  if ($response->approved) //if authorize approves then redirect user to confirmation page with transaction id
+	  {
+		  echo AuthorizeNetDPM::getRelayResponseSnippet($redirect_url);
+		  // Do your processing here.
+		  $orderId = $_GET['orderId'];
+		  $redirect_url .= '?response_code=1&transaction_id='.$transaction_id .'&amount=' . number_format($amount,2);// .$response->transaction_id;
+		  
+		  //needs to have order completion code here
+		  //get variable not sure why this wasn't done first will need to test 
+		  /*//*$_order = Mage::getModel('sales/order')->loadByIncrementId($orderId);
+		  if($_order->canInvoice()) {
+		    
+		  }*/
+	  }
+	  else //transaction failed send them to order completion - error page
+	  {
+		  $redirect_url .= '?response_code='.$response->response_code . '&amount=' . number_format($amount,2) . '&response_reason_text=' . $response->response_reason_text;
+	  }
+	}
+} elseif(isset($_GET['transaction_id'])) { //order success complete order with transaction id
+	echo "Thank you for your order. You will recieve an email shortly confirming your payment.<br />";
+	$orderId = $_GET['orderId2'];
+	echo "Your order number is: ". $orderId . "<br />";
+	
+	$_order = Mage::getModel('sales/order')->loadByIncrementId($orderId);
+	$items = $_order->getAllItems();
+	
+	echo "The email has been sent to: ". $_order->getCustomerEmail() . "<br /><b>Order Summary</b><br />";
+	echo "<table id='orderSummary' width='100%'><thead><tr style='background:white;border:1px solid black;padding:5px;font-weight:bold;font-size:18px;'><th width='40%'>Name</th><th>Quantity</th><th>Amount</th></tr><tbody>";
+	foreach($items as $item) {
+		$itemData = $item->getData();
+		echo "<tr style='padding:5px;'><td>".$item->getName()."</td><td>".$itemData['qty_ordered']."</td><td>".$item->getPrice()."</td></tr>";
+	}
+	echo "</tbody></table>";
+	if($_order->canInvoice()) {
+		/**
+		 * Create invoice
+		 * The invoice will be in 'Pending' state
+	         * Need to prepare invoice ($order object) then register (invoice object)
+		 */
+		$invoiceId = Mage::getModel('sales/order_invoice_api')->create($_order->getIncrementId(), array(),"",true,false);
+		$_order->setGrandTotal($_GET["amount"]);
+        $_order->setStatus("complete");
+        $_order->save();
+        $_order->sendNewOrderEmail(false);
+	}
+} elseif(isset($_GET['response_code'])) { //order failed - order completion error page
+	echo "<span style='font-size:14px'>Your order could not be completed for the following reason:</span><br /><p style='color:red;font-weight:bolder;'> " . $_GET['response_reason_text'] . "</p>";
+	echo "<a href='customer/account' class='btn-cart'>Please Go Back and Try Again</a>";
+
+} else {
+	header( 'Location: https://www.escapelocally.com/customer/account' );
+}
+
+?>
+
+

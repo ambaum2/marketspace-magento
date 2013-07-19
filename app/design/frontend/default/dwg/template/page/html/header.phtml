@@ -1,0 +1,68 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+/**
+ * @var Mage_Page_Block_Html_Header $this
+ */
+?>
+<div class="nav-container">
+<div class="topNavHolder">
+<?php echo $this->getChildHtml('linksEsl') ?>
+<?php //echo $this->getChildHtml('topSearch') ?>
+</div>
+</div>
+<div class="header-container">
+    <div class="header">
+        <?php if ($this->getIsHomePage()):?>
+        <div id="headerLogoContainer"><h1 class="logo"><strong><?php echo $this->getLogoAlt() ?></strong><a href="<?php echo $this->getUrl('') ?>" title="<?php echo $this->getLogoAlt() ?>" class="logo"><img src="<?php echo $this->getLogoSrc() ?>" alt="<?php echo $this->getLogoAlt() ?>" /><img id="headerLogoText" alt="" src="/skin/frontend/default/default/images/es15/banner_southern_il.png" /></a></h1></div>
+        <div id="headerExpMaker"><a href="/contact?gid=359"><img src="/skin/frontend/default/default/images/es15/Travel_Guide_Jim.png"></a></div>
+        <?php else:?>
+        <div id="headerLogoContainer"><a href="<?php echo $this->getUrl('') ?>" title="<?php echo $this->getLogoAlt() ?>" class="logo"><strong><?php echo $this->getLogoAlt() ?></strong><img src="<?php echo $this->getLogoSrc() ?>" alt="<?php echo $this->getLogoAlt() ?>" /><img id="headerLogoText" alt="" src="/skin/frontend/default/default/images/es15/banner_southern_il.png" /></a>
+        </div>
+        <?php if (Mage::registry('current_product')) : ?> <!-- guide_image attr Mage::registry('current_category')->getName();-->
+        	<?php $currProd = Mage::getModel('catalog/product')->load(Mage::registry('current_product')->getId());
+        	$expGuide = $currProd->getExperienceGuide();
+        	?>
+			<?php if(strlen($expGuide)>0) : ?>
+				<?php $currGuide = Mage::getModel('catalog/product')->load($expGuide);
+					echo '<div id="headerExpMaker"><a href="/contact?gid='.$expGuide.'&pid='.Mage::registry('current_product')->getId().'">'.$currGuide->getGuideImage().'</a></div>';
+				?>
+			<?php else : ?>
+    			<div id="headerExpMaker"><a href="/contact?gid=359&pid='.$currProd->getId().'"><img src="/skin/frontend/default/default/images/es15/Travel_Guide_Jim.png"></a></div>
+            <?php endif; ?>
+        <?php else : ?>
+        	<div id="headerExpMaker"><a href="/contact?gid=359&pid='.$currProd->getId().'"><img src="/skin/frontend/default/default/images/es15/Travel_Guide_Jim.png"></a></div>
+        	<!--<div style="height:180px;width:375px;"></div>-->
+        <?php endif; ?>
+        <?php endif?>
+        <div id="headerMainMenu"><?php echo "<ul>".$this->getChildHtml('tabbedMenuEsl')."</ul>" ?></div>    
+            <p class="welcome-msg"><?php echo $this->getWelcome()?></p>
+            
+            <?php echo $this->getChildHtml('store_language') ?>
+        </div>
+        <?php echo $this->getChildHtml('topContainer') ?>
+    </div>
+</div>
+<div id="headerSearchMenu"><div class="nav-container"><div class="topNavHolder"><?php echo $this->getChildHtml('topSearch') ?><img id="searchMenuExperience" src="/skin/frontend/default/default/images/es15/middle_bar_experience.png"></img></div></div></div>

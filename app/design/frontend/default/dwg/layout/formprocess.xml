@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <default>
+    </default>
+    <formprocess_index_index>
+        <update handle="customer_account"/>
+        <reference name="my.account.wrapper">
+            <block type="formprocess/formprocess" name="formprocess" template="formprocess/formprocess.phtml" />
+        </reference>
+    </formprocess_index_index>
+
+    <formprocess_index_view>
+        <reference name="my.account.wrapper">
+            <block type="formprocess/formprocess" name="formprocess" template="formprocess/view.phtml" />
+        </reference>
+    </formprocess_index_view>
+<!--
+    <purchase_index_response>
+        <reference name="my.account.wrapper">
+            <block type="purchase/purchase" name="response" template="purchase/response.phtml" />
+        </reference>
+    </purchase_index_response>
+
+    <purchase_index_receipt>
+        <reference name="my.account.wrapper">
+            <block type="purchase/purchase" name="receipt" template="purchase/receipt.phtml" />
+        </reference>
+    </purchase_index_receipt>
+
+-->
+</layout> 

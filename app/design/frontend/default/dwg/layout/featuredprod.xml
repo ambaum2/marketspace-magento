@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <default>
+    </default>
+    <featuredprod_index_index>
+        <reference name="content">
+            <block type="featuredprod/featuredprod" name="featuredprod" template="featuredprod/featuredprod.phtml" />
+            <block type="featuredprod/featuredprod" name="featuredProdGrid" template="featuredprod/featuredProdGrid.phtml" />
+
+        </reference>
+    </featuredprod_index_index>
+</layout> 

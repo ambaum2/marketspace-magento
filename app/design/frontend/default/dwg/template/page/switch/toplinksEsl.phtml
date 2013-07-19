@@ -1,0 +1,17 @@
+<div class="headerTopLinks">
+<div class="topLink"><a href="/"><img src="/skin/frontend/default/default/images/es15/nav_home_1.png" /></a></div>
+<div class="topLink"><a href="<?php print Mage::getBaseUrl() ?>customer/account"><img src="/skin/frontend/default/default/images/es15/nav_account_1.png" /></a></div>
+<div class="topLink"><a href="<?php print Mage::getBaseUrl() ?>checkout/cart"><img src="/skin/frontend/default/default/images/es15/nav_shopping_cart_1.png" /></a></div>
+<?php if (! Mage::getSingleton('customer/session')->isLoggedIn()): ?>
+<div class="topLink"><a href="<?php echo Mage::helper('customer')->getLoginUrl(); ?>"><img src="/skin/frontend/default/default/images/es15/nav_login_1.png" /></a></div>
+<?php else: ?>
+<div class="topLink"><a href="<?php echo Mage::helper('customer')->getLogoutUrl(); ?>"><img src="/skin/frontend/default/default/images/es15/nav_logout_1.png" /></a></div>
+<?php endif; ?>
+<div class="topLink"><img src="/skin/frontend/default/default/images/es15/nav_select_region_1.png" /><img src="/skin/frontend/default/default/images/es15/rotation_arrow_right.png" />
+    <select>
+    <option value = "">Select a Region</option>
+    <option value = "southern illinois">Southern Illinois</option>
+    </select>
+</div>
+<!--<div class="topLink"><img src="/skin/frontend/default/default/images/es15/rotation_arrow_right.png" /></div>-->
+</div>

@@ -1,0 +1,28 @@
+<?php
+echo "hello";
+require_once 'anet_php_sdk/AuthorizeNet.php'; // The SDK
+$redirect_url = "https://escapelocally.com/purchase/index/receipt";
+// Where the user will end up.
+$api_login_id = '522LbKuKU'; //'3B6hVAx7p';  //
+$md5_setting = "3e64fb030074ed8c5ab8"; // Your MD5 Setting
+$response = new AuthorizeNetSIM($api_login_id, $md5_setting);
+if ($response->isAuthorizeNet())
+{
+  if ($response->approved)
+  {
+  // Do your processing here.
+  $redirect_url .= '?response_code=1&transaction_id=333';// .$response->transaction_id;
+  }
+  else
+  {
+  $redirect_url .= '?response_code='.$response->response_code . '&response_reason_text=' . $response->response_reason_text;
+  }
+// Send the Javascript back to AuthorizeNet, which will redirect user back to your site.
+echo AuthorizeNetDPM::getRelayResponseSnippet($redirect_url);
+
+}
+else
+{
+echo "Error. Check your MD5 Setting.";
+//header( 'Location: http://www.escapelocally.com/customer/account' ) ;
+}?>

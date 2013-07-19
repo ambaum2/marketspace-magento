@@ -1,0 +1,187 @@
+<!--We are going to display a basic contact info form (name, phone#, email, comment) and a dropdown list of the categories. There is also an 
+an experience maker/guide dropdown that will be made for each category with a list of names associated with those categories. These dropdowns will 
+be printed out before hand by going through each experience maker object to determine what categories they belong to. They will be hidden with css initially 
+and revealed with javascript depending on the category selected.
+
+NOTE: the javascript and css below is made inline for demonstration and testing purposes but should be in a seperate file and added in the layout file 
+Also the code that makes the category and experience maker select menu ideally should be put into the block class and then called in this template
+-->
+<style type="text/css">
+#contactForm td {font-size:16px;padding:0px 0px 10px 20px;} 
+#contactForm textarea {float:none;}
+#contactForm input {height:23px;} 
+#contactForm select {height:40px;font-size:14px;}
+#contactForm .requiredContact {display:inline;}
+#contactForm #contactSubmit { background: #5FFB17;height:35px;border: grey solid 1px;padding:10px;color:white;font-weight: 900;font-size: 18px;cursor: pointer;}
+#contactForm td span.requiredContact,span.notRequiredContact,#phoneValid,#emailValid  {display:none;color:red;font-size:12px;padding-left:5px;}
+#contactForm td span.requiredContact {display:inline;}
+#contactForm td span.notRequiredContact {color:blue;display:inline;}
+.wrapper .main .col-wrapper .col-main{float:none;margin:0px auto 0px auto;}
+</style>
+<script type="text/javascript">
+jQuery(document).ready(function() {
+
+
+//Show the select menu of experience maker associated with the first category selected from the experience category select menu
+//get the valu from the category list and show the experience maker select that has that name
+firstSelected = jQuery("#catList").val();
+jQuery('.expMakerSel[name*='+firstSelected+']').show();
+//when an input is selected notify the user they are required, if they do not have a value already
+jQuery("input").focusin(function () {
+	currName = jQuery(this).attr("name");
+	currVal = jQuery(this).val()
+	if(currVal == "") {
+	jQuery(this).css("border","red 1px solid");
+	jQuery(this).next().show("slow");
+	} 
+});
+jQuery("input").focusout(function () {
+//when the user leaves the input check to make sure a value was entered
+	currVal = jQuery(this).val();
+	currName = jQuery(this).attr("name");
+	var result = 0;
+	if(currVal == "") {
+	jQuery(this).css("border","red 1px solid");
+	} else {
+	//if a value was entered we need to verify good values for phone number and email inputs 
+		if(currName=="phone") { 
+			var patt = new RegExp("[(]?[0-9]{3}[)]?[-]?[0-9]{3}[-]?[0-9]{4}$");
+			currVal = currVal.replace(/\s+/g, "");
+			var result = currVal.search(patt);
+			jQuery("#phoneValid").hide();
+			if(result!=0) { //if the input value does not match our regex show a message and take away the required message
+			jQuery("#phoneValid").show("slow");
+			jQuery(this).next().css("display","none");
+			}
+	 	}
+	 	if(currName=="custemail") {
+	 		var patt = new RegExp(".*[@]{1}");
+	 		var result = currVal.search(patt);
+	 		jQuery("#emailValid").hide();
+	 		if(result!=0) { //if the input value does not match our regex show a message and take away the required message
+	 			jQuery("#emailValid").show("slow");
+	 			jQuery(this).next().css("display","none");
+	 		}
+	 	}
+	jQuery(this).append(result);
+	if(result==0) { //take away error messages the input is okay
+	jQuery(this).css("border","blue");
+	jQuery(this).next().hide();
+	jQuery('.requiredContact').show(); // never take away required contact per Jim 12/19/11
+	}
+	}
+	
+});
+//change the experience makers select to match the current category selected.
+jQuery("#catList").change(function () { 
+	jQuery(".expMakerSel").hide();
+	currVal = document.getElementById("catList").value
+	jQuery("."+currVal).show("slow");
+});
+
+});
+</script>
+<!--include a static block for CMS -->
+<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('contact_us')->toHtml() ?>
+<!--Begin Form -->
+<form method="post" action="contact/index/process">
+<table id="contactForm"><tr><td><label>Full Name</label></td><td><input type="text" name="fullName"></input><span class="requiredContact">Required</span></td></tr>
+<tr><td><label>Phone Number</label></td><td><input type="text" name="phone"></input><span class="requiredContact">Required</span><span id="phoneValid">Format xxx-xxx-xxxx</span></td></tr>
+<tr><td><label>Email</label></td><td><input type="text" name="custemail"></input><span class="requiredContact">Required</span><span id="emailValid">Enter Valid Email</span></td></tr>
+<tr><td><label>Comment</label></td><td><textarea rows="4" cols="40" name="comments"></textarea><br /><span class="notRequiredContact">Not Required</span></td></tr>
+<?php if(!(isset($_GET['gid']))) : ?>
+<tr><td><label>Please Select<br /> Experience Category</label></td><td>
+<?php endif; ?>
+
+<?php
+//if user came from experience guide page
+if(isset($_GET['gid']) && !(isset($_GET['pid']))) {
+   $expId = $_GET['gid'];
+   $currExpGuide = Mage::getModel('catalog/product')->load($expId);
+   $expEmail = explode(",",$currExpGuide->getVendorEmail()); //put in array in case multiple emails in vendor
+   //$expGuide = Mage::getModel('admin/user')->getCollection();
+   //$adminData = $expGuide->getItemsByColumnValue('email','jim@thedotworldgroup.com');
+   //$expGuideId = $adminData[0]['user_id'];
+   $expGuideCategories = $currExpGuide->getResource()->getAttribute('experience_categories')->getSource()->getAllOptions(); 
+   //most compact way to get attr options array
+   echo "<tr style='display:table-row'><td><label>Select an Experience Category</label></td><td><select id='catList' name='category'><option value='' selected='selected'>Please Select A Category</option>";
+   foreach($expGuideCategories as $cats) { // loop through print out category options attr
+	   ($cats["label"] != "" ? print '<option value="'.$cats["label"].'">'.$cats["label"].'</option>' : '');
+   }
+   echo "</select>";
+   echo "<tr style='display:table-row'><td><label>Select Experience Guide</label></td><td><select name='expMakerId'><option value='".$expId."' selected='selected'>".$currExpGuide->getName()."</option></select></td></tr>";
+} elseif(isset($_GET['pid']) && isset($_GET['gid'])) {
+   $expId = $_GET['gid'];
+   $prodId = $_GET['pid'];
+   $currExpGuide = Mage::getModel('catalog/product')->load($expId);
+   $expEmail = explode(",",$currExpGuide->getVendorEmail());
+   $cat = Mage::getModel('catalog/product')->load($prodId)->getCategoryIds();
+   $category = Mage::getModel('catalog/category')->load($cat[0])->getName();
+   echo "<tr><td><label>Experience Category</label></td><td>";
+   echo '<select id="catList2" name="category"><option value="'.$category.'" selected = "selected">'.$category.'</option>';
+   echo "<tr style='display:table-row'><td><label>Select Experience Guide</label></td><td><select name='expMakerId'><option value='".$expId."' selected='selected'>".$currExpGuide->getName()."</option></select></td></tr>";
+} else {
+//get the active categories from level 2 
+$categories= Mage::getModel('catalog/category')->getCollection()->addAttributeToSelect('*')->addIsActiveFilter()->addLevelFilter(2)->addOrderField('name')->addAttributeToSelect('is_active');
+} 
+?>
+<!-- create the category select menu. Create an option for all experience makers -->
+<?php if(!(isset($_GET['pid'])) AND !(isset($_GET['gid']))) : ?>
+<select id="catList" name="category"><option name="allguides" value="allguides" class="allguides" selected = "selected">None - Choose Specific Guide</option>
+<?php 
+//print out the current experience categories as options except for the ones indicated
+$guideSelectionArray = array(); //array will hold select menues of experience makers for each category.
+foreach($categories as $cat) {
+	if ($cat->getName() != "Experience Packages" AND $cat->getName() != "Guides") {
+		echo "<option value=" .$cat->getName() . ">".$cat->getName()."</option>";
+		$guideSelectionArray[$cat->getName()] = "<tr style='display:none' name='".$cat->getName()."' class='".$cat->getName()." expMakerSel'><td><label>Please Select<br /> Experience Guide</label></td><td><select name=".$cat->getName()."Exp id=".$cat->getName().">";	
+		$guideSelectionArray[$cat->getName()] .= "<option value='none' selected='selected'>Please Select a Guide</option>";					
+	}
+}
+?>
+</select></td></tr> <!-- close the category select the options were printed inside -->
+
+<?php 
+/* Our experience guides (aka makers) have profiles that are set up as virtual products and have an attribute set called "Experience Guide". 
+We will get a collection of these 'products' (experience makers) and grab the categories that were selected for their experience_categories attribute in the
+backend in product edit. We put these values into the $expMakerAtts var (it is actually a comma seperated string of attribute ids). We will then go through all of the option values for the experience_categories attribute 
+and compare them to the $expMakerAtts variable. If there is a match with  we add the experience makers name and id in an option tag to the select menu
+contained in $guideSelectionArray based on the category.
+*/
+$attrSetName = 'Experience Guide';
+//get collection of experience makers based on attribute set id
+$attributeSetId = Mage::getModel('eav/entity_attribute_set')->load('Experience Guide', 'attribute_set_name')->getAttributeSetId();
+$products = Mage::getModel('catalog/product')->getCollection()->addAttributeToSelect('*')->addFieldToFilter('attribute_set_id', $attributeSetId);
+//The select all select menu will contain every experience maker
+$expMakerSelectAll = "<tr style='display:table-row' class='allguides expMakerSel'><td><label>Please Select<br /> Experience Guide</label></td><td><select name='allguidesExp' class='expMakerSel allguides'><option selected='selected'>Please Select Guide</option>";
+foreach($products as $p){
+	$expMaker = $p->getData('name');
+	$expMakerId = $p->getId();
+	$expMakerSelectAll .= "<option value='".$expMakerId."'>".$expMaker."</option>";
+	$expMakerAtts = $p->getData('experience_categories');
+        $attribute=$p->getResource()->getAttribute("experience_categories");
+        $options = $attribute->getSource()->getAllOptions(true);
+        //get the option values for the experience_categories attribute
+			$firstKey = true;
+	        foreach($options as $opt) { //go through each attribute value and check to see if this experience maker is assigned to them.
+	        	if(isset($guideSelectionArray[$opt['label']]) AND substr_count($expMakerAtts,$opt['value'])>=1) { 
+	        	//append an option value for this select menu use the experience maker id as the value
+	        	 $guideSelectionArray[$opt['label']] .= "<option value='".$expMakerId."'>".$expMaker."</option>"; //$guideSelectionArray[$opt['label']] . 
+	        	}
+	        }
+	}      
+	echo $expMakerSelectAll."</select></td></tr>"; //add the select all select menu first 
+	foreach($guideSelectionArray as $selection) { //print out each select menu from the array
+		if(isset($guideSelectionArray[$opt['label']])) {
+		echo $selection . "</select></td></tr>";
+		}
+	}
+
+?>
+<?php else: ?>
+
+<?php endif; ?>
+
+   <tr><td></td><td><input id="contactSubmit" type="submit" value="Please Submit Request" name="contactSubmit" /></td></tr></table></form>         
+
+ 

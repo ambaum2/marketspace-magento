@@ -1,0 +1,83 @@
+<!-- ideally we need to control this systematically through category menu system Update: we are slightly better now I think this will
+eventually be done through a magento module or drupal-->
+<!-- our options are naming conventions for images that correspond to category name ( not as good). 2. Add an attribute to categories -->
+<!-- for image tab upload (this would be good I think and then output that attribute). 3. seperate manager for doing 2 just like featured products -->
+<!-- maybe overkill. 2 is the best solution. -->
+<!-- this should be a block outside of template/page in its own module -->
+<style type="text/css">
+.mainLink {position:relative;}
+.mainLink .subLinks {text-decoration:none;}
+.mainLink .subMenu {display:none;position:absolute;z-index:100;left:0px;top:30px;text-align:left;padding:5px;border:1px solid #899BA5;background:white;}
+.mainLink .subMenu li {background:#ECF3F6 url(/skin/frontend/default/default/images/bkg_nav1.gif) 0 100% repeat-x;width:200px;padding:8px;}
+.mainLink .subMenu li a {color:black;display:block;}
+.mainLink .subMenu li:hover {background:#9DCECE;color:black;}
+.subMenu2 {display:none;position:absolute;z-index:150;left:50px;width:18em;margin-left:40px;text-align:left;padding:5px;border:1px solid #899BA5;background:white;margin-top:-10px;}
+.subMenu2 li {background:#ECF3F6 url(/skin/frontend/default/default/images/bkg_nav1.gif) 0 100% repeat-x;width:200px;padding:8px;}
+.linkName {background: url(/skin/frontend/default/default/images/es15/tab_bkd_center.png) repeat-x scroll 0% 0% transparent; float: left; height: 31px;color:#ffffff;padding:6px 0px 0px 0px;}
+</style>
+<script>
+jQuery.noConflict();
+jQuery(document).ready(function() {
+		jQuery('.subLink').hover(
+			function () {
+				jQuery(this).children(".subMenu2").css('display','block');
+			},
+			function () {
+				jQuery(this).children(".subMenu2").css('display','none');
+			});
+});
+</script>
+<?php
+//set up the order manually. id is entity id in catalog_category_entity. name is link name and tabname the image prefix tab_name_1.png for 
+//example. All of this except tabname could and should be handled programatically and we can do that now iwth isactive on the collection filter
+$linkArr = array(1=>array('id'=>4,'name'=>'romance','tabname'=>'tab_romance'),2=>array('id'=>5,'name'=>'nightlife','tabname'=>'tab_fun'),
+3=>array('id'=>17,'name'=>'occasions','tabname'=>'tab_occasions'),4=>array('id'=>7,'name'=>'adventures','tabname'=>'tab_adventures'),
+5 =>array('id'=>8,'name'=>'meetings','tabname'=>'tab_meetings'),6 =>array('id'=>9,'name'=>'venues-1','tabname'=>'tab_venues'),
+7 =>array('id'=>64,'name'=>'classes-and-interests','tabname'=>'tab_marketplace'),8=>array('id'=>95,'name'=>'communities','tabname'=>'tab_communities'));
+	$linkArr = Mage::getModel('catalog/category')->getCollection()
+		->addAttributeToSelect('*')
+		->addAttributeToFilter('is_active',1)
+		->addAttributeToFilter('level',2)
+		->addAttributeToSort('position','ASC');
+foreach($linkArr as $link) {
+	//get category id's of the children (on level 3) of our parent category
+	$category = Mage::getModel('catalog/category')->getCollection()
+		->addAttributeToSelect('*')
+		->addAttributeToFilter('parent_id',$link->getId()) //$link["id"])
+		->addAttributeToFilter('level',3)
+		->addAttributeToSort('position','ASC');
+	$subMenu = ""; //clear menu for next catory
+	if($category->count() > 0) { //make sure parent has children
+		$subMenu = "<ul class='subMenu'>";
+		foreach($category as $cat) {
+			$subMenu .= "<li class='subLink'><a class='subLinks' href='/".$cat->getUrlPath()."'>".$cat->getName() . "</a>";
+                        	$subCategory = Mage::getModel('catalog/category')->getCollection()
+		                    ->addAttributeToSelect('*')
+		                    ->addAttributeToFilter('parent_id',$cat->getId())
+		                    ->addAttributeToFilter('level',4)
+							->addAttributeToSort('position','ASC');
+                                if($subCategory->count() > 0) {
+                                     $subMenu .= "<ul class='subMenu2' style='display:none;'>";
+                                     foreach($subCategory as $subcat) {
+                                        $subMenu .= "<li><a class='subLinks' href='/".$subcat->getUrlPath()."'>".$subcat->getName() . "</a></li>";
+                                     }
+                                     $subMenu .= "</ul>";
+                                }
+                        $subMenu .= "</li>";
+		}
+		$subMenu .= "</ul>";
+	}
+	$output = '<li class="mainLink"><img src="/skin/frontend/default/default/images/es15/tab_bkd_left_corner.png" style="float: left;">'
+		. '<a href="/'. $link->getUrlPath() . '"><span class="linkName">' . $link->getName()
+		. '</span><img src="/skin/frontend/default/default/images/es15/tab_bkd_right_corner.png"></a>' . $subMenu . '</li>';
+	//$output = '<li class="mainLink"><a href="/'.$link["name"].'.html"><img src="/skin/frontend/default/default/images/es15/'.$link["tabname"].'_1.png" /></a>'.$subMenu.'</li>';
+	echo $output;
+}
+?>
+<!--<div class="mainLink"><a href="/romance.html"><img src="skin/frontend/default/default/images/es15/tab_romance_1.png" /><div class="navOverlay" style="background: url(skin/frontend/default/default/images/es15/tab_romance_2.png) no-repeat;"></div></a></div>
+<div class="mainLink"><a href="/nightlife.html"><img src="/skin/frontend/default/default/images/es15/tab_fun_1.png" /></a></div>
+<div class="mainLink"><a href="/occasions.html"><img src="/skin/frontend/default/default/images/es15/tab_occasions_1.png" /></a></div>
+<div class="mainLink"><a href="/adventures.html"><img src="/skin/frontend/default/default/images/es15/tab_adventures_1.png" /></a></div>
+<div class="mainLink"><a href="/events-and-tours.html"><img src="/skin/frontend/default/default/images/es15/tab_meetings_1.png" /></a></div>
+<div class="mainLink"><a href="/venues-1.html"><img src="/skin/frontend/default/default/images/es15/tab_venues_1.png" /></a></div>
+<div class="mainLink"><a href="/classes-and-interests.html"><img src="/skin/frontend/default/default/images/es15/tab_marketplace_1.png" /></a></div>-->

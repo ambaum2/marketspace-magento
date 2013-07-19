@@ -1,0 +1,26 @@
+<?php
+require_once 'anet_php_sdk/AuthorizeNet.php';
+
+$redirect_url = "http://escapelocally.com/purchase";
+// Where the user will end up.
+$api_login_id = '522LbKuKU'; //'3B6hVAx7p';  //
+$md5_setting = "3e64fb030074ed8c5ab8"; // Your MD5 Setting
+$response = new AuthorizeNetSIM($api_login_id, $md5_setting);
+$transaction_id = $_GET['orderId'];
+if ($response->isAuthorizeNet())
+{
+  if ($response->approved)
+  {
+  // Do your processing here.
+  $orderId = $_GET['orderId'];
+  $redirect_url .= '?response_code=1&transaction_id='.$transaction_id.'&orderId2='.$orderId;// .$response->transaction_id;
+  }
+  else
+  {
+  $redirect_url .= '?response_code='.$response->response_code . '&response_reason_text=' . $response->response_reason_text;
+  }
+// Send the Javascript back to AuthorizeNet, which will redirect user back to your site.
+echo AuthorizeNetDPM::getRelayResponseSnippet($redirect_url);
+}
+
+?>
