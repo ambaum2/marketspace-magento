@@ -1,0 +1,129 @@
+<?xml version="1.0"?>
+
+<config>
+	<modules>
+		<Dwg_Featuredprod>
+			<version>0.1.0</version>
+		</Dwg_Featuredprod>
+	</modules>
+	<frontend>
+		<routers>
+			<featuredprod>
+				<use>standard</use>
+				<args>
+					<module>Dwg_Featuredprod</module>
+					<frontName>featuredprod</frontName>
+				</args>
+			</featuredprod>
+		</routers>
+		<layout>
+			<updates>
+				<featuredprod>
+					<file>featuredprod.xml</file>
+				</featuredprod>
+			</updates>
+		</layout>
+	</frontend>
+    <admin>
+        <routers>
+            <featuredprod>
+                <use>admin</use>
+                <args>
+                    <module>Dwgclient_Featuredprod</module>
+                    <frontName>featuredprod</frontName>
+                </args>
+            </featuredprod>
+        </routers>
+    </admin>
+    <adminhtml>
+        <menu>
+            <featuredprod module="featuredprod">
+                <title>Featuredprod</title>
+                <sort_order>71</sort_order>               
+                <children>
+                    <items module="featuredprod">
+                        <title>Manage Items</title>
+                        <sort_order>0</sort_order>
+                        <action>featuredprod/adminhtml_featuredprod</action>
+                    </items>
+                </children>
+            </featuredprod>
+        </menu>
+        <acl>
+            <resources>
+                <all>
+                    <title>Allow Everything</title>
+                </all>
+                <admin>
+                    <children>
+                        <featuredprod module="featuredprod">
+                            <title>Featuredprod Module</title>
+                            <sort_order>200</sort_order>
+                            <children>
+	                        <items module="featuredprod">
+	                        <title>Manage Items</title>
+	                        <sort_order>0</sort_order>
+	                        </items>
+                            </children>
+                        </featuredprod>
+                    </children>
+                </admin>
+            </resources>   
+        </acl>
+        <layout>
+            <updates>
+                <featuredprod>
+                    <file>featuredprod.xml</file>
+                </featuredprod>
+            </updates>
+        </layout>
+    </adminhtml>   
+	<global>
+		<models>
+			<featuredprod>
+				<class>Dwg_Featuredprod_Model</class>
+				<resourceModel>featuredprod_mysql4</resourceModel>
+			</featuredprod>
+			<featuredprod_mysql4>
+				<class>Dwg_Featuredprod_Model_Mysql4</class>
+				<entities>
+					<featuredprod>
+						<table>featuredprod</table>
+					</featuredprod>
+				</entities>
+			</featuredprod_mysql4>
+		</models>
+		<resources>
+			<featuredprod_setup>
+				<setup>
+					<module>Dwg_Featuredprod</module>
+				</setup>
+				<connection>
+					<use>core_setup</use>
+				</connection>
+			</featuredprod_setup>
+			<featuredprod_write>
+				<connection>
+					<use>core_write</use>
+				</connection>
+			</featuredprod_write>
+			<featuredprod_read>
+				<connection>
+					<use>core_read</use>
+				</connection>
+			</featuredprod_read>
+		</resources>
+		<blocks>
+			<featuredprod>
+				<class>Dwg_Featuredprod_Block</class>
+			</featuredprod>
+		</blocks>
+		<helpers>
+			<featuredprod>
+				<class>Dwg_Featuredprod_Helper</class>
+			</featuredprod>
+		</helpers>
+		</global>
+	</config>
+		
+		
