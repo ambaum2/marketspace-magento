@@ -3,3 +3,4 @@ var/locks/*
 var/package/*
 var/reports/*
 var/session/*
+var/report/*
