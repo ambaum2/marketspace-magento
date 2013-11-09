@@ -1,7 +1,7 @@
 <?php
 /* 
 1. determine where the user came from. Experience guide page, 
-experience page (register or venue tickettype), or a general 
+experience page (register or venue product_type), or a general 
 request (get all exp guides)
 2.
 */

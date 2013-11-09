@@ -30,7 +30,7 @@ $_product = $this->getProduct();
 $attribute_set = Mage::getModel("eav/entity_attribute_set")->load($_product->getAttributeSetId());
 $product_type_name = $_product["type_id"]; 
 $attribute_set_name = $attribute_set['attribute_set_name'];
-$ticketType = $_product->getResource()->getAttribute("tickettype")->getFrontend()->getValue($_product);
+$ticketType = $_product->getResource()->getAttribute("product_type")->getFrontend()->getValue($_product);
 switch($ticketType):
    case 'Product-Purchase':
 	  if($attribute_set_name == "Market Place" && $product_type_name == "bundle") {

@@ -36,7 +36,7 @@
         foreach($items as $item) { //By Weight 8, Free 5, Per Order 7, Store Pickup 9, Per Product 6
             $currProdId = $item->getProductId();
             $currProd = Mage::getModel('catalog/product')->load($currProdId);
-			if($currProd->getAttributeText("tickettype")=="Product-Purchase") {
+			if($currProd->getAttributeText("product_type")=="Product-Purchase") {
 				$shippingType = $currProd->getAttributeText('shipping_type');
 				if($shippingType == "Per Product" ) {
 				$itemCost = $currProd->getShipping() * $item->getQty(); 

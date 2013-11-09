@@ -54,7 +54,7 @@
         $cartLabel = "Add to Cart";
         $ticketType = "";
         $displayPrice = false;
-		$attributeValue = Mage::getModel('catalog/product')->load($_product->getId())->getTickettype();
+		$attributeValue = Mage::getModel('catalog/product')->load($_product->getId())->getProductType();
 		$write = Mage::getSingleton('core/resource')->getConnection('core_write');
 		$readresult=$write->query("SELECT eav_attribute_option_value.option_id, eav_attribute_option_value.value FROM eav_attribute_option_value WHERE eav_attribute_option_value.option_id=".$attributeValue." Limit 1");
 		while ($row = $readresult->fetch() ) {
@@ -150,7 +150,7 @@ endswitch;
         $cartLabel = "Add to Cart";
         $ticketType = "";
         $displayPrice = false;
-$attributeValue = Mage::getModel('catalog/product')->load($_product->getId())->getTickettype();
+$attributeValue = Mage::getModel('catalog/product')->load($_product->getId())->getProductType();
 $write = Mage::getSingleton('core/resource')->getConnection('core_write');
 $readresult=$write->query("SELECT eav_attribute_option_value.option_id, eav_attribute_option_value.value FROM eav_attribute_option_value WHERE eav_attribute_option_value.option_id=".$attributeValue." Limit 1");
 while ($row = $readresult->fetch() ) {

@@ -24,7 +24,7 @@
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0) 24
          <span style="font-weight:bold;font-size:14px">Location: </span><?php echo $custom->getLocation(); ?><br />
         <span style="font-weight:bold;font-size:14px">Venues: </span><?php echo $custom->getVenues(); ?><br />
-        <span style="font-weight:bold;font-size:14px">Additional Info: </span><?php echo $custom->getAttributeText('tickettype') . "_Template"; ?><br />
+        <span style="font-weight:bold;font-size:14px">Additional Info: </span><?php echo $custom->getAttributeText('product_type') . "_Template"; ?><br />
         <span style="font-weight:bold;font-size:14px">Qty</span><?php echo $_item->getQty(); //can also use $this ?><br />
         <span style="font-weight:bold;font-size:14px">Amount</span><?php echo $_item->getRowTotal() ?><br />  
  */
@@ -40,7 +40,7 @@
             $vendorEmail = $custom->getVendorEmail(); //may have been $this
             $vendorEmail = str_replace(" ","",$vendorEmail);
 			$shippingDesc = "";
-			if($custom->getAttributeText("tickettype")=="Product-Purchase") {
+			if($custom->getAttributeText("product_type")=="Product-Purchase") {
 				$shippingType = $custom->getAttributeText('shipping_type');			
 				if($shippingType == "Per Product" ) {
 				$itemCost = $custom->getShipping() * $_item->getQty(); 
