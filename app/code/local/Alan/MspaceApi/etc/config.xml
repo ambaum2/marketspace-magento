@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<config>
+  <modules>
+    <Alan_MspaceApi>
+      <version>0.1.0</version>
+    </Alan_MspaceApi>
+  </modules>
+  <frontend>
+      <routers>
+          <mspace_api>
+              <use>standard</use>
+              <args>
+                  <module>Alan_MspaceApi</module>
+                  <frontName>mspaceapi</frontName>
+              </args>
+          </mspace_api>
+      </routers>  
+  </frontend>
+  <global>
+  	<models>
+  		<mspaceapi>
+  			<class>Alan_MspaceApi_Model_Attribute</class>
+  		</mspaceapi>
+  	</models>
+    <helpers>
+      <mspaceapi>
+        <class>Alan_MspaceApi_Helper</class>
+      </mspaceapi>
+    </helpers>
+    <controllers>
+    </controllers>
+  </global>
+</config> 
