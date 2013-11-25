@@ -17,7 +17,7 @@ class Alan_MspaceApi_Model_Attribute extends Mage_Core_Model_Abstract
 		foreach ($attribute->getSource()->getAllOptions(true, true) as $instance) {
 			$attributeInfo[$instance['value']] = $instance['label'];
 		}
-		 
+		$attributeInfo['methods'] = get_class_methods(get_called_class());
 		return $attributeInfo;
 	}
 	
