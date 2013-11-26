@@ -4,7 +4,7 @@
  * now mainly getters
  */
 
-class Alan_MspaceApi_Model_Attribute extends Mage_Core_Model_Abstract
+class Alan_MspaceApi_Model_V1_Attribute extends Mage_Core_Model_Abstract
 {
 	
 	/*

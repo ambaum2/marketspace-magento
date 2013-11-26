@@ -13,10 +13,9 @@ class Alan_MspaceApi_Model_ApiAuth extends Mage_Core_Model_Abstract {
 	 * @return string
 	 * return decrypted string
 	 */
-	public function decryptBase64($data) {
-	  $base64_decoded_data = base64_decode($data);
-	  $decrypted = mcrypt_decrypt(MCRYPT_BLOWFISH,'18a1a224151413a53056b609a85d1085',$base64_decoded_data,MCRYPT_MODE_ECB);
-	  return $decrypted;
+	public function decryptBase64($text, $iv, $key = "18a1a224151413a53056b609a85d1085") { 
+	  return trim(mcrypt_decrypt(MCRYPT_RIJNDAEL_128, $key, base64_decode($text), MCRYPT_MODE_CBC, $iv));
+
 	}
 	
 	/**
@@ -26,10 +25,8 @@ class Alan_MspaceApi_Model_ApiAuth extends Mage_Core_Model_Abstract {
 	 * @return string
 	 * 	returns a base 64 encoded string from secret key
 	 */
-	public function encryptBase64($data) {
-	  $encrypted = mcrypt_encrypt(MCRYPT_BLOWFISH,'18a1a224151413a53056b609a85d1085',$data, MCRYPT_MODE_ECB);
-	  $base64_encoded_data = base64_encode($encrypted);
-	  return $base64_encoded_data;
+	public function encryptBase64($text, $iv, $key = "18a1a224151413a53056b609a85d1085") { 
+	  return trim(base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_128, $key, $text, MCRYPT_MODE_CBC, $iv)));	  	
 	}
 	/**
 	 *	encrypt data with a timestamp, ECB, and 
@@ -43,12 +40,32 @@ class Alan_MspaceApi_Model_ApiAuth extends Mage_Core_Model_Abstract {
 	 */
 	public function encryptApiRequest($request_data) {
     $request_data['request_time'] = time();
+		$iv = mcrypt_create_iv(mcrypt_get_iv_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC), MCRYPT_DEV_URANDOM);
 		$data = json_encode($request_data);
-		$base64_encoded_data = $this->encryptBase64($data);
+		$base64_encoded_data = $this->encryptBase64($data, $iv);
     $data_url_encode = urlencode($base64_encoded_data);
 		return $data_url_encode;
 	}
-
+	
+	/**
+	 *	encrypt data with a timestamp, ECB, and 
+	 * then base64 encode and urlencode
+	 * 
+	 * @param requestData | array or object
+	 * 	array or object keyed according to api methods 
+	 * instructions
+	 * @param iv | int
+	 * 	the iv used to encode the request
+	 * @return string
+	 * 	encrypted baset64 and url encoded string
+	 */
+	public function decryptApiRequest($request_data, $iv) {
+		
+		$data = json_encode($request_data);
+		$base64_encoded_data = $this->encryptBase64($data, $request_data['iv']);
+    $data_url_encode = urlencode($base64_encoded_data);
+		return $data_url_encode;
+	}
 	/**
 	 * get drupal session cookie. This 
 	 * must be run on the same domain as the

@@ -38,12 +38,15 @@ class Alan_MspaceApi_ProductController extends Mage_Core_Controller_Front_Action
 		//turn off in productino
 		ini_set('error_reporting', E_ALL);
 		ini_set('display_errors', '1');
-		$test = new Alan_MspaceApi_Model_AttributeTest;
+		
     $ModulePackageClassName = Mage::app()->getRequest()->getControllerModule();
 		//get the request paramters
 		$apiAuth = new Alan_MspaceApi_Model_ApiAuth;
-		$dummy_request = 
-		//$apiAuth->encryptApiRequest()
+		$helloreg = "hello";
+		$data = $apiAuth->encryptBase64("hello");
+		echo $data . "<br />";
+		//$decrypt=  $apiAuth->decryptBase64($data);
+		//echo $decrypt . "string length of decryptis: " . strlen($decrypt) . " regular hello var is: " . strlen($helloreg);
 		$path = Mage::helper('core/url')->getCurrentUrl();
 		$request = explode('/', substr($path, strpos($path, 'mspaceapi') + strlen('mspaceapi')));
 		echo "<pre>". print_r($request,true) . "</pre>";
