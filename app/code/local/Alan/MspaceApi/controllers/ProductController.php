@@ -52,19 +52,16 @@ class Alan_MspaceApi_ProductController extends Mage_Core_Controller_Front_Action
     
     //run some authentication on a header token
     $authenticated = true;
-		//echo "<pre>". print_r($request,true) . "</pre>";
-		var_export($request);
     if($authenticated) {
   		if(isset($request[3]) && isset($request[2])) { //if version(request[2]) and model type(request[3]) are set then try to find class
     		if(class_exists($ModulePackageClassName . "_model_" . $request[2] . "_" . $request[3])) {
-    			//echo "<pre>reqest" . print_r(Mage::app()->getRequest(), true); "</pre>";
     			$class = $ModulePackageClassName . "_model_" . $request[2] . "_" . $request[3];
           $object = new $class;
-          //find the code, id, etc that identifies what the user is looking for
-          
-          $apiAuth->getMethod($object, $class, $request);
-          //echo "<pre>" . print_r($model->getProductTypeAttribute(), true) . "</pre>";
-    			//echo json_encode($object->getProductTypeAttribute());
+          //get the requested method         
+          $methodName = $apiAuth->getMethod($object, $class, $request);
+          $params = $apiAuth->getRequestParamsArray($request);
+          $result = $object->$methodName($params);
+          print json_encode($result);
     		} else {
     			throw new Exception("This entity does not exist", 1);
   				

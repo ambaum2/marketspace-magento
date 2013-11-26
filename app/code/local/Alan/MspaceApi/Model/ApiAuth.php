@@ -2,6 +2,7 @@
 
 class Alan_MspaceApi_Model_ApiAuth extends Mage_Core_Model_Abstract {
 	var $entityRequestPosition = 4; //urls will be in the format frontname/controller/version/entity/ so entity
+	var $request_identifiers = array('code', 'id');
 	//must be at position 4
 	/**
 	 * decrypt data
@@ -57,10 +58,12 @@ class Alan_MspaceApi_Model_ApiAuth extends Mage_Core_Model_Abstract {
    *  the class the object is in
    * @param request | array
    *  array of url params
-   * 
+   * @return string or boolean
+   *  if method is found return the method name
+   *  else return false or throw an exception
    */
   public function getMethod($object, $class, $request) {
-    if($identifierPosition = $this->getArrayKey(array('code', 'id'), $request)) {
+    if($identifierPosition = $this->getArrayKey($this->request_identifiers, $request)) {
       $methodName = "get"; //assume all are get right now later change this
       $methodName = $this->createMethodNameString($methodName, $request, $identifierPosition);
       if(method_exists($object, $methodName)) {
@@ -84,7 +87,8 @@ class Alan_MspaceApi_Model_ApiAuth extends Mage_Core_Model_Abstract {
    *  name of method that we are creating
    * @param request | array
    *  array of url params
-   * 
+   * @return string 
+   *  name of method
    */  
   public function createMethodNameString(&$methodName, $request, $identifierPosition) {
     
@@ -93,7 +97,33 @@ class Alan_MspaceApi_Model_ApiAuth extends Mage_Core_Model_Abstract {
     }
     return $methodName;
   }
-  
+  /**
+   * get request params as key value pairs
+   * request parameters will be everything 
+   * after identifiers code or id (at this time)
+   * @param request | array
+   *  array of url params
+   * 
+   * @return array
+   *  return an associative array of key
+   *  value pairs of any parameters including and 
+   *  after code
+   */
+  public function getRequestParamsArray($request) {
+    if($key = $this->getArrayKey($this->request_identifiers, $request)) {
+      try {
+        $params_array = array();
+        //loop through and store key value pairs in array  
+        for($i = $key; $i < count($request); $i = $i + 2) {
+          $params_array[$request[$i]] = $request[$i + 1]; //key and value ($key + 1)
+        }
+        return $params_array;
+      } catch(exception $e) {
+        throw new Exception("url parameters malformed or odd number of parameters", 1);       
+      }
+    }
+    return false;    
+  }
   /**
    * find an array key 
    * @param keys | array

@@ -35,11 +35,20 @@ class Alan_MspaceApi_Model_ApiAuthTests extends PHPUnit_Framework_TestCase
     
     public function testGetArrayKey() {
       Mage::app();
-      $apiAuth = new Alan_MspaceApi_Model_ApiAuth; 
+      $apiAuth = new Alan_MspaceApi_Model_ApiAuth;
       $keys = array('code', 'id');
       $subject = array ( 0 => '', 1 => 'product', 2 => 'v1', 3 => 'attribute', 4 => 'type', 5 => 'options', 6 => 'code', 7 => 'product_type');
       $key = $apiAuth->getArrayKey($keys, $subject);
       $this->assertEquals('6', $key);
+    }
+    
+    public function testGetRequestParamsArray() {
+      Mage::app();
+      $apiAuth = new Alan_MspaceApi_Model_ApiAuth;
+      $keys = array('code', 'id');
+      $request = array ( 0 => '', 1 => 'product', 2 => 'v1', 3 => 'attribute', 4 => 'type', 5 => 'options', 6 => 'code', 7 => 'product_type');
+      $params_array = $apiAuth->getRequestParamsArray($request);
+      $this->assertEquals(array('code'=>'product_type'), $params_array);      
     }
 }
 ?>
