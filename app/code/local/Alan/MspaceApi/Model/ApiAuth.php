@@ -1,7 +1,8 @@
 <?php
 
 class Alan_MspaceApi_Model_ApiAuth extends Mage_Core_Model_Abstract {
-	
+	var $entityRequestPosition = 4; //urls will be in the format frontname/controller/version/entity/ so entity
+	//must be at position 4
 	/**
 	 * decrypt data
 	 * data will come over url encoded 
@@ -46,7 +47,69 @@ class Alan_MspaceApi_Model_ApiAuth extends Mage_Core_Model_Abstract {
     $data_url_encode = urlencode($base64_encoded_data);
 		return $data_url_encode;
 	}
-	
+  /**
+   * find class method if it exists from the 
+   * data given in the request
+   * 
+   * @param object | object
+   *  the object found
+   * @param class | string
+   *  the class the object is in
+   * @param request | array
+   *  array of url params
+   * 
+   */
+  public function getMethod($object, $class, $request) {
+    if($identifierPosition = $this->getArrayKey(array('code', 'id'), $request)) {
+      $methodName = "get"; //assume all are get right now later change this
+      $methodName = $this->createMethodNameString($methodName, $request, $identifierPosition);
+      if(method_exists($object, $methodName)) {
+        return $methodName;
+      } else {
+        throw new Exception("There was a method error when processing your request please contact the admin: error 100", 1);        
+      }
+    } else { //no code or id is found then return a collection 
+      //put in logic to find a collection
+    }
+    
+    return false; //bad data - may want an exception
+  }	
+  /**
+   * find class method if it exists from the 
+   * data given in the request
+   * 
+   * @param identifierPosition | integer
+   *  how are we requesting the information by code, id, etc
+   * @param methodName | string
+   *  name of method that we are creating
+   * @param request | array
+   *  array of url params
+   * 
+   */  
+  public function createMethodNameString(&$methodName, $request, $identifierPosition) {
+    
+    for($i=$this->entityRequestPosition; $i < $identifierPosition; $i++) {
+      $methodName .= ucfirst($request[$i]); //uppercase first letter since we use Camel notation
+    }
+    return $methodName;
+  }
+  
+  /**
+   * find an array key 
+   * @param keys | array
+   * @param subject | array
+   * @return integer or boolean
+   *  return the key of the first
+   *  array value found or false 
+   * otherwise
+   */
+  public function getArrayKey($keys, $subject) {
+    foreach($keys as $key) {
+      if($key = array_search($key, $subject))
+        return $key;
+    }
+    return false;
+  }
 	/**
 	 *	encrypt data with a timestamp, ECB, and 
 	 * then base64 encode and urlencode

@@ -13,5 +13,33 @@ class Alan_MspaceApi_Model_ApiAuthTests extends PHPUnit_Framework_TestCase
       $decryptedData = $apiAuth->decryptBase64($encryptedData, $iv);
       $this->assertEquals($text, $decryptedData);
     }
+    
+    public function testGetMethod() {
+      $request = array ( 0 => '', 1 => 'product', 2 => 'v1', 3 => 'attribute', 4 => 'type', 5 => 'options', 6 => 'code', 7 => 'product_type');
+      Mage::app();
+      $apiAuth = new Alan_MspaceApi_Model_ApiAuth;      
+      $object = new Alan_MspaceApi_Model_V1_Attribute;
+      $class = 'Alan_MspaceApi_Model_V1_Attribute';
+      $method = $apiAuth->getMethod($object, $class, $request);
+      $this->assertEquals('getTypeOptions', $method);
+    }
+    public function testCreateMethodNameString() {
+      Mage::app();
+      $apiAuth = new Alan_MspaceApi_Model_ApiAuth;         
+      $methodName = "get";
+      $identifier = 6;
+      $request = array ( 0 => '', 1 => 'product', 2 => 'v1', 3 => 'attribute', 4 => 'type', 5 => 'options', 6 => 'code', 7 => 'product_type');
+      $string = $apiAuth->createMethodNameString($methodName, $request, $identifier);
+      $this->assertEquals('getTypeOptions', $string);
+    }
+    
+    public function testGetArrayKey() {
+      Mage::app();
+      $apiAuth = new Alan_MspaceApi_Model_ApiAuth; 
+      $keys = array('code', 'id');
+      $subject = array ( 0 => '', 1 => 'product', 2 => 'v1', 3 => 'attribute', 4 => 'type', 5 => 'options', 6 => 'code', 7 => 'product_type');
+      $key = $apiAuth->getArrayKey($keys, $subject);
+      $this->assertEquals('6', $key);
+    }
 }
 ?>

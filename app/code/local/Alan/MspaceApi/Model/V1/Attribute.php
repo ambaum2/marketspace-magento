@@ -11,13 +11,13 @@ class Alan_MspaceApi_Model_V1_Attribute extends Mage_Core_Model_Abstract
 	 * get the product_type attribute (custom attribute)
 	 * and all of its option values
 	 */
-	public function getProductTypeAttribute() {
+	public function getTypeOptions($request) {
+
 		$attribute = Mage::getModel('eav/config')->getAttribute('catalog_product', 'product_type');
 		$attributeInfo = array();
 		foreach ($attribute->getSource()->getAllOptions(true, true) as $instance) {
 			$attributeInfo[$instance['value']] = $instance['label'];
 		}
-		$attributeInfo['methods'] = get_class_methods(get_called_class());
 		return $attributeInfo;
 	}
 	

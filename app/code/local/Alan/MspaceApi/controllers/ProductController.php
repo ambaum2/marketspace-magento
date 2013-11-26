@@ -38,31 +38,39 @@ class Alan_MspaceApi_ProductController extends Mage_Core_Controller_Front_Action
 		//turn off in productino
 		ini_set('error_reporting', E_ALL);
 		ini_set('display_errors', '1');
-		
-    $ModulePackageClassName = Mage::app()->getRequest()->getControllerModule();
-		//get the request paramters
 		$apiAuth = new Alan_MspaceApi_Model_ApiAuth;
+    
+    $ModulePackageClassName = Mage::app()->getRequest()->getControllerModule();
+    $path = Mage::helper('core/url')->getCurrentUrl();
+		//get the request paramters
+		foreach (headers_list() as $name => $value) {
+    echo "<p>$name: $value </p>";
+    }
 		$helloreg = "hello";
-		$data = $apiAuth->encryptBase64("hello");
-		echo $data . "<br />";
-		//$decrypt=  $apiAuth->decryptBase64($data);
-		//echo $decrypt . "string length of decryptis: " . strlen($decrypt) . " regular hello var is: " . strlen($helloreg);
-		$path = Mage::helper('core/url')->getCurrentUrl();
+		$data = $apiAuth->encryptBase64("hello");		
 		$request = explode('/', substr($path, strpos($path, 'mspaceapi') + strlen('mspaceapi')));
-		echo "<pre>". print_r($request,true) . "</pre>";
-		
-		if(class_exists($ModulePackageClassName . "_model_attribute")) {
-			
-			//echo "<pre>" . print_r(get_class_methods('Alan_MspaceApi_Model_Attribute'), true) . "</pre>";
-			//echo json_encode(Mage::helper('core/url')->getCurrentUrl());
-			echo "<pre>reqest" . print_r(Mage::app()->getRequest(), true); "</pre>";
-			$object = new Alan_MspaceApi_Model_Attribute;
-			echo json_encode($object->getProductTypeAttribute());
-			//echo $this->toJson($object->getProductTypeAttribute());
-			echo "<pre>" . print_r($object->getProductTypeAttribute(), true) . "</pre>";
-		} else {
-			echo "Alan_MspaceApi_Model_Attribute DNE";
-		}
+    
+    //run some authentication on a header token
+    $authenticated = true;
+		//echo "<pre>". print_r($request,true) . "</pre>";
+		var_export($request);
+    if($authenticated) {
+  		if(isset($request[3]) && isset($request[2])) { //if version(request[2]) and model type(request[3]) are set then try to find class
+    		if(class_exists($ModulePackageClassName . "_model_" . $request[2] . "_" . $request[3])) {
+    			//echo "<pre>reqest" . print_r(Mage::app()->getRequest(), true); "</pre>";
+    			$class = $ModulePackageClassName . "_model_" . $request[2] . "_" . $request[3];
+          $object = new $class;
+          //find the code, id, etc that identifies what the user is looking for
+          
+          $apiAuth->getMethod($object, $class, $request);
+          //echo "<pre>" . print_r($model->getProductTypeAttribute(), true) . "</pre>";
+    			//echo json_encode($object->getProductTypeAttribute());
+    		} else {
+    			throw new Exception("This entity does not exist", 1);
+  				
+    		}
+      }
+    }
 
   }
 
