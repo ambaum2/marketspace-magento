@@ -50,28 +50,36 @@ class Alan_MspaceApi_ProductController extends Mage_Core_Controller_Front_Action
 		$request = explode('/', substr($path, strpos($path, 'mspaceapi') + strlen('mspaceapi')));
     
     //run some authentication on a header token
-    $authenticated = true;
+    $authenticated = false;
     //check http_authtoken $_SERVER['HTTP_AUTHTOKEN"]
-    
-    if($authenticated) {
-  		if(isset($request[3]) && isset($request[2])) { //if version(request[2]) and model type(request[3]) are set then try to find class
-    		if(class_exists($ModulePackageClassName . "_model_" . $request[2] . "_" . $request[3])) {
-    			$class = $ModulePackageClassName . "_model_" . $request[2] . "_" . $request[3];
-          $object = new $class;
-          //get the requested method         
-          $methodName = $apiAuth->getMethod($object, $class, $request);
-          $params = $apiAuth->getRequestParamsArray($request);
-          $result = $object->$methodName($params);
-          
-          $json = json_encode($result);
-          $this->getResponse()->setHeader('Content-type', 'application/json');
-          $this->getResponse()->setBody($json);
-    		} else {
-    			throw new Exception("This entity does not exist", 1);
-  				
-    		}
+    if(isset($_SERVER['HTTP_AUTHTOKEN']) && isset($_SERVER['HTTP_AUTHIV'])) {
+    $authenticated = $apiAuth->validateAuthToken($_SERVER['HTTP_AUTHTOKEN'], $_SERVER['HTTP_AUTHIV']);
+      if($authenticated) {
+    		if(isset($request[3]) && isset($request[2])) { //if version(request[2]) and model type(request[3]) are set then try to find class
+      		if(class_exists($ModulePackageClassName . "_model_" . $request[2] . "_" . $request[3])) {
+      			$class = $ModulePackageClassName . "_model_" . $request[2] . "_" . $request[3];
+            $object = new $class;
+            //get the requested method         
+            $methodName = $apiAuth->getMethod($object, $class, $request);
+            $params = $apiAuth->getRequestParamsArray($request);
+            $result = $object->$methodName($params);
+            
+            $json = json_encode($result);
+            $this->getResponse()->setHeader('Content-type', 'application/json');
+            $this->getResponse()->setBody($json);
+      		} else {
+      			throw new Exception("This entity does not exist", 1); 				
+      		}
+        }
+      } else {
+            $this->getResponse()->setHeader('Content-type', 'application/json');
+            $this->getResponse()->setBody("Not Authenticated");           
       }
+    } else {
+        $this->getResponse()->setHeader('Content-type', 'application/json');
+        $this->getResponse()->setBody("Headers Not Set");    
     }
+      
 
   }
 

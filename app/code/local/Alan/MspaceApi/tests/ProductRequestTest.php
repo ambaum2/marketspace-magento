@@ -20,21 +20,30 @@ class Alan_MspaceApi_Model_ProductRequestTest extends PHPUnit_Framework_TestCase
 		$decryptedData = $apiAuth->decryptBase64($encryptedData, $iv);
     $this->assertEquals($text, $decryptedData);
 	}
+  /*
+   * 
+   * @TODO make test more robust and test the different 
+   *  error responses. add a foreach and loop through an 
+   * array of the scenarios. like corect secret/incorrrect secret, bad iv
+   * etc
+   */
   public function testApiAuthentication() {
     Mage::app();
     $apiAuth = new Alan_MspaceApi_Model_ApiAuth;
     //$responseCheck = '{"":"","7":"Coupon \u2013 Buy","4":"Item for Sale","5":"Profile \u2013 Request","6":"Profile \u2013 Standard","3":"Ticket"}';
     $responseCheck = '"{\"\":\"\",\"7\":\"Coupon \\\u2013 Buy\",\"4\":\"Item for Sale\",\"5\":\"Profile \\\u2013 Request\",\"6\":\"Profile \\\u2013 Standard\",\"3\":\"Ticket\"}"';
     $secret = "a42342963283bb395a0430346e4d49ad";
+    //$secret = "a42342963283bb395a0430346e4d49ad333";
     $time = time();
     $text = $secret . "|" . $time;
     
     $iv = $apiAuth->createIv();
     $encryptedText = $apiAuth->encryptBase64($text, $iv);
+    $ivBase64 = base64_encode($iv);
     //echo "iv: $iv token: $encryptedText text: $text";
     $url = str_replace("phpunit/", "", Mage::getBaseUrl() . "mspaceapi/product/v1/attribute/type/options/code/product_type");
     $handle = curl_init();
-    $headers = array("Content-Type: application/json", "authtoken:$text", "authiv:$iv");
+    $headers = array("Content-Type: application/json", "authtoken:$encryptedText", "authiv:$ivBase64");
     curl_setopt($handle, CURLOPT_URL, $url);
     curl_setopt($handle, CURLOPT_HTTPHEADER, $headers);
     curl_setopt($handle, CURLOPT_SSL_VERIFYPEER, false);

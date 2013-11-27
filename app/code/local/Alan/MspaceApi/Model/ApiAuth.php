@@ -32,8 +32,8 @@ class Alan_MspaceApi_Model_ApiAuth extends Mage_Core_Model_Abstract {
     } else {
       throw new Exception("Bad Token 1100t", 1);
     }
-    
-    throw new Exception("Bad Token " . $authInfo[0], 1);
+    return false;
+    //throw new Exception("Bad Token " . $authInfo[0], 1);
   }
   
   /**
