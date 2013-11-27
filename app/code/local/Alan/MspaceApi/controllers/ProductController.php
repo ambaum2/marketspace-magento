@@ -45,8 +45,8 @@ class Alan_MspaceApi_ProductController extends Mage_Core_Controller_Front_Action
     
     //echo "<pre>" . print_r($_SERVER, true) . "</pre>";
     //echo "<p>" . $_SERVER['REQUEST_METHOD'] . "</p>";
-		$helloreg = "hello";
-		$data = $apiAuth->encryptBase64("hello");		
+		//$helloreg = "hello";
+		//$data = $apiAuth->encryptBase64("hello");		
 		$request = explode('/', substr($path, strpos($path, 'mspaceapi') + strlen('mspaceapi')));
     
     //run some authentication on a header token

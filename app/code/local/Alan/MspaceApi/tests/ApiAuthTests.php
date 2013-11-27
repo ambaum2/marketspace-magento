@@ -3,17 +3,6 @@ require "../../../../../Mage.php";
 require 'PHPUnit/Autoload.php';
 class Alan_MspaceApi_Model_ApiAuthTests extends PHPUnit_Framework_TestCase
 {
-    public function testValidateAuthToken() {
-      Mage::app();
-      $apiAuth = new Alan_MspaceApi_Model_ApiAuth;      
-      $authtoken = "Pb8rwhX95UGG/GELcU79oQ+cauNoKpf94I5wyIAtAjOKfeWWZFIVJx6YKMcOq8RT";
-      $iv = "UÌLaÉ)É¡WKwÞ";
-      $time = time();
-      $text = "a42342963283bb395a0430346e4d49ad|1385511463";
-      $result = $apiAuth->validateAuthToken($authtoken, $iv);
-      
-      $this->assertTrue($result);    
-    }
     /*protected method
      * public function testGetAuthInfoArray() {
       Mage::app();
@@ -27,6 +16,36 @@ class Alan_MspaceApi_Model_ApiAuthTests extends PHPUnit_Framework_TestCase
             
     }*/
     public function testEncryption() {
+      Mage::app();
+      $apiAuth = new Alan_MspaceApi_Model_ApiAuth;
+      $text = "1234"; 
+      //iv random iv
+      $iv = mcrypt_create_iv(mcrypt_get_iv_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC), MCRYPT_DEV_URANDOM);     
+      $iv = 'SFÆYy=[Ø¿jòZ*0ýx¹';
+      $encryptedResult = "YBmiFXdkQzmU5jbmKjJYlw==";
+      $encryptedData = $apiAuth->encryptBase64($text, $iv);
+      //$fh = fopen('iv.txt', 'a+');
+      //fwrite($fh, PHP_EOL . $iv . PHP_EOL . $encryptedData);
+      $this->assertEquals($encryptedResult, $encryptedData);
+    }
+    /**
+     * @depends testEncryption
+     * test assumes encrypt works
+     * properly
+     */ 
+    public function testValidateAuthToken() {
+      Mage::app();
+      $apiAuth = new Alan_MspaceApi_Model_ApiAuth;      
+      $iv =  mcrypt_create_iv(mcrypt_get_iv_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC), MCRYPT_DEV_URANDOM);      
+      $time = time();
+      $text = "a42342963283bb395a0430346e4d49ad|" . $time;
+      $authtoken = $apiAuth->encryptBase64($text, $iv);
+      $ivBase64Encoded = base64_encode($iv);
+      $result = $apiAuth->validateAuthToken($authtoken, $ivBase64Encoded);
+      
+      $this->assertTrue($result);    
+    }
+    public function testEncryptionDecryption() {
       Mage::app();
       $apiAuth = new Alan_MspaceApi_Model_ApiAuth;
       $text = "fuckdaklsdfjladfj8383423332d%^#&*#()sdlfjsdlkfjasdklfjasdlkjfklasdjflkasdjflksdjafkljasd823uy4892ufo;idnfwejfjv lejwvnrjrweorwer83wrnwoebnweorwbno347827535ubb5u3||||}:EROLGP{DJDJ \"sdfkds\"}}[]"; 

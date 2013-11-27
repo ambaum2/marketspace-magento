@@ -13,23 +13,27 @@ class Alan_MspaceApi_Model_ApiAuth extends Mage_Core_Model_Abstract {
    *  the encrypted secret key and timestamp to be 
    *  validated
    * @param iv | string
-   *  iv used to encrypt the token
+   *  base64 encoded iv used to encrypt the token
    * @return boolean
    *  true if token is valid false otherwise
    */
   public function validateAuthToken($authtoken, $iv) {
-    $unencrypted = $this->decryptBase64($authtoken, $iv);
-    $authInfo = $this->getAuthInfoArray($authtoken);
-    echo $authInfo[0] . "auth toke and timestamp: " . $authInfo[1];
-    if($authInfo[0] == self::$secret && isset($authInfo[1])) {
-      if((time() - $authInfo[1]) < 600) {
-        return true;
-      } else {
-        throw new Exception("Request Token Expired Error ", 1);
+    $ivBase64Decoded = base64_decode($iv);
+    $unencrypted = $this->decryptBase64($authtoken, $ivBase64Decoded);
+    $authInfo = $this->getAuthInfoArray($unencrypted);
+    if(isset($authInfo[1])) {
+      if($authInfo[0] == self::$secret) {
+        if((time() - $authInfo[1]) < 600) {
+          return true;
+        } else {
+          throw new Exception("Request Token Expired Error ", 1);
+        }
       }
+    } else {
+      throw new Exception("Bad Token 1100t", 1);
     }
     
-    throw new Exception("Bad Token", 1);
+    throw new Exception("Bad Token " . $authInfo[0], 1);
   }
   
   /**
@@ -119,7 +123,7 @@ class Alan_MspaceApi_Model_ApiAuth extends Mage_Core_Model_Abstract {
   /**
    * create iv for encryption
    * @return string
-   *  return an iv
+   *  return an iv 
    */
   public function createIv() {
     return mcrypt_create_iv(mcrypt_get_iv_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC), MCRYPT_DEV_URANDOM);
