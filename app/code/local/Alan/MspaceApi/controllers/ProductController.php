@@ -42,16 +42,17 @@ class Alan_MspaceApi_ProductController extends Mage_Core_Controller_Front_Action
     
     $ModulePackageClassName = Mage::app()->getRequest()->getControllerModule();
     $path = Mage::helper('core/url')->getCurrentUrl();
-		//get the request paramters
-		foreach (headers_list() as $name => $value) {
-    echo "<p>$name: $value </p>";
-    }
+    
+    //echo "<pre>" . print_r($_SERVER, true) . "</pre>";
+    //echo "<p>" . $_SERVER['REQUEST_METHOD'] . "</p>";
 		$helloreg = "hello";
 		$data = $apiAuth->encryptBase64("hello");		
 		$request = explode('/', substr($path, strpos($path, 'mspaceapi') + strlen('mspaceapi')));
     
     //run some authentication on a header token
     $authenticated = true;
+    //check http_authtoken $_SERVER['HTTP_AUTHTOKEN"]
+    
     if($authenticated) {
   		if(isset($request[3]) && isset($request[2])) { //if version(request[2]) and model type(request[3]) are set then try to find class
     		if(class_exists($ModulePackageClassName . "_model_" . $request[2] . "_" . $request[3])) {
@@ -61,7 +62,10 @@ class Alan_MspaceApi_ProductController extends Mage_Core_Controller_Front_Action
           $methodName = $apiAuth->getMethod($object, $class, $request);
           $params = $apiAuth->getRequestParamsArray($request);
           $result = $object->$methodName($params);
-          print json_encode($result);
+          
+          $json = json_encode($result);
+          $this->getResponse()->setHeader('Content-type', 'application/json');
+          $this->getResponse()->setBody($json);
     		} else {
     			throw new Exception("This entity does not exist", 1);
   				

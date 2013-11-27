@@ -1,9 +1,48 @@
 <?php
 
 class Alan_MspaceApi_Model_ApiAuth extends Mage_Core_Model_Abstract {
-	var $entityRequestPosition = 4; //urls will be in the format frontname/controller/version/entity/ so entity
+	var $entityRequestPosition = 4; //urls will be in the format frontname/controller/version/entity/ so entity must be at position 4
 	var $request_identifiers = array('code', 'id');
-	//must be at position 4
+  private $error_code = 1100;
+  protected static $secret = "a42342963283bb395a0430346e4d49ad";
+  /**
+   * validate the given token by unencrypting and inspecting the secret key
+   * to make sure it matches the secret key on file
+   * 
+   * @param authtoken | string
+   *  the encrypted secret key and timestamp to be 
+   *  validated
+   * @param iv | string
+   *  iv used to encrypt the token
+   * @return boolean
+   *  true if token is valid false otherwise
+   */
+  public function validateAuthToken($authtoken, $iv) {
+    $unencrypted = $this->decryptBase64($authtoken, $iv);
+    $authInfo = $this->getAuthInfoArray($authtoken);
+    echo $authInfo[0] . "auth toke and timestamp: " . $authInfo[1];
+    if($authInfo[0] == self::$secret && isset($authInfo[1])) {
+      if((time() - $authInfo[1]) < 600) {
+        return true;
+      } else {
+        throw new Exception("Request Token Expired Error ", 1);
+      }
+    }
+    
+    throw new Exception("Bad Token", 1);
+  }
+  
+  /**
+   * return an array of secret and timestamp from
+   * unencrypted auth token
+   * @param text
+   * @return array
+   */
+  protected function getAuthInfoArray($text) {
+    $authInfo = explode("|", $text);
+    
+    return $authInfo;
+  }
 	/**
 	 * decrypt data
 	 * data will come over url encoded 
@@ -76,7 +115,15 @@ class Alan_MspaceApi_Model_ApiAuth extends Mage_Core_Model_Abstract {
     }
     
     return false; //bad data - may want an exception
-  }	
+  }
+  /**
+   * create iv for encryption
+   * @return string
+   *  return an iv
+   */
+  public function createIv() {
+    return mcrypt_create_iv(mcrypt_get_iv_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC), MCRYPT_DEV_URANDOM);
+  }
   /**
    * find class method if it exists from the 
    * data given in the request
@@ -103,7 +150,6 @@ class Alan_MspaceApi_Model_ApiAuth extends Mage_Core_Model_Abstract {
    * after identifiers code or id (at this time)
    * @param request | array
    *  array of url params
-   * 
    * @return array
    *  return an associative array of key
    *  value pairs of any parameters including and 

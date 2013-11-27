@@ -3,6 +3,29 @@ require "../../../../../Mage.php";
 require 'PHPUnit/Autoload.php';
 class Alan_MspaceApi_Model_ApiAuthTests extends PHPUnit_Framework_TestCase
 {
+    public function testValidateAuthToken() {
+      Mage::app();
+      $apiAuth = new Alan_MspaceApi_Model_ApiAuth;      
+      $authtoken = "Pb8rwhX95UGG/GELcU79oQ+cauNoKpf94I5wyIAtAjOKfeWWZFIVJx6YKMcOq8RT";
+      $iv = "UÌLaÉ)É¡WKwÞ";
+      $time = time();
+      $text = "a42342963283bb395a0430346e4d49ad|1385511463";
+      $result = $apiAuth->validateAuthToken($authtoken, $iv);
+      
+      $this->assertTrue($result);    
+    }
+    /*protected method
+     * public function testGetAuthInfoArray() {
+      Mage::app();
+      $apiAuth = new Alan_MspaceApi_Model_ApiAuth;
+      $expected = array(0=>'a42342963283bb395a0430346e4d49ad', 1=>'1385511463');
+      $text = "a42342963283bb395a0430346e4d49ad|1385511463";
+      echo "some text $text";
+      $infoArray = $apiAuth->getAuthInfoArray($text);
+      
+      $this->assertEquals($expected, $infoArray);
+            
+    }*/
     public function testEncryption() {
       Mage::app();
       $apiAuth = new Alan_MspaceApi_Model_ApiAuth;
