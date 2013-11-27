@@ -26,6 +26,9 @@ class Alan_MspaceApi_Model_ProductRequestTest extends PHPUnit_Framework_TestCase
    *  error responses. add a foreach and loop through an 
    * array of the scenarios. like corect secret/incorrrect secret, bad iv
    * etc
+   * 
+   * shoudl test for multiple params like attribute/type/data/code/product_type/param2/value2/param3/value3
+   * and should test ?key=value
    */
   public function testApiAuthentication() {
     Mage::app();
@@ -41,7 +44,8 @@ class Alan_MspaceApi_Model_ProductRequestTest extends PHPUnit_Framework_TestCase
     $encryptedText = $apiAuth->encryptBase64($text, $iv);
     $ivBase64 = base64_encode($iv);
     //echo "iv: $iv token: $encryptedText text: $text";
-    $url = str_replace("phpunit/", "", Mage::getBaseUrl() . "mspaceapi/product/v1/attribute/type/options/code/product_type");
+    //$url = str_replace("phpunit/", "", Mage::getBaseUrl() . "mspaceapi/product/v1/attribute/type/options/code/product_type");
+    $url = str_replace("phpunit/", "", Mage::getBaseUrl() . "mspaceapi/product/v1/attribute/type/data/code/product_type");
     $handle = curl_init();
     $headers = array("Content-Type: application/json", "authtoken:$encryptedText", "authiv:$ivBase64");
     curl_setopt($handle, CURLOPT_URL, $url);
@@ -54,7 +58,6 @@ class Alan_MspaceApi_Model_ProductRequestTest extends PHPUnit_Framework_TestCase
     //$headers_raw = curl_getinfo($handle);
     curl_close($handle);
     $data = json_encode($data);
-    //echo $data;
     $this->assertEquals($responseCheck, $data);
     
   }
