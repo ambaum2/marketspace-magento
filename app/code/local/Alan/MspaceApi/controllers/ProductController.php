@@ -56,9 +56,9 @@ class Alan_MspaceApi_ProductController extends Mage_Core_Controller_Front_Action
     $authenticated = $apiAuth->validateAuthToken($_SERVER['HTTP_AUTHTOKEN'], $_SERVER['HTTP_AUTHIV']);
       if($authenticated) {
     		if(isset($request[3]) && isset($request[2])) { //if version(request[2]) and model type(request[3]) are set then try to find class
-      		if(class_exists($ModulePackageClassName . "_model_" . $request[2] . "_" . $request[3])) {
+      		if(class_exists($ModulePackageClassName . "_model_" . strtolower($request[2]) . "_" . strtolower($request[3]))) {
       			try {
-	      			$class = $ModulePackageClassName . "_model_" . $request[2] . "_" . $request[3];
+	      			$class = $ModulePackageClassName . "_model_" . strtolower($request[2]) . "_" . strtolower($request[3]);
 	            $object = new $class;
 	            //get the requested method         
 	            $methodName = $apiAuth->getMethod($object, $class, $request);
@@ -69,10 +69,14 @@ class Alan_MspaceApi_ProductController extends Mage_Core_Controller_Front_Action
 	            $this->getResponse()->setHeader('Content-type', 'application/json');
 	            $this->getResponse()->setBody($json);
 						} catch(exception $e){
-
+							//log exception
 						}
       		} else {
-      			throw new Exception("This entity does not exist", 1); 				
+      			//throw new Exception("This entity does not exist" . $ModulePackageClassName . "_model_" . strtolower($request[2]) . "_" . strtolower($request[3]), 1); 		
+      			$this->getResponse()->setHeader('Content-type', 'application/json');
+						if(class_exists("Alan_MspaceApi_Model_V1_AttributeSet", FALSE))
+							$good = "BUT IT DOES HERE";
+            $this->getResponse()->setBody("This entity does not exist" . $ModulePackageClassName . "_Model_" . $request[2] . "_" . $request[3] . " " . $good);  		
       		}
         }
       } else {

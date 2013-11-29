@@ -71,7 +71,8 @@ class Alan_MspaceApi_Model_ProductRequestTest extends PHPUnit_Framework_TestCase
     $iv = $apiAuth->createIv();
     $encryptedText = $apiAuth->encryptBase64($text, $iv);
     $ivBase64 = base64_encode($iv);
-    $url = str_replace("phpunit/", "", Mage::getBaseUrl() . "mspaceapi/product/v1/attributeSet/type/options//");
+    //$url = str_replace("phpunit/", "", Mage::getBaseUrl() . "mspaceapi/product/v1/attributeSet/type/options//");
+    $url = str_replace("phpunit/", "", Mage::getBaseUrl() . "mspaceapi/product/v1/type");
     $handle = curl_init();
     $headers = array("Content-Type: application/json", "authtoken:$encryptedText", "authiv:$ivBase64");
     curl_setopt($handle, CURLOPT_URL, $url);

@@ -1,5 +1,8 @@
 <?php
 /**
+ * Class exists and magento don't mix - so that is 
+ * why this class is not in camel notation
+ *
  *  logic for working with attributes right
  * now mainly getters
  * 
@@ -10,7 +13,7 @@
  * a single get, post, delete, etc 
  */
 
-class Alan_MspaceApi_Model_V1_AttributeSet extends Mage_Core_Model_Abstract
+class Alan_MspaceApi_Model_V1_Attributeset extends Mage_Core_Model_Abstract
 {
   
   /**

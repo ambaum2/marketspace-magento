@@ -6,13 +6,13 @@ class Alan_MspaceApi_Model_ProductRequestTest extends PHPUnit_Framework_TestCase
     public function testGetMethod() {
       $request = array (
       	array(array('Alan_MspaceApi_Model_V1_Attribute', 'result'=>'getTypeOptions', 'values'=>array(0 => '', 1 => 'product', 2 => 'v1', 3 => 'attribute', 4 => 'type', 5 => 'options', 6 => 'code', 7 => 'product_type'))),
-				array(array('Alan_MspaceApi_Model_V1_AttributeSet','result'=>'entityCollection', 'values'=>array(0 => '', 1 => 'product', 2 => 'v1', 3 => 'attributeSet', 4 => 'collection', 5 => 'collection', 6 => 'junk', 7 => ''))),
-				array(array('Alan_MspaceApi_Model_V1_AttributeSet','result'=>'entityCollection', 'values'=>array(0 => '', 1 => 'product', 2 => 'v1', 3 => 'attributeset', 4 => 'Collection', 5=>'collection'))),
-				array(array('Alan_MspaceApi_Model_V1_AttributeSet','result'=>'entityCollection', 'values'=>array(0 => '', 1 => 'product', 2 => 'v1', 3 => 'attributeset'))),
+				array(array('Alan_MspaceApi_Model_V1_Attributeset','result'=>'entityCollection', 'values'=>array(0 => '', 1 => 'product', 2 => 'v1', 3 => 'attributeSet', 4 => 'collection', 5 => 'collection', 6 => 'junk', 7 => ''))),
+				array(array('Alan_MspaceApi_Model_V1_Attributeset','result'=>'entityCollection', 'values'=>array(0 => '', 1 => 'product', 2 => 'v1', 3 => 'attributeset', 4 => 'Collection', 5=>'collection'))),
+				array(array('Alan_MspaceApi_Model_V1_Attributeset','result'=>'entityCollection', 'values'=>array(0 => '', 1 => 'product', 2 => 'v1', 3 => 'attributeset'))),
 			);
       Mage::app();
       $apiAuth = new Alan_MspaceApi_Model_ApiAuth;      
-      $object = new Alan_MspaceApi_Model_V1_Attribute;
+      //$object = new Alan_MspaceApi_Model_V1_Attribute;
 			foreach($request as $key=>$item) {
       	$class = $item[0][0];
 				$requestData = $item[0]['values'];
@@ -46,5 +46,19 @@ class Alan_MspaceApi_Model_ProductRequestTest extends PHPUnit_Framework_TestCase
     $data = json_encode($data);	
 		$this->assertEquals($responseCheck, $data);		
   }
+	public function testClassExists() {
+		Mage::app();
+		$class = array(
+			'Alan_MspaceApi_Model_V1_AttributeSet',
+			'Alan_MspaceApi_Model_V1_Attributeset',
+			'Alan_MspaceApi_Model_v1_attributeset',
+			'Alan_MspaceApi_Model_v1_attributeset',
+			'Alan_MspaceApi_Model_v1_Attributeset',
+			'Alan_MspaceApi_Model_v1_AttributeSet',
+		);
+		foreach($class as $item) {
+			$this->assertTrue(class_exists($item, false));
+		}
+	}
 }
 ?>
