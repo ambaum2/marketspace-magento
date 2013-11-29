@@ -44,8 +44,8 @@ class Alan_MspaceApi_Model_ProductRequestTest extends PHPUnit_Framework_TestCase
     $encryptedText = $apiAuth->encryptBase64($text, $iv);
     $ivBase64 = base64_encode($iv);
     //echo "iv: $iv token: $encryptedText text: $text";
-    //$url = str_replace("phpunit/", "", Mage::getBaseUrl() . "mspaceapi/product/v1/attribute/type/options/code/product_type");
-    $url = str_replace("phpunit/", "", Mage::getBaseUrl() . "mspaceapi/product/v1/attribute/type/data/code/product_type");
+    $url = str_replace("phpunit/", "", Mage::getBaseUrl() . "mspaceapi/product/v1/attribute/type/options/code/product_type");
+    //$url = str_replace("phpunit/", "", Mage::getBaseUrl() . "mspaceapi/product/v1/attribute/type/data/code/product_type");
     $handle = curl_init();
     $headers = array("Content-Type: application/json", "authtoken:$encryptedText", "authiv:$ivBase64");
     curl_setopt($handle, CURLOPT_URL, $url);
@@ -58,8 +58,44 @@ class Alan_MspaceApi_Model_ProductRequestTest extends PHPUnit_Framework_TestCase
     //$headers_raw = curl_getinfo($handle);
     curl_close($handle);
     $data = json_encode($data);
-    $this->assertEquals($responseCheck, $data);
-    
+    $this->assertEquals($responseCheck, $data);  
+  }
+  
+  public function testGetAttribute() {
+  	Mage::app();
+		$apiAuth = new Alan_MspaceApi_Model_ApiAuth;
+    $responseCheck = '"{\"\":\"\",\"7\":\"Coupon \\\u2013 Buy\",\"4\":\"Item for Sale\",\"5\":\"Profile \\\u2013 Request\",\"6\":\"Profile \\\u2013 Standard\",\"3\":\"Ticket\"}"';
+    $secret = "a42342963283bb395a0430346e4d49ad";
+    $time = time();
+    $text = $secret . "|" . $time;
+    $iv = $apiAuth->createIv();
+    $encryptedText = $apiAuth->encryptBase64($text, $iv);
+    $ivBase64 = base64_encode($iv);
+    $url = str_replace("phpunit/", "", Mage::getBaseUrl() . "mspaceapi/product/v1/attributeSet/type/options//");
+    $handle = curl_init();
+    $headers = array("Content-Type: application/json", "authtoken:$encryptedText", "authiv:$ivBase64");
+    curl_setopt($handle, CURLOPT_URL, $url);
+    curl_setopt($handle, CURLOPT_HTTPHEADER, $headers);
+    curl_setopt($handle, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($handle, CURLINFO_HEADER_OUT, true); //can be taken out in production only needed for curl_getinfo
+    $data = curl_exec($handle);
+    curl_close($handle);
+    $data = json_encode($data);	
+		print_r($data);	
+		/*$entityType = Mage::getModel('catalog/product')->getResource()->getTypeId();
+		$collection = Mage::getResourceModel('eav/entity_attribute_set_collection')->setEntityTypeFilter($entityType);
+		$file = new SplFileObject("collection.txt", "w");
+		$file->fwrite(print_r($collection,true));
+		$allSet = array();
+		foreach($collection as $coll){
+	    $attributeSet['name'] = $coll->getAttributeSetName();
+	    $attributeSet['id'] = $coll->getAttributeSetId();
+	    $allSet[] = $attributeSet;
+		}
+		print_r($allSet);
+		echo $entityType;*/
+		
   }
 }
 ?>

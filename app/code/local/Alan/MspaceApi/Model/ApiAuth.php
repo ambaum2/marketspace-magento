@@ -2,7 +2,7 @@
 
 class Alan_MspaceApi_Model_ApiAuth extends Mage_Core_Model_Abstract {
 	var $entityRequestPosition = 4; //urls will be in the format frontname/controller/version/entity/ so entity must be at position 4
-	var $request_identifiers = array('code', 'id');
+	var $request_identifiers = array('code', 'id', 'create', 'delete', 'update');
   private $error_code = 1100;
   protected static $secret = "a42342963283bb395a0430346e4d49ad";
   /**
@@ -95,6 +95,7 @@ class Alan_MspaceApi_Model_ApiAuth extends Mage_Core_Model_Abstract {
    * find class method if it exists from the 
    * data given in the request
    * 
+	 * class should already be verified at this point
    * @param object | object
    *  the object found
    * @param class | string
@@ -106,16 +107,21 @@ class Alan_MspaceApi_Model_ApiAuth extends Mage_Core_Model_Abstract {
    *  else return false or throw an exception
    */
   public function getMethod($object, $class, $request) {
+  	//find request identifiers code or id currently and if they are prest
     if($identifierPosition = $this->getArrayKey($this->request_identifiers, $request)) {
-      $methodName = "get"; //assume all are get right now later change this
+      $methodName = "get"; //assume all are get right now later change this @TODO replace with $_SERVER['request_type'] or whatever post get etc come in as
       $methodName = $this->createMethodNameString($methodName, $request, $identifierPosition);
       if(method_exists($object, $methodName)) {
         return $methodName;
       } else {
-        throw new Exception("There was a method error when processing your request please contact the admin: error 100", 1);        
+        throw new Exception("There was a method error when processing your request please contact the admin. Not exists" . $methodName, 1);        
       }
     } else { //no code or id is found then return a collection 
       //put in logic to find a collection
+      //@TODO - create an interface for all api models that requires getCollection
+      if(method_exists($object, 'entityCollection')) {
+      	return 'entityCollection';
+      }
     }
     
     return false; //bad data - may want an exception
@@ -142,7 +148,6 @@ class Alan_MspaceApi_Model_ApiAuth extends Mage_Core_Model_Abstract {
    *  name of method
    */  
   public function createMethodNameString(&$methodName, $request, $identifierPosition) {
-    
     for($i=$this->entityRequestPosition; $i < $identifierPosition; $i++) {
       $methodName .= ucfirst($request[$i]); //uppercase first letter since we use Camel notation
     }

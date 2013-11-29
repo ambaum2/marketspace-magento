@@ -20,6 +20,7 @@
   	<models>
   		<mspaceapi>
   			<class>Alan_MspaceApi_Model_V1_Attribute</class>
+  			<class>Alan_MspaceApi_Model_V1_AttributeSet</class>
   			<class>Alan_MspaceApi_Model_ApiAuth</class>
   			<class>Alan_MspaceApi_AttributeTest</class>
   		</mspaceapi>
