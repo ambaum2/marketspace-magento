@@ -34,4 +34,5 @@ class Alan_MspaceApi_Model_V1_Attributeset extends Mage_Core_Model_Abstract
     }
     return $attributeInfo;
   }
+	
 }
