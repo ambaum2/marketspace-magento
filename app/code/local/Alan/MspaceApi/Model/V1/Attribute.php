@@ -70,23 +70,32 @@ class Alan_MspaceApi_Model_V1_Attribute extends Mage_Core_Model_Abstract
    * 
    */
   public function getTypeOptions($request) {
-    
     $attribute = Mage::getModel('eav/config')->getAttribute('catalog_product', $request);
-    $attributeInfo = array();
-    foreach ($attribute->getSource()->getAllOptions(true, true) as $instance) {
-      $attributeInfo[$instance['value']] = $instance['label'];
-    }
-    return $attributeInfo;
+    return $this->getAttributeOptions($attribute);
   }
-  
+
+  /**
+   * get an attributes options if it has some
+   * @param attribute | object
+   * @return array
+   *  an array of attribute options key - value
+   */
+  public function getAttributeOptions($attribute) {
+    $attributeOptions = array();
+    if($attribute->getSource()->getAllOptions(true, true)) {
+      foreach ($attribute->getSource()->getAllOptions(true, true) as $instance) {
+        $attributeOptions[$instance['value']] = $instance['label'];
+      }
+    }
+    return $attributeOptions;
+  }
   /**
    * gets the makeup of data
    */
   public function getTypeData($request) {
-  	//if(in_array($request, $this->getInventoryAttributes())) {
-    $attributeValue = Mage::getModel('eav/config')->getAttribute('catalog_product', $request);
-    $attributeInfo = array();
-    $data = $attributeValue->getData();
+    $attribute = Mage::getModel('eav/config')->getAttribute('catalog_product', $request);
+    $data = $attribute->getData();
+    $data['options'] = $this->getAttributeOptions($attribute);
     unset($data['entity_type']);
     return $data;
   }

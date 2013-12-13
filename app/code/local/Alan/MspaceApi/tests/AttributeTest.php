@@ -9,7 +9,6 @@ class Alan_MspaceApi_Model_AttributeTest extends PHPUnit_Framework_TestCase
   		Mage::app();
 			$attribute = new Alan_MspaceApi_Model_V1_Attribute;
 			$types = $attribute->getTypeOptions('product_type');
-      
 			foreach($base_product_types as $type) {
 				$this->assertContains($type, $types);
 			}
@@ -35,7 +34,7 @@ class Alan_MspaceApi_Model_AttributeTest extends PHPUnit_Framework_TestCase
     $ivBase64 = base64_encode($iv);
     //$url = str_replace("phpunit/", "", Mage::getBaseUrl() . "mspaceapi/product/v1/attribute/set/options/id/4");
     //$url = str_replace("phpunit/", "", Mage::getBaseUrl() . "mspaceapi/product/v1/attribute/type/data/code/product_type");
-    $url = str_replace("phpunit/", "", Mage::getBaseUrl() . "mspaceapi/product/v1/attribute/type/data/id/64");
+    $url = str_replace("phpunit/", "", Mage::getBaseUrl() . "mspaceapi/product/v1/attribute/type/data/code/tax_class_id");
     
     $handle = curl_init();
     $headers = array("Content-Type: application/json", "authtoken:$encryptedText", "authiv:$ivBase64");
