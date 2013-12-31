@@ -45,45 +45,6 @@
     <?php $_iterator = 0; ?>
     <ol class="products-list" id="products-list">
     <?php foreach ($_productCollection as $_product): ?>
-		<?php 
-        $attributeSetModel = Mage::getModel("eav/entity_attribute_set");
-        $attributeSet = $attributeSetModel->load($_product->getAttributeSetId())->getAttributeSetName();
-        $remainingText = "<i>Packages Remaining: </i>";
-        $availableText = "<i>Experiences Available</i>";
-        $showRemaining = true;
-        $cartLabel = "Add to Cart";
-        $ticketType = "";
-        $displayPrice = false;
-		$attributeValue = Mage::getModel('catalog/product')->load($_product->getId())->getProductType();
-		$write = Mage::getSingleton('core/resource')->getConnection('core_write');
-		$readresult=$write->query("SELECT eav_attribute_option_value.option_id, eav_attribute_option_value.value FROM eav_attribute_option_value WHERE eav_attribute_option_value.option_id=".$attributeValue." Limit 1");
-		while ($row = $readresult->fetch() ) {
-		       $ticketType = "{$row['value']}";
-		}
-switch($ticketType):
-   case 'Ticket':
-      $cartLabel = "Add to Cart";
-      break;
-   case 'Register-Package':
-      $cartLabel = "Register for Experience";
-      $availableText = "<i>Experiences Available</i>";
-      break;
-   case 'Register-Venue':
-      $cartLabel = "Register for Venue";
-      $availableText = "<i>Reservations Available</i>";
-      break;
-   case 'Information':
-      $cartLabel = "";
-      $availableText = "";
-      break;
-   case 'Product-Purchase':
-      $availableText = "Items in Stock: " . (int) Mage::getModel('cataloginventory/stock_item')->loadByProduct($_product)->getQty();
-      $displayPrice = true;
-      break;
-   default:
-      $cartLabel = "Add to Cart";
-endswitch;
-        ?>
         <li class="item<?php if( ++$_iterator == sizeof($_productCollection) ): ?> last<?php endif; ?>">
             <?php // Product Image ?>
             <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" class="product-image"><img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(135); ?>" width="135" height="135" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" /></a>
@@ -95,14 +56,12 @@ endswitch;
                     <?php if($_product->getRatingSummary()): ?>
                     <?php echo $this->getReviewsSummaryHtml($_product) ?>
                     <?php endif; ?>
-<?php if($ticketType != "Information"): ?>
                     <?php ($_product->getPrice()==0) ? print '' : print $this->getPriceHtml($_product, true) ?>
-
                     <?php if($_product->isSaleable()): ?>
-                        <p style='padding:none;margin:none;'><button type="button" title="<?php echo $this->__('Add to Cart') ?>" class="button btn-cart" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')"><span><span><?php echo $this->__($cartLabel) ?></span></span></button></p>
-                        <span><?php echo $this->__($availableText); ?><br /><span><?php ($ticketType == "Ticket") ? print $remainingText . (int) Mage::getModel('cataloginventory/stock_item')->loadByProduct($_product)->getQty() : print ''; ?></span></span>
+                        <p><button type="button" title="<?php echo $this->__('Add to Cart') ?>" class="button btn-cart" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')"><span><span><?php echo $this->__("Add To Cart") ?></span></span></button></p>
+                        <span><?php echo $this->__("Available"); ?><br /></span>
                     <?php else: ?>
-                        <p class="availability out-of-stock"><?php echo $this->__('Availability:') ?> <span><?php if($attributeSet != "Venue Register") { echo $this->__('Experience Sold Out'); } else { echo $this->__('No Registrations Available');} ?></span></p>
+                        <p class="availability out-of-stock"><?php echo $this->__('Availability:') ?></p>
                     <?php endif; ?>
                     <div class="desc std">
                         <?php echo $_helper->productAttribute($_product, $_product->getShortDescription(), 'short_description') ?>
@@ -115,12 +74,10 @@ endswitch;
                         <?php if($_compareUrl=$this->getAddToCompareUrl($_product)): ?>
                             <!--<li><span class="separator">|</span> <a href="<?php echo $_compareUrl ?>" class="link-compare"><?php //echo $this->__('Add to Compare') ?></a></li>-->
                         <?php endif; ?>
-<?php else: ?>
                     <div class="desc std">
                         <?php echo $_helper->productAttribute($_product, $_product->getShortDescription(), 'short_description') ?>
                         <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $_productNameStripped ?>" class="link-learn"><?php echo $this->__('Learn More') ?></a>
                     </div>
-<?php endif; ?>
                     </ul>
                 </div>
             </div>
@@ -130,57 +87,10 @@ endswitch;
     <script type="text/javascript">decorateList('products-list', 'none-recursive')</script>
 
     <?php else: ?>
-
     <?php // Grid Mode ?>
-
     <?php $_collectionSize = $_productCollection->count() ?>
     <?php $_columnCount = $this->getColumnCount() + 1; //columns per page ?> 
     <?php $i=0; foreach ($_productCollection as $_product): ?>
-		<?php 
-//        $attributeSetModel = Mage::getModel("eav/entity_attribute_set");
-//        $attributeSet = $attributeSetModel->load($_product->getAttributeSetId())->getAttributeSetName();
-//        $remainingText = "Experiences Remaining: ";
-        ?>
-		<?php 
-        $attributeSetModel = Mage::getModel("eav/entity_attribute_set");
-        $attributeSet = $attributeSetModel->load($_product->getAttributeSetId())->getAttributeSetName();
-        $remainingText = "";//"<i>Remaining: </i>"; //Experience Packages 
-        $availableText = "<i>Experiences Available</i>";
-        $showRemaining = true;
-        $cartLabel = "Add to Cart";
-        $ticketType = "";
-        $displayPrice = false;
-$attributeValue = Mage::getModel('catalog/product')->load($_product->getId())->getProductType();
-$write = Mage::getSingleton('core/resource')->getConnection('core_write');
-$readresult=$write->query("SELECT eav_attribute_option_value.option_id, eav_attribute_option_value.value FROM eav_attribute_option_value WHERE eav_attribute_option_value.option_id=".$attributeValue." Limit 1");
-while ($row = $readresult->fetch() ) {
-       $ticketType = "{$row['value']}";
-}
-switch($ticketType):
-   case 'Ticket':
-      $cartLabel = "Add to Cart";
-      break;
-   case 'Register-Package':
-      $cartLabel = "Register";
-      $availableText = "<i>Experiences Available</i>";
-      break;
-   case 'Register-Venue':
-      $cartLabel = "Register";
-      $availableText = "<i>Reservations Available</i>";
-      break;
-   case 'Information':
-      $cartLabel = "";
-      $availableText = "";
-      break;
-   case 'Product-Purchase':
-      $availableText = "Items in Stock: " . (int) Mage::getModel('cataloginventory/stock_item')->loadByProduct($_product)->getQty();
-      $displayPrice = true;
-      break;
-   default:
-      $cartLabel = "Add to Cart";
-endswitch;
-        ?>
-
         <?php if ($i++%$_columnCount==0): ?>
         <ul class="products-grid">
         <?php endif ?>
@@ -188,18 +98,15 @@ endswitch;
                 <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" class="product-image"><img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(135); ?>" width="135" height="135" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" /></a>
                 <h2 class="product-name"><a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($_product->getName(), null, true) ?>"><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></a></h2>
                 <?php if($_product->getRatingSummary()): ?>
-                <?php echo $this->getReviewsSummaryHtml($_product, 'short') ?>
-                <?php endif; ?>
-<?php if($ticketType != "Information"): ?>
-                    <?php ($displayPrice == false) ? print '' : print $this->getPriceHtml($_product, true) ?>
-            
-                <?php //echo $this->getPriceHtml($_product, true) ?>
+                	<?php echo $this->getReviewsSummaryHtml($_product, 'short') ?>
+                <?php endif; ?>               
+                <?php print $this->getPriceHtml($_product, true) ?>      
                 <div class="actions">
                     <?php if($_product->isSaleable()): ?>
-                        <button type="button" title="<?php echo $this->__('Add to Cart') ?>" class="button btn-cart" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')"><span><span><?php echo $this->__($cartLabel) ?></span></span></button>
-                        <br /><span><?php echo $this->__($availableText); ?><br /><span><?php ($ticketType == "Ticket") ? print $remainingText : print ''; // . (int) Mage::getModel('cataloginventory/stock_item')->loadByProduct($_product)->getQty() ?></span></span>
+                        <button type="button" title="<?php echo $this->__('Add to Cart2') ?>" class="button btn-cart" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')"><span><span><?php echo $this->__("Add To Cart3") ?></span></span></button>
+                        <br /><span><?php echo $this->__($availableText); ?><br /></span>
                     <?php else: ?>                   
-                        <p class="availability out-of-stock"><?php echo $this->__('Availability:') ?> <span><?php if($attributeSet != "Venue Register") { echo $this->__('Experience Sold Out'); } else { echo $this->__('No Reservations Available');} ?></span></p>
+                        <p class="availability out-of-stock"><?php echo $this->__('Availability:') ?></p>
                     <?php endif; ?>
                     <ul class="add-to-links">
                         <?php if ($this->helper('wishlist')->isAllow()) : ?>
@@ -211,7 +118,6 @@ endswitch;
                     </ul>
                 </div>
             </li>
-<?php endif; ?>
         <?php if ($i%$_columnCount==0 || $i==$_collectionSize): ?>
         </ul>
         <?php endif ?>

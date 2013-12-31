@@ -1,7 +1,7 @@
 var/cache/*
 var/locks/*
 var/package/*
-var/reports/*
+var/report/*
 var/session/*
 var/report/*
 app/etc/local.xml

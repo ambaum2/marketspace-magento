@@ -1733,6 +1733,27 @@ body {background:#7D7D7D;}
 .col1-layout .product-view .product-img-box .product-image {display: block;margin: 0 auto 9px;} /* this hopefully centers the product image under the title */
 
 /* Product or Experience Register/Purchase Button  */
+.datepick-nav {width:220px;} 
+.datepick-popup {border:1px solid #444444;background:#000000;width:220px;} 
+.datepick-month {border: 1px solid #444444; width:218px;} 
+.datepick-ctrl {width:220px;} 
+.datepick-month-header {height:23px;} 
+.contactExpGuide {font-size:18px;border:grey 1px solid;background:#5FFB17;text-decoration:none;padding:5px;color:white;font-weight:bolder;margin:5px 10px 10px 0px;}
+#packagefeatures ul{list-style-type: disc; list-style-position: outside; padding-left: 10px;} 
+.col1-layout .product-view .product-shop {float:right;width: 215px;}
+.product-collateral .std ul{padding-left:5px;margin-left:10px;}
+#productFeatures {border-bottom:1px solid #E5DCC3;color:#009900;font-weight:bold;font-size:15px;}
+#packagefeatures ul li{padding-bottom:7px;}
+.col1-layout .product-view .product-shop {float:left;width:240px;margin-left:0px;} 
+.col1-layout .product-view .product-img-box {width:55%;height:auto;} 
+.col1-layout .product-view .product-img-box .product-image{width:450px;} 
+.email-friend .email-button {margin:4px 4px 0px 0px;}
+.social-links-wishlist {color:#1E7EC8 !important;margin:0px 5px 0px 0px;}
+#packagefeatures .availability {color:black;}
+#packagefeatures .availability {float:left;}
+#packagefeatures .price-box {float:left;} 
+#packagefeatures .add-to-cart {float:right;}
+
 .btn-cart {background:#009900;-moz-border-radius:8px;border-radius:8px;font-size:16px;text-decoration:none;float:left;padding:9px;color:white;margin:7px 100px 0px 0px;}
 /* IE 10 */
 .btn-cart,#mktSubCatList .subCatsTab a  {background-image: -ms-linear-gradient(top, #32CC2D 0%, #045717 75%);}

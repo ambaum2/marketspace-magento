@@ -20,7 +20,7 @@
  *
  * @category    design
  * @package     base_default
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 
@@ -30,251 +30,140 @@
  * @see Mage_Catalog_Block_Product_View
  * @see Mage_Review_Block_Product_View
  */
- if (Mage::app()->isInstalled() && Mage::getSingleton('customer/session')->isLoggedIn()) {
-	//include_once( Mage::getBaseDir('base') . '/blog/wp-load.php'); //won't work if l10n line 98 isn't commented out
-	/*require_once( Mage::getBaseDir('base') . '/wp-includes/wp-db.php' );
-	if (!$wpdb) {
-	    $wpdb = new wpdb( DB_USER, DB_PASSWORD, DB_NAME, DB_HOST);
-	} else {
-	    global $wpdb;
-	}*/	
-	//error_reporting(E_ALL);
-	//require(Mage::getBaseDir('base') . "/blog/wp-includes/wp-db.php"); 
-	//$header_right_image_id = 50;
-	//$right_image = get_post($header_right_image_id);
-	//print $right_image->post_content;
-	//print minical();
-	//include(Mage::getBaseDir('base') . "/blog/wp-content/plugins/calendar/calendar.php");
- }
 ?>
-<!-- I took out alot of stuff (shouldn't have done that) this should be in a template override folder.
-For Wishlist, email to friend and other functionality see the original file-->
-<style type="text/css">.datepick-nav {width:220px;} .datepick-popup {border:1px solid #444444;background:#000000;width:220px;} .datepick-month {border: 1px solid #444444; width:218px;} .datepick-ctrl {width:220px;} .datepick-month-header {height:23px;} .contactExpGuide {font-size:18px;border:grey 1px solid;background:#5FFB17;text-decoration:none;padding:5px;color:white;font-weight:bolder;margin:5px 10px 10px 0px;}
-</style>
-<style type="text/css">#packagefeatures ul{list-style-type: disc; list-style-position: outside; padding-left: 10px;} .col1-layout .product-view .product-shop {float:right;width: 215px;}.product-collateral .std ul{padding-left:5px;margin-left:10px;}#productFeatures {border-bottom:1px solid #E5DCC3;color:#009900;font-weight:bold;font-size:15px;}#packagefeatures ul li{padding-bottom:7px;}</style>
-<style type="text/css">.col1-layout .product-view .product-shop {float:left;width:240px;margin-left:0px;} .col1-layout .product-view .product-img-box {width:55%;height:auto;} .col1-layout .product-view .product-img-box .product-image{width:450px;} .email-friend .email-button {margin:4px 4px 0px 0px;}
-.social-links-wishlist {color:#1E7EC8 !important;margin:0px 5px 0px 0px;} #packagefeatures .availability {color:black;}</style>
-<?php
-//this whole control structure should NOT be here. Would be better handled with multiple child blocks or even an include function.
-//may also be possible to do something in xml on a per attribute set basis - but I'm not sure yet
-//should be a function like this ticketProcess($_product(product model))
-//or call child block based upon product name ??
-$_helper = $this->helper('catalog/output');
-$_product = $this->getProduct();
-$remainingText = "<i>Packages Available: </i>";
-$availableText = "<i>Packages Remaining:</i>";
-$showRemaining = true;
-$showOverviewDefault = true;
-$show_package_features = true;
-$infoBlock = false;
-$productOverview = false;
-$cartLabel = "Add to Cart";
-$purchaseText = "";
-$wishlistAdd = $this->getChildHtml('addto');
-$attribute_set = Mage::getModel("eav/entity_attribute_set")->load($_product->getAttributeSetId());
-$product_type_name = $_product["type_id"]; 
-$attribute_set_name = $attribute_set['attribute_set_name'];
-$ticketType = $_product->getResource()->getAttribute("product_type")->getFrontend()->getValue($_product);
-
-switch($ticketType):
-   case 'Ticket':
-      $cartLabel = "Add to Cart";
-      $purchaseText = "Purchase Experience";
-      break;
-   case 'Register-Package':
-      $cartLabel = "Register for Experience";
-      $availableText = "<i>Experiences Available</i>";
-      $purchaseText = "Register for Experience";
-      break;
-   case 'Register-Venue':
-      $cartLabel = "Register for Venue2";
-      $availableText = "<i>Reservations Available2</i>";
-      $purchaseText = "Register for Venue";
-	  $showOverviewDefault = false;
-      break;
-   case 'Information':
-      $cartLabel = "";
-      $availableText = "";
-      $wishlistAdd = "";
-	  $showOverviewDefault = false;
-	  $infoBlock = true;
-	  $show_package_features = false;
-      break;
-   case 'Product-Purchase':
-      $purchaseText = "Purchase Product";
-      $availableText = "<i>Inventory: </i>";
-	  $productOverview = true;
-	  $show_package_features = false;
-	  if($attribute_set_name == "Market Place" && $product_type_name == "bundle") {
-      	$purchaseText = "Shop Our Products";
-		$showOverviewDefault = false;
-		$availableText = "";
-		$show_package_features = true;
-		$productOverview = false;
-      }
-      break;
-   default:
-      $cartLabel = "Add to Cart";
-endswitch;
-//I think magento 1.6 has a way to add external urls to layout files...that is what should be done
-$this->getLayout()->getBlock('head')->addJs('http://connect.facebook.net/en_US/all.js');
-?>
-<!-- for social media (facebook) -->
-<div id="fb-root"></div>
+<?php $_helper = $this->helper('catalog/output'); ?>
+<?php $_product = $this->getProduct(); ?>
 <script type="text/javascript">
     var optionsPrice = new Product.OptionsPrice(<?php echo $this->getJsonConfig() ?>);
-//the top add to cart would never send any value except 1 to the cart
-//turns out the very bottom add to cart is all the form cares about so
-//change the value of the bottom add to cart to whatever the user puts in the top
-jQuery(document).ready(function() {
-	jQuery(".product_qty_select").change(function() {
-		qty = jQuery(this).val();
-		jQuery(".product_qty_select").attr("value",qty);
-	});
-});
 </script>
 <div id="messages_product_view"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
 <div class="product-view">
- <form action="<?php echo $this->getAddToCartUrl($_product) ?>" method="post" id="product_addtocart_form"<?php if($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
+    <div class="product-essential">
+    <form action="<?php echo $this->getSubmitUrl($_product) ?>" method="post" id="product_addtocart_form"<?php if($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
+        <div class="no-display">
+            <input type="hidden" name="product" value="<?php echo $_product->getId() ?>" />
+            <input type="hidden" name="related_product" id="related-products-field" value="" />
+        </div>
 
-   <div class="product-essential">
-			<?php //if($infoBlock == false) : //the right side package features always shows up except for guide profile's and venue profiles?>
-           		<div id="packagefeatures" style="background: none repeat scroll 0% 0% transparent; float: right; width: 43%; <?php ($productOverview==false) ? print "height: auto;" : print '' ?>">
-				<?php if($productOverview == true ) : ?>
-                    <?php echo "<h2 id='productFeatures'>".$_product->getResource()->getAttribute('short_description')->getStoreLabel(). "</h2>". $_helper->productAttribute($_product, $_product->getShortDescription(), 'short_description') ?>
-                <?php endif; ?>
-				<?php //conditions for showing package features vs short description
-				 ((strlen($_product->getPackagefeatures())>1) ? print "<h2 id='productFeatures'>".$_product->getResource()->getAttribute('packagefeatures')->getStoreLabel(). "</h2>". $_product->getPackagefeatures() : print '');
-                (($showOverviewDefault == false) ? print "<h2 id='productFeatures'>".$_product->getResource()->getAttribute('short_description')->getStoreLabel(). "</h2>". $_product->getShortDescription() : print ''); ?>
-               <?php echo $this->getChildHtml('alert_urls') ?>
-               <?php if($show_package_features == true): ?>
-               		<style type="text/css">#packagefeatures .availability {float:left;} </style>
-                    <?php echo $this->getChildHtml('product_type_data') ?>
-                    <div class="box-collateral box-additional">
-                        <h2><a href='#purchase' class="button btn-cart"><?php echo $purchaseText; ?></a></h2>
-                          <div class="no-display">
-                            <input type="hidden" name="product" value="<?php echo $_product->getId() ?>" />
-                            <input type="hidden" name="related_product" id="related-products-field" value="" />
-                          </div>
-                    </div>
-               <?php elseif($ticketType=="Product-Purchase") : ?>
-               		<style type="text/css">#packagefeatures .price-box {float:left;} #packagefeatures .add-to-cart {float:right;}</style>
-               		<?php echo $this->getChildHtml('product_type_data') ?>
-               		<?php echo $this->getChildHtml('addtocart') ?>   
-               <?php endif; ?>
-               <?php echo $this->getChildHtml('extrahint') ?>
-           	 </div>
-            <?php //endif; ?>
-            <!-- Right side image -->
-                    <div class="product-img-box" style="text-align:center;">
-                        <div class="product-name">
-                            <h2 style="font-size:24px;"><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h2>
-                        <?php echo $this->getChildHtml('media') ?>
-                    </div>
-				<?php if($ticketType == "Product-Purchase"): ?>
-                                <?php echo $this->getChildHtml('other');?> 
-                                <div class="box-collateral box-additional">                  
-                                  <div class="no-display">
-                                    <input type="hidden" name="product" value="<?php echo $_product->getId() ?>" />
-                                    <input type="hidden" name="related_product" id="related-products-field" value="" />
-                                  </div>
-                              </div>            
-                            <?php echo $this->getTierPriceHtml() ?>
-                       <?php endif; ?>
-                        <div class="fb-like" style="width:170px;" data-send="true" data-width="150" data-show-faces="true" data-action="recommend" layout="button_count"></div>
-	                        <?php echo "<span class='social-wishlist'>".$wishlistAdd."</span>";  ?>
-	                        <?php if ($this->canEmailToFriend()): ?>
-	                           <span class="email-friend"><a class="email-button" href="<?php echo $this->helper('catalog/product')->getEmailToFriendUrl($_product) ?>"><?php echo $this->__('Email to a Friend') ?></a></span><?php endif; ?>
-                   	</div>
-   </div>
-            
-                <div class="product-collateral">
-                     <?php if($showOverviewDefault == true && $productOverview == false) : ?>
-                              <?php if ($_product->getShortDescription()):?>
-                             <div class="box-collateral">
-                                <h2><?php echo $this->__('Quick Overview') ?></h2>
-                                <div class="std"><?php echo $_helper->productAttribute($_product, $_product->getShortDescription(), 'short_description') ?></div>
-                           
-                    </div>
-                    <?php endif; ?>
-                        <?php endif;?>   
-            
-            <?php foreach ($this->getChildGroup('detailed_info', 'getChildHtml') as $alias => $html):?>
-				    <?php //remove Details title in description if tabs are in the content
-						if(substr_count($html,'<div id="tab1"')) {
-							$html = str_replace('<h2>Details</h2>','',$html);
-							echo "<h2>Details</h2><div id='mktSubCats'></div>";
-						}
-					 ?>
-                    <div class="box-collateral details <?php echo "box-{$alias}"?>">
-                        <?php if ($title = $this->getChildData($alias, 'title')):?>
-                        <h1><?php echo $this->escapeHtml($title); ?></h1>
-                        <?php endif;?>
-                        <?php echo $html; ?>
-                    </div>
-            <?php endforeach;?>
-                    <?php echo $this->getChildHtml('upsell_products') ?>
-                    <?php //echo $this->getChildHtml('product_additional_data') //just the product tag thing ?>
-            
-            
-            <?php if($ticketType != "Information"): ?>
-                    <div class="box-collateral box-additional">                  
-                    <a name = 'purchase'></a>                   
-            <?php echo "<h2  style='margin:20px 0px;padding:0px;'>". $purchaseText . "</h2>"; ?>
-            
-                               <div class="no-display">
-                        <input type="hidden" name="product" value="<?php echo $_product->getId() ?>" />
-                        <input type="hidden" name="related_product" id="related-products-field" value="" />
-                    </div>
-                        <?php if (!$this->hasOptions()):?>
-                            <div class="add-to-box">
-                                <?php if($_product->isSaleable()): ?>
-                                    <?php echo "<div style='float:left;color:#C76200;font-weight:bold;font-size:14px;'>$" . number_format( $_product->getPrice(),2) . "</div><div style='float:right'>" . $this->getChildHtml('addtocart') . "</div>" ?>
-                                    <?php if( $this->helper('wishlist')->isAllow() || $_compareUrl=$this->helper('catalog/product_compare')->getAddUrl($_product)): ?>
-                                        <span class="or"><?php //echo $this->__('OR') ?></span>
-                                                    <?php //echo $this->getChildHtml('product_type_data') ?>
-                                    <?php //echo $this->getTierPriceHtml() ?>
-                                    <?php endif; ?>
-                                <?php endif; ?>
-                                <?php //echo $this->getChildHtml('addto') ?>
-                            </div>
-                            <?php echo $this->getChildHtml('extra_buttons') ?>
-            
-                        <?php else:?>
-                            
-                        <?php endif; ?>
-                         <?php if ($_product->isSaleable() && $this->hasOptions()):?>
-                            <?php echo $this->getChildChildHtml('container1', '', true, true) ?>
-                        <?php endif;?>
-            
-                    <div class="clearer"></div>
-                    <?php if ($_product->isSaleable() && $this->hasOptions()):?>
-                        <?php echo $this->getChildChildHtml('container2', '', true, true) ?>
-                    <?php endif; ?>
-            
-                         <?php if ($this->canEmailToFriend()): ?>
-                            <p class="email-friend"><a href="<?php echo $this->helper('catalog/product')->getEmailToFriendUrl($_product) ?>"><?php echo $this->__('Email to a Friend') ?></a></p>
-                            <?php echo $this->getChildHtml('other');?>
-                            <?php echo $wishlistAdd; //echo $this->getChildHtml('addto') ?>             
-                        <?php endif; ?>
-                        <?php echo $this->getReviewsSummaryHtml($_product, false, true)?>
+        <div class="product-shop">
+            <div class="product-name">
+                <h1><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h1>
             </div>
-            
-                <script type="text/javascript">
-                //<![CDATA[
-                        var productAddToCartForm = new VarienForm('product_addtocart_form');
-                        productAddToCartForm.submit = function(button){
-                            if (this.validator.validate()) {
-                                this.form.submit();
-                                if (button && button != 'undefined') {
-                                    button.disabled = true;
-                                }
-                            }
-                        }.bind(productAddToCartForm);
-                //]]>
-                </script><?php endif; ?>
-        </form>
+
+            <?php if ($this->canEmailToFriend()): ?>
+                <p class="email-friend"><a href="<?php echo $this->helper('catalog/product')->getEmailToFriendUrl($_product) ?>"><?php echo $this->__('Email to a Friend') ?></a></p>
+            <?php endif; ?>
+
+            <?php echo $this->getReviewsSummaryHtml($_product, false, true)?>
+            <?php echo $this->getChildHtml('alert_urls') ?>
+            <?php echo $this->getChildHtml('product_type_data') ?>
+            <?php echo $this->getTierPriceHtml() ?>
+            <?php echo $this->getChildHtml('extrahint') ?>
+
+            <?php if (!$this->hasOptions()):?>
+                <div class="add-to-box">
+                    <?php if($_product->isSaleable()): ?>
+                        <?php echo $this->getChildHtml('addtocart') ?>
+                        <?php if( $this->helper('wishlist')->isAllow() || $_compareUrl=$this->helper('catalog/product_compare')->getAddUrl($_product)): ?>
+                            <span class="or"><?php echo $this->__('OR') ?></span>
+                        <?php endif; ?>
+                    <?php endif; ?>
+                    <?php echo $this->getChildHtml('addto') ?>
+                </div>
+                <?php echo $this->getChildHtml('extra_buttons') ?>
+            <?php elseif (!$_product->isSaleable()): ?>
+                <div class="add-to-box">
+                    <?php echo $this->getChildHtml('addto') ?>
+                </div>
+            <?php endif; ?>
+
+            <?php if ($_product->getShortDescription()):?>
+                <div class="short-description">
+                    <h2><?php echo $this->__('Product Overview') ?></h2>
+                    <div class="std"><?php echo $_helper->productAttribute($_product, nl2br($_product->getShortDescription()), 'short_description') ?></div>
+                </div>
+            <?php endif;?>
+
+            <?php echo $this->getChildHtml('other');?>
+
+            <?php if ($_product->isSaleable() && $this->hasOptions()):?>
+                <?php echo $this->getChildChildHtml('container1', '', true, true) ?>
+            <?php endif;?>
+
+        </div>
+
+        <div class="product-img-box">
+            <?php echo $this->getChildHtml('media') ?>
+        </div>
+
+        <div class="clearer"></div>
+        <?php if ($_product->isSaleable() && $this->hasOptions()):?>
+            <?php echo $this->getChildChildHtml('container2', '', true, true) ?>
+        <?php endif;?>
+    </form>
+    <script type="text/javascript">
+    //<![CDATA[
+        var productAddToCartForm = new VarienForm('product_addtocart_form');
+        productAddToCartForm.submit = function(button, url) {
+            if (this.validator.validate()) {
+                var form = this.form;
+                var oldUrl = form.action;
+
+                if (url) {
+                   form.action = url;
+                }
+                var e = null;
+                try {
+                    this.form.submit();
+                } catch (e) {
+                }
+                this.form.action = oldUrl;
+                if (e) {
+                    throw e;
+                }
+
+                if (button && button != 'undefined') {
+                    button.disabled = true;
+                }
+            }
+        }.bind(productAddToCartForm);
+
+        productAddToCartForm.submitLight = function(button, url){
+            if(this.validator) {
+                var nv = Validation.methods;
+                delete Validation.methods['required-entry'];
+                delete Validation.methods['validate-one-required'];
+                delete Validation.methods['validate-one-required-by-name'];
+                // Remove custom datetime validators
+                for (var methodName in Validation.methods) {
+                    if (methodName.match(/^validate-datetime-.*/i)) {
+                        delete Validation.methods[methodName];
+                    }
+                }
+
+                if (this.validator.validate()) {
+                    if (url) {
+                        this.form.action = url;
+                    }
+                    this.form.submit();
+                }
+                Object.extend(Validation.methods, nv);
+            }
+        }.bind(productAddToCartForm);
+    //]]>
+    </script>
+    </div>
+
+    <div class="product-collateral">
+<?php foreach ($this->getChildGroup('detailed_info', 'getChildHtml') as $alias => $html):?>
+        <div class="box-collateral <?php echo "box-{$alias}"?>">
+            <?php if ($title = $this->getChildData($alias, 'title')):?>
+            <h2><?php echo $this->escapeHtml($title); ?></h2>
+            <?php endif;?>
+            <?php echo $html; ?>
+        </div>
+<?php endforeach;?>
+        <?php echo $this->getChildHtml('upsell_products') ?>
+        <?php echo $this->getChildHtml('product_additional_data') ?>
     </div>
 </div>
-
-
