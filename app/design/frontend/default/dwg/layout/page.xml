@@ -58,14 +58,15 @@ Default layout, loads most of the pages
                 <action method="addCss"><stylesheet>css/jquery-ui-1.8.14.custom.css</stylesheet></action>
                 <action method="addCss"><stylesheet>css/jquery.datepick.css</stylesheet></action>
                 <action method="addCss"><stylesheet>css/estabs.css</stylesheet></action>
+                <action method="addCss"><stylesheet>css/bootstrap.theme.min.css</stylesheet></action>
+                <action method="addCss"><stylesheet>css/bootstrap.min.css</stylesheet></action>
                 <action method="addItem"><type>js</type><name>lib/ds-sleight.js</name><params/><if>lt IE 7</if></action>
                 <action method="addItem"><type>skin_js</type><name>js/ie6.js</name><params/><if>lt IE 7</if></action>
                 <action method="addJs"><script>jquery/jquery-1.5.1.min.js</script></action>
                 <action method="addJs"><script>jquery/jquery-ui-1.8.14.custom.min.js</script></action>
                 <action method="addJs"><script>jquery/jquery.datepick.ext.js</script></action>
-				<!-- alan js and css -->
-				<action method="addJs"><script>estabs/estabs.js</script></action>
-				<action method="addJs"><script>jquery/rollovers/navRollover.js</script></action>
+								<action method="addJs"><script>estabs/estabs.js</script></action>
+								<action method="addJs"><script>jquery/rollovers/navRollover.js</script></action>
             	<action method="addJs"><script>jquery/jquery.datepick.js</script></action>
                 <action method="addJs"><script>jquery/jquery.datepick.validation.js</script></action>
             </block>
