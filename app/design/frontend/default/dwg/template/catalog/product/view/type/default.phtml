@@ -26,44 +26,11 @@
 ?>
 <?php /* @var $this Mage_Catalog_Block_Product_View_Abstract */?>
 <?php $_product = $this->getProduct() ?>
-<?php 
-$availableText = "<i>Experiences Available</i>";
-$cartLabel = "Add to Cart";
-$ticketType = "";
-$remainingText = "";
-$showRemaining = false;
-$attributeValue = Mage::getModel('catalog/product')->load($_product->getId())->getProductType();
-$write = Mage::getSingleton('core/resource')->getConnection('core_write');
-$readresult=$write->query("SELECT eav_attribute_option_value.option_id, eav_attribute_option_value.value FROM eav_attribute_option_value WHERE eav_attribute_option_value.option_id=".$attributeValue." Limit 1");
-while ($row = $readresult->fetch() ) {
-       $ticketType = "{$row['value']}";
-}
-switch($ticketType):
-   case 'Ticket':
-      $cartLabel = "Add to Cart";
-      $remainingText = "Packages Remaining: " .(int) Mage::getModel('cataloginventory/stock_item')->loadByProduct($_product)->getQty();
-      break;
-   case 'Register-Package':
-      $availableText = "Experiences Available";
-      break;
-   case 'Register-Venue':
-      $availableText = "Reservations Available";
-      break;
-   case 'Information':
-      $availableText = "";
-      break;
-   case 'Product-Purchase':
-      $availableText = "Items in Stock: " . (int) Mage::getModel('cataloginventory/stock_item')->loadByProduct($_product)->getQty();
-      $showRemaining = true;
-      break;
-   default:
-      $availabeText = "";
-endswitch;
-?>
+
 <?php if ($_product->isAvailable()): ?><?php //echo $this->__('Availability: ')  class="availability in-stock" class="availability in-stock" style="float:right;"?>
-    <h2><?php echo $this->__($availableText); ?> <?php echo "&nbsp;" . $remainingText; ?></h2>
+    <button type="button" class="btn btn-warning"><?php echo $this->__("Available"); ?></button>
 <?php else: //<p class="availability out-of-stock">?>
-    <h2><?php echo $this->__('Availability:') ?><?php if($showRemaining == true) { echo $this->__('Experience Sold Out'); } else { echo $this->__('No Reservations Available');} ?></h2>
+    button type="button" disabled="disabled" class="btn btn-warning"><?php echo $this->__('Not Available:') ?></button>
 <?php endif; ?>
 <?php echo $this->getChildHtml('product_type_data_extra') ?>
 <?php ($showRemaining==false) ? print "<div style='display:none;'>".$this->getPriceHtml($_product)."</div>" : print $this->getPriceHtml($_product)  ?>
