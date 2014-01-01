@@ -49,8 +49,14 @@
             <h1><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h1>
         </div>
         <div class="col-md-5 col-md-offset-1 col-sm-6 col-xs-12">
-        	<h5 class="hidden-xs text-right"><a href="#">See All Store Products</a></h5>
-        	<h5 class="visible-xs"><a href="#">See All Store Products</a></h5>
+        	<h5 class="hidden-xs text-right">
+        		<?php $_product->isSaleable() ? print $this->getChildHtml('addto') : '' ?>
+        		<a href="#">See All Store Products</a>
+        	</h5>
+        	<h5 class="visible-xs">
+        		<a href="#">See All Store Products</a>
+        		<?php $_product->isSaleable() ? print $this->getChildHtml('addto') : '' ?>
+        	</h5>
         </div>  	
       </div>
       <div class="row">
@@ -83,12 +89,21 @@
 						<div id="fb-root"></div>
 					</ul>
 				</div>
-          <?php //echo $this->getReviewsSummaryHtml($_product, false, true)?>
-          <?php echo $this->getChildHtml('alert_urls') ?>
-          <?php echo $this->getChildHtml('product_type_data') ?>
-          <?php echo $this->getTierPriceHtml() ?>
-          <?php echo $this->getChildHtml('extrahint') ?>
-
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					<div class="row well">
+						<?php if ($_product->isSaleable()): ?>
+		            <div class="add-to-box col-md-6 col-sm-6 col-xs-12">
+		                <?php echo $this->getChildHtml('addtocart') ?>
+		            </div>
+		        <?php endif; ?>
+		        <div class="add-to-box col-md-6 col-sm-6 col-xs-12">
+		          <?php //echo $this->getReviewsSummaryHtml($_product, false, true)?>
+		          <?php echo $this->getChildHtml('alert_urls') ?>
+		          <?php echo $this->getChildHtml('product_type_data') ?>
+		          <?php echo $this->getTierPriceHtml() ?>
+		          <?php echo $this->getChildHtml('extrahint') ?>
+		        </div>
+	      	</div>
         </div>
 		</div>
     <div class="clearer"></div>
@@ -189,5 +204,16 @@
                 Object.extend(Validation.methods, nv);
             }
         }.bind(productAddToCartForm);
+				
+				var optionsPrice = new Product.OptionsPrice(<?php echo $this->getJsonConfig() ?>);
+					//the top add to cart would never send any value except 1 to the cart
+					//turns out the very bottom add to cart is all the form cares about so
+					//change the value of the bottom add to cart to whatever the user puts in the top
+					jQuery(document).ready(function() {
+					jQuery(".product_qty_select").change(function()
+					{ 
+						qty = jQuery(this).val(); jQuery(".product_qty_select").attr("value",qty); }					
+					);
+				});
     //]]>
     </script>

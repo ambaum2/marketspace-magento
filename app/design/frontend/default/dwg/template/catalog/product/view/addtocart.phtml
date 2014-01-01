@@ -66,7 +66,7 @@ endswitch;
         <label <?php echo $showQty ?> for="qty"><?php echo $this->__('Qty:') ?></label>
         <input <?php echo $showQty ?> type="text" name="qty" maxlength="12" value="<?php echo $this->getMinimalQty($_product) ?>" title="<?php echo $this->__('Qty') ?>" class="input-text qty product_qty_select" />
         <?php endif; ?>
-        <button type="button" title="<?php echo $this->__('Add to Cart') ?>" class="button btn-cart" onclick="productAddToCartForm.submit(this)"><span><span><?php echo $this->__($cartLabel) ?></span></span></button>
+        <button type="button" title="<?php echo $this->__('Add to Cart') ?>" class="btn btn-success" onclick="productAddToCartForm.submit(this)"><span><span><?php echo $this->__($cartLabel) ?></span></span></button>
         <?php echo $this->getChildHtml('', true, true) ?>
     </div>
 <?php endif; ?>

@@ -2,5 +2,6 @@
 .well {background:#cccccc;}
 
 .product-view h1 {color:#004400;}
-
+#carousel-example-generic {height:350px;background:black;}
+#carousel-example-generic img {margin:0 auto;}
 .nav-pills .email-friend a {padding:0px;}
