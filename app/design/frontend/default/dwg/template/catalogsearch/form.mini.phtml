@@ -24,10 +24,12 @@
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
-<form id="search_mini_form" action="<?php echo $this->helper('catalogsearch')->getResultUrl() ?>" method="get">
+<form class="navbar-form navbar-right" id="search_mini_form" action="<?php echo $this->helper('catalogsearch')->getResultUrl() ?>" method="get">
     <div class="form-search">
-        <button type="submit" title="<?php echo $this->__('Search') ?>" class="button searchButtonEsl"><img class="searchArrow" src="/skin/frontend/default/default/images/es15/rotation_arrow_right.png" /></button>
-        <input id="search" type="text" name="<?php echo $this->helper('catalogsearch')->getQueryParamName() ?>" value="<?php echo $this->helper('catalogsearch')->getEscapedQueryText() ?>" class="input-text" />
+    	<div class="form-group">
+        <input id="search" class="form-control" type="text" name="<?php echo $this->helper('catalogsearch')->getQueryParamName() ?>" value="<?php echo $this->helper('catalogsearch')->getEscapedQueryText() ?>" class="input-text" />
+      </div>
+    			<button class="btn btn-default" type="submit" title="<?php echo $this->__('Search') ?>" class="button searchButtonEsl">SEARCH</button>
         <div id="search_autocomplete" class="search-autocomplete"></div>
         <script type="text/javascript">
         //<![CDATA[

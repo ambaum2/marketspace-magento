@@ -26,6 +26,8 @@
 ?>
 <div class="footer-container">
     <div class="footer">
-        <?php echo $this->getChildHtml() ?>
-    </div>
+	    	<ul class="nav nav-pills">
+	        <?php echo str_replace(array("<ul>", "</ul>"), "", $this->getChildHtml()) ?>
+	      </ul>
+	 </div>
 </div>

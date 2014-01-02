@@ -93,12 +93,12 @@ ul,ol         { list-style:none; }
 .product-view .product-img-box .zoom.disabled {display:none;}
 .product-view .product-img-box .zoom-notice {display:none;}
 #topMenu #nav a span {display:none;}
-.nav-container .topNavHolder {width:918px;color:white;font-size:13px;padding:0px 16px 0px 16px;margin: 0px auto 0px auto;text-align:left;}
+/*.nav-container .topNavHolder {width:918px;color:white;font-size:13px;padding:0px 16px 0px 16px;margin: 0px auto 0px auto;text-align:left;}
 .nav-container .links a {color:white;padding:0px 15px 0px 0px;}
 .nav-container .links {float:left;padding:1px 0px 0px 0px;}
 .nav-container .topNavHolder .form-search .button {float:right;padding-right:14px;}
 .nav-container .topNavHolder .form-search label {display:none;}
-#mainMenu .nav-container {background: url("../images/backgroundEsLocalMainNav.jpg") repeat-x scroll -154px 0 transparent;height:40px;} /* height:29px */
+#mainMenu .nav-container {background: url("../images/backgroundEsLocalMainNav.jpg") repeat-x scroll -154px 0 transparent;height:40px;} bootstrap*/ /* height:29px */
 .short-description {float:left;}
 .std table tr td {border:white 2px solid; padding:2px;}
 .product-collateral .std ul {list-style:disc;}
@@ -114,7 +114,7 @@ ul,ol         { list-style:none; }
 /*.main { width:900px; margin:0 auto; min-height:400px; padding:25px 25px 80px; background:#fffffe url(../images/bkg_main2.gif) 0 0 no-repeat; text-align:left; } bootstrap */
 /* Base Columns */
 .col-left { float:left; width:195px; padding:0 0 1px; }
-.col-main { float:left; width:685px; padding:0 0 1px; }
+/*.col-main { float:left; width:685px; padding:0 0 1px; }*/
 .col-right { float:right; width:195px; padding:0 0 1px; }
 
 /* 1 Column Layout */
@@ -502,15 +502,15 @@ tr.summary-details-excluded { font-style:italic; }
 
 
 /* Header ================================================================================ */
-.logo { float:left; }
-.header-container { border-top:5px solid #0d2131;background:url(../images/esblue.jpg) 50% 0 repeat;} /* border-bottom:1px solid #415966; background:url(../images/bkg_header.jpg) 50% 0 repeat;background:url(../images/background_head.png)*/
-.header { width:930px; margin: 0 auto 17px; padding:10px 0px 0px 10px; text-align:right; position:relative; z-index:10; }
+/*.logo { float:left; }
+.header-container { border-top:5px solid #0d2131;background:url(../images/esblue.jpg) 50% 0 repeat;} /* border-bottom:1px solid #415966; background:url(../images/bkg_header.jpg) 50% 0 repeat;background:url(../images/background_head.png)
+.header { width:930px; margin: 0 auto 17px; padding:10px 0px 0px 10px; text-align:right; position:relative; z-index:10; } 
 .header .logo { float:left; margin:3px 0 0px 12px; text-decoration:none !important; }
 .header .logo strong { position:absolute; top:-999em; left:-999em; width:0; height:0; font-size:0; line-height:0; text-indent:-999em; overflow:hidden; }
 .header h1.logo { margin:0; }
 .header .quick-access { float:right; width:897px; padding:0px 10px 0 0; }
 .header .welcome-msg { margin:0; color:#fff; text-align:right;display:none; }
-.header .form-search { position:absolute; top:0; right:29px; width:315px; height:30px; padding:1px 0 0 16px; } /* background:url(../images/bkg_form-search.gif) 0 0 no-repeat; */
+.header .form-search { position:absolute; top:0; right:29px; width:315px; height:30px; padding:1px 0 0 16px; } /* background:url(../images/bkg_form-search.gif) 0 0 no-repeat; 
 .header .form-search label { float:left; width:24px; height:21px; text-align:left; text-indent:-999em; overflow:hidden; }
 .header .form-search input.input-text { float:left; border-color:#5c7989; width:209px; margin-right:4px; }
 .header .form-search button.button { float:left; }
@@ -527,15 +527,15 @@ tr.summary-details-excluded { font-style:italic; }
 .header .form-language select { padding:0; }
 .header .form-language select.flags option { background-position:4px 50%; background-repeat:no-repeat; padding-left:25px; }
 .header .links { float:right; margin:15px 0px 6px 0px; }
-.header .links li { float:left; font-size:11px; padding:0 8px 0 7px; } /* seperater image background:url(../images/bkg_pipe1.gif) 100% 60% no-repeat; */
+.header .links li { float:left; font-size:11px; padding:0 8px 0 7px; } /* seperater image background:url(../images/bkg_pipe1.gif) 100% 60% no-repeat; 
 .header .links a {background:url("../images/bkg_block-title.gif") repeat-x;padding:3px;font-size:12px;font-weight:900;font-family:verdana;text-decoration:none;-moz-border-radius:3px;border:2px solid #DDDDDD;color:#1F5070  } /* color:#ebbc58; */
-.header .links a:hover {color:black;}
-.header-container .top-container { clear:both; padding:5px 10px 0 12px; text-align:right; }
+/*.header .links a:hover {color:black;}
+/*.header-container .top-container { clear:both; padding:5px 10px 0 12px; text-align:right; }
 .header-container .top-container a { font-size:11px; color:#ebbc58; }
-
+ bootstrap */
 /********** < Navigation */
-.nav-container { background:#0a263d url(../images/bkg_nav0.jpg) 50% 0 repeat-y; height:20px;}
-#nav { width:918px; margin:0 auto; padding:0 16px; font-size:13px; }
+/*.nav-container { background:#0a263d url(../images/bkg_nav0.jpg) 50% 0 repeat-y; height:20px;}
+#nav { width:918px; margin:0 auto; padding:0 16px; font-size:13px; } bootstrap*/
 
 /* All Levels */ /* Style consistent throughout all nav levels */
 #nav li { position:relative; text-align:left; }
@@ -1603,7 +1603,7 @@ tr.summary-details-excluded { font-style:italic; }
 /* ======================================================================================= */
 
 
-/* Footer ================================================================================ */
+/* Footer ================================================================================ Bootstrap
 .footer-container { border-top:15px solid #b6d1e2; }
 .footer { width:930px; margin:0 auto; padding:10px 10px 50px; }
 .footer .store-switcher { display:inline; margin:0 5px 0 0; color:#fff; }
@@ -1700,7 +1700,7 @@ tr.summary-details-excluded { font-style:italic; }
 /* overrides  Ultimately put this into its own template - but till we get more time lets organize things as neatly as possible */
 /*.product-img-box .product-image {background:black; margin-bottom:5px;} */
 .products-grid .actions { position:absolute; bottom:auto; }
-.nav-container { background:#0a263d url(../images/es15/top_bar_green.jpg) 50% 0 repeat-x; height:26px;}
+/*.nav-container { background:#0a263d url(../images/es15/top_bar_green.jpg) 50% 0 repeat-x; height:26px;}
 .nav-container .topNavHolder {width:980px;}
 .nav-container .headerTopLinks .topLink {float:left;}
 .nav-container .topNavHolder #search_mini_form .form-search {float:left;}
@@ -1722,9 +1722,9 @@ tr.summary-details-excluded { font-style:italic; }
 #headerSearchMenu .nav-container .searchButtonEsl {background:url(/skin/frontend/default/default/images/es15/middle_bar_search.png) no-repeat;width:80px;height:30px;margin:0 15px 0px 25px;}
 #headerSearchMenu .nav-container #search_mini_form {float:left;}
 #headerSearchMenu .nav-container #search_mini_form #search {margin:6px 0px 0px 0px;height:12px;float:left}
-#headerSearchMenu .nav-container #searchMenuExperience {float:left;margin:0px 0px 0px 30px;}
+#headerSearchMenu .nav-container #searchMenuExperience {float:left;margin:0px 0px 0px 30px;}*/
 
-/* main content areas */
+/* main content areas 
 .main-container {background:url(/skin/frontend/default/default/images/es15/bkgd_gray.jpg) repeat-x;}
 .main-container .main{background:white;padding-bottom:0px;text-align:left;}
 body {background:#7D7D7D;}

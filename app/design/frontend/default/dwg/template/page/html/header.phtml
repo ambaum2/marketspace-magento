@@ -27,42 +27,27 @@
  * @var Mage_Page_Block_Html_Header $this
  */
 ?>
-<div class="nav-container">
-<div class="topNavHolder">
-<?php echo $this->getChildHtml('linksEsl') ?>
-<?php //echo $this->getChildHtml('topSearch') ?>
-</div>
-</div>
-<div class="header-container">
+<div>
     <div class="header">
-        <?php if ($this->getIsHomePage()):?>
-        <div id="headerLogoContainer"><h1 class="logo"><strong><?php echo $this->getLogoAlt() ?></strong><a href="<?php echo $this->getUrl('') ?>" title="<?php echo $this->getLogoAlt() ?>" class="logo"><img src="<?php echo $this->getLogoSrc() ?>" alt="<?php echo $this->getLogoAlt() ?>" /><img id="headerLogoText" alt="" src="/skin/frontend/default/default/images/es15/banner_southern_il.png" /></a></h1></div>
-        <div id="headerExpMaker"><a href="/contact?gid=359"><img src="/skin/frontend/default/default/images/es15/Travel_Guide_Jim.png"></a></div>
-        <?php else:?>
-        <div id="headerLogoContainer"><a href="<?php echo $this->getUrl('') ?>" title="<?php echo $this->getLogoAlt() ?>" class="logo"><strong><?php echo $this->getLogoAlt() ?></strong><img src="<?php echo $this->getLogoSrc() ?>" alt="<?php echo $this->getLogoAlt() ?>" /><img id="headerLogoText" alt="" src="/skin/frontend/default/default/images/es15/banner_southern_il.png" /></a>
-        </div>
-        <?php if (Mage::registry('current_product')) : ?> <!-- guide_image attr Mage::registry('current_category')->getName();-->
-        	<?php $currProd = Mage::getModel('catalog/product')->load(Mage::registry('current_product')->getId());
-        	$expGuide = $currProd->getExperienceGuide();
-        	?>
-			<?php if(strlen($expGuide)>0) : ?>
-				<?php $currGuide = Mage::getModel('catalog/product')->load($expGuide);
-					echo '<div id="headerExpMaker"><a href="/contact?gid='.$expGuide.'&pid='.Mage::registry('current_product')->getId().'">'.$currGuide->getGuideImage().'</a></div>';
-				?>
-			<?php else : ?>
-    			<div id="headerExpMaker"><a href="/contact?gid=359&pid='.$currProd->getId().'"><img src="/skin/frontend/default/default/images/es15/Travel_Guide_Jim.png"></a></div>
-            <?php endif; ?>
-        <?php else : ?>
-        	<div id="headerExpMaker"><a href="/contact?gid=359&pid='.$currProd->getId().'"><img src="/skin/frontend/default/default/images/es15/Travel_Guide_Jim.png"></a></div>
-        	<!--<div style="height:180px;width:375px;"></div>-->
-        <?php endif; ?>
-        <?php endif?>
-        <div id="headerMainMenu"><?php echo "<ul>".$this->getChildHtml('tabbedMenuEsl')."</ul>" ?></div>    
-            <p class="welcome-msg"><?php echo $this->getWelcome()?></p>
-            
-            <?php echo $this->getChildHtml('store_language') ?>
-        </div>
-        <?php echo $this->getChildHtml('topContainer') ?>
-    </div>
+			<div class="topNavHolder row">
+				<?php echo $this->getChildHtml('linksEsl') ?>
+				<?php  ?>
+			</div>
+      <div class="row" id="headerLogoContainer">
+    		<a href="<?php echo $this->getUrl('') ?>" title="<?php echo $this->getLogoAlt() ?>" class="logo">
+    			<img src="<?php echo $this->getLogoSrc() ?>" alt="<?php echo $this->getLogoAlt() ?>" />
+  			</a>
+			</div>
+	  	<div class="row">
+		    <div class="collapse navbar-collapse navbar" id="headerMainMenu">
+		    	<?php echo '<ul class="nav navbar-nav">' .$this->getChildHtml('tabbedMenuEsl') .'</ul>' ?>
+		    </div>
+    	</div>
+    <?php echo $this->getChildHtml('topContainer') ?>
 </div>
-<div id="headerSearchMenu"><div class="nav-container"><div class="topNavHolder"><?php echo $this->getChildHtml('topSearch') ?><img id="searchMenuExperience" src="/skin/frontend/default/default/images/es15/middle_bar_experience.png"></img></div></div></div>
+<div id="headerSearchMenu">
+	<div class="nav-container">
+		<div class="topNavHolder">
+		</div>
+	</div>
+</div>

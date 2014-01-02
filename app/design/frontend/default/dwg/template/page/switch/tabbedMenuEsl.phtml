@@ -4,17 +4,6 @@ eventually be done through a magento module or drupal-->
 <!-- for image tab upload (this would be good I think and then output that attribute). 3. seperate manager for doing 2 just like featured products -->
 <!-- maybe overkill. 2 is the best solution. -->
 <!-- this should be a block outside of template/page in its own module -->
-<style type="text/css">
-.mainLink {position:relative;}
-.mainLink .subLinks {text-decoration:none;}
-.mainLink .subMenu {display:none;position:absolute;z-index:100;left:0px;top:30px;text-align:left;padding:5px;border:1px solid #899BA5;background:white;}
-.mainLink .subMenu li {background:#ECF3F6 url(/skin/frontend/default/default/images/bkg_nav1.gif) 0 100% repeat-x;width:200px;padding:8px;}
-.mainLink .subMenu li a {color:black;display:block;}
-.mainLink .subMenu li:hover {background:#9DCECE;color:black;}
-.subMenu2 {display:none;position:absolute;z-index:150;left:50px;width:18em;margin-left:40px;text-align:left;padding:5px;border:1px solid #899BA5;background:white;margin-top:-10px;}
-.subMenu2 li {background:#ECF3F6 url(/skin/frontend/default/default/images/bkg_nav1.gif) 0 100% repeat-x;width:200px;padding:8px;}
-.linkName {background: url(/skin/frontend/default/default/images/es15/tab_bkd_center.png) repeat-x scroll 0% 0% transparent; float: left; height: 31px;color:#ffffff;padding:6px 0px 0px 0px;}
-</style>
 <script>
 jQuery.noConflict();
 jQuery(document).ready(function() {
@@ -48,7 +37,7 @@ foreach($linkArr as $link) {
 		->addAttributeToSort('position','ASC');
 	$subMenu = ""; //clear menu for next catory
 	if($category->count() > 0) { //make sure parent has children
-		$subMenu = "<ul class='subMenu'>";
+		$subMenu = '<ul class="subMenu">';
 		foreach($category as $cat) {
 			$subMenu .= "<li class='subLink'><a class='subLinks' href='/".$cat->getUrlPath()."'>".$cat->getName() . "</a>";
                         	$subCategory = Mage::getModel('catalog/category')->getCollection()
@@ -67,9 +56,9 @@ foreach($linkArr as $link) {
 		}
 		$subMenu .= "</ul>";
 	}
-	$output = '<li class="mainLink"><img src="/skin/frontend/default/default/images/es15/tab_bkd_left_corner.png" style="float: left;">'
+	$output = '<li class="mainLink">'
 		. '<a href="/'. $link->getUrlPath() . '"><span class="linkName">' . $link->getName()
-		. '</span><img src="/skin/frontend/default/default/images/es15/tab_bkd_right_corner.png"></a>' . $subMenu . '</li>';
+		. '</span></a>' . $subMenu . '</li>';
 	//$output = '<li class="mainLink"><a href="/'.$link["name"].'.html"><img src="/skin/frontend/default/default/images/es15/'.$link["tabname"].'_1.png" /></a>'.$subMenu.'</li>';
 	echo $output;
 }
