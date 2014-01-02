@@ -37,6 +37,10 @@ body {background: #341b00;color:#341b00;}
 	.offer-text {
 		
 	}
+	.ms-right-sidbar-homepage {
+		background: url("/skin/frontend/default/default/images/ms/About_CMS.jpg") no-repeat scroll 50% 100% rgba(0, 0, 0, 0);
+    height: 412px;
+   }
 	.ms-home-about img {
 		width:243px;
 		height:58px;
@@ -80,6 +84,9 @@ h1, h2, h3, h4 {color:#341b00;}
 	background:url("images/ms-banner.jpg") no-repeat #dcf1fd;
 	background-position: 50% 100%;
 }
+.header #search_mini_form {
+	margin: 0px;
+}
 .header .navbar .nav,
 .header .navbar .nav > li {
   float:none;
@@ -90,12 +97,16 @@ h1, h2, h3, h4 {color:#341b00;}
 }
 .header .navbar {
 	border:none;
+	margin-bottom: 0px;
+	min-height: 0;
 }
 .header .navbar-inner {
   text-align:center;
 }
 .header .navbar a {
 	color:#341b00;
+	padding-bottom: 5px;
+	padding-top: 5px;
 }
 #headerMainMenu {margin-bottom:0px;min-height:inherit;}
 #headerMainMenu .navbar {margin-bottom:0px;}
@@ -131,7 +142,13 @@ h1, h2, h3, h4 {color:#341b00;}
 }
 #headerMainMenu .subMenu2 {display:none;position:absolute;z-index:150;left:50px;width:18em;margin-left:40px;text-align:left;padding:5px;border:1px solid #899BA5;background:white;margin-top:-10px;}
 #headerMainMenu .subMenu2 li {background:#ECF3F6 url(/skin/frontend/default/default/images/bkg_nav1.gif) 0 100% repeat-x;width:200px;padding:8px;}
-
+/* these fix the margin right for smaller screens (caused a scroll bar) */
+.header .topNavHolder  {
+	margin-right:0;
+}
+#headerLogoContainer {
+	margin-right:0;
+}
 #headerSearchMenu .nav-container {
 	height: 25px;
 	background: #3F2107;  
