@@ -46,55 +46,53 @@
       </div>
 
       <div class="row">
-        <div class="product-img-box col-md-4 col-sm-4 col-xs-12">
-            <h1>
-              <?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?>
-            </h1>
-            <?php echo $this->getChildHtml('media') ?>
+        <div class="product-img-box col-md-7 col-sm-4 col-xs-12 well">
+          <div class="row">
+            <h1><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h1>
+            <div class="ms-media-wrapper">
+              <?php echo $this->getChildHtml('media') ?>
+              <button type="button" class="btn btn-primary btn-ms-social">
+                <span class="glyphicon glyphicon-envelope"></span>
+                <?php $_product->isSaleable() ? print $this->getChildHtml('addto') : '' ?>
+              </button>
+              <button type="button" class="btn btn-info btn-ms-social"><a href="<?php echo $this->getReviewsUrl() ?>#review-form"><?php echo $this->__('Review') ?></a></button>
+              <div class="fb-like" style="width:auto;height:16px;" data-send="true" data-width="150" data-show-faces="true" data-action="recommend" layout="button_count"></div>
+              <div id="fb-root"></div>
+            </div>
+          </div>
         </div>
-				<div class="col-md-8 col-sm-8 col-xs-12">
-          <?php if ($_product->getShortDescription()):?>
-              <div class="short-description">
-                  <h2><?php echo $this->__('Product Overview') ?></h2>
-                  <div class="std"><?php echo $_helper->productAttribute($_product, nl2br($_product->getShortDescription()), 'short_description') ?></div>
-              </div>
-          <?php endif;?>
+				<div class="col-md-5 col-sm-8 col-xs-12 product-overview-box well">
+				  <div class="row">
+            <?php if ($_product->getShortDescription()):?>
+                <div class="short-description">
+                    <h4><?php echo $this->__('Product Overview') ?></h4>
+                    <div class="std">
+                      <?php echo $_helper->productAttribute($_product, nl2br($_product->getShortDescription()), 'short_description') ?>
+                    </div>
+                </div>
+            <?php endif;?>
+          </div>
+          <div class="row available-box">
+            <div class="">
+              <?php //echo $this->getReviewsSummaryHtml($_product, false, true)?>
+              <?php echo $this->getChildHtml('alert_urls') ?>
+              <?php echo $this->getChildHtml('product_type_data') ?>
+              <?php echo $this->getChildHtml('extrahint') ?>
+            </div>
+          </div>
+          <div class="row">
+            <?php if ($_product->isSaleable()): ?>
+                <div class="pull-left">
+                  <?php echo $this->getTierPriceHtml() ?>
+                  <?php echo $this->getPriceHtml($_product)  ?>
+                </div>
+                <div class="pull-right">
+                  <?php echo $this->getChildHtml('addtocart') ?>
+                </div>
+            <?php endif; ?>
+          </div>
         </div>	        
 			</div>
-			<div class="row">
-        <div class="product-shop col-md-6 col-sm-6 col-xs-12">
-        	<ul class="nav nav-pills well">
-	          <?php if ($this->canEmailToFriend()): ?>
-	              <li class="email-friend">
-	              	<a href="<?php echo $this->helper('catalog/product')->getEmailToFriendUrl($_product) ?>">
-	              		<button type="button" class="btn btn-primary">
-	              			<span class="glyphicon glyphicon-envelope"></span>
-	              			<?php echo $this->__('Email to a Friend') ?>
-	              		</button>
-	              	</a>
-	              </li>
-	          <?php endif; ?>
-						<li><div class="fb-like" style="width:170px;height:16px;" data-send="true" data-width="150" data-show-faces="true" data-action="recommend" layout="button_count"></div></li>
-						<div id="fb-root"></div>
-					</ul>
-				</div>
-				<div class="col-md-6 col-sm-6 col-xs-12">
-					<div class="row well">
-						<?php if ($_product->isSaleable()): ?>
-		            <div class="add-to-box col-md-6 col-sm-6 col-xs-12">
-		                <?php echo $this->getChildHtml('addtocart') ?>
-		            </div>
-		        <?php endif; ?>
-		        <div class="add-to-box col-md-6 col-sm-6 col-xs-12">
-		          <?php //echo $this->getReviewsSummaryHtml($_product, false, true)?>
-		          <?php echo $this->getChildHtml('alert_urls') ?>
-		          <?php echo $this->getChildHtml('product_type_data') ?>
-		          <?php echo $this->getTierPriceHtml() ?>
-		          <?php echo $this->getChildHtml('extrahint') ?>
-		        </div>
-	      	</div>
-        </div>
-		</div>
     <div class="clearer"></div>
 
     <div class="product-collateral row">

@@ -6,6 +6,26 @@ body {background: #341b00;color:#341b00;}
 	font-size:32px;
 	margin: 10px 10px 5px 5px;
 }
+.btn-ms-action {
+	background: #BFC932;
+	color:black;
+	cursor: auto;
+}
+.btn-ms-action-cart {
+	background: #BFC932;
+	color:black;
+}
+.btn-ms-action .badge {
+	color: #970e5a;
+	background:white;
+}
+.btn-ms-social {
+	padding: 0px 12px;
+	margin-top: -10px;
+}
+.btn-ms-social a, .btn-ms-social .link-wishlist {
+	color: #ffffff;
+}
 .offer-text {
 	font-weight:bold;
 	color: #341b00;
@@ -75,11 +95,53 @@ body {background: #341b00;color:#341b00;}
 .main-container .main .col-main .btn-engage:hover {
 	color:black;
 }
-h1, h2, h3, h4 {color:#341b00;}
-.well {background:#cccccc;}
+h1, h2, h3, h4, h5 {color:#970e5a;}
+.well {
+	background:#cccccc;
+}
+.product-essential {
+	background:none;
+}
+.product-view {
+	border:none;
+}
+.product-view h1 {
+	font-size: 28px;
+	font-weight: 600;
+}
+.product-view h2 {
+	color: #970e5a;
+	font-size:15px;
+	font-weight:bold;
+	padding: 0 0 1px;
+	margin 0 0 15px;
+}
+.product-view .product-img-box {
+	text-align:center;
+	background: #DAF0FD;
+}
 
-.product-view h1 {color:#004400;}
-#carousel-example-generic {height:350px;background:black;}
+.product-view .product-overview-box {
+	margin-top: 0px;
+	padding-top: 0px;
+}
+.product-view .product-overview-box h4 {
+	font-size: 18px;
+	font-weight: 600;
+	background: #cccccc;
+}
+.product-view .available-box {
+	padding: 10px 0px 10px 0px;
+}
+
+.product-view .price-box .price {
+	font-size:20px;
+	color: #970e5a;
+}
+#product-attribute-specs-table th {
+	color:black;
+}
+#carousel-example-generic {height:350px;background:black;} /* making the height larger partly fixes the 'bounce' problem */
 #carousel-example-generic img {margin:0 auto;}
 .main #carousel-example-generic {height:auto;background:none;}
 .main #carousel-example-generic img {margin:0px;}

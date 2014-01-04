@@ -479,7 +479,7 @@ tr.summary-details-excluded { font-style:italic; }
 .topNavHolder .links a:hover {text-decoration:underline;}
 /* end my code */
 .link-cart { color:#dc6809 !important; font-weight:bold; }
-.link-wishlist { color:#dc6809 !important; font-weight:bold; }
+/*.link-wishlist { color:#dc6809 !important; font-weight:bold; } */
 .link-reorder { font-weight:bold; color:#dc6809 !important; }
 .link-compare { font-weight:bold; }
 .link-print { /*background:url(../images/i_print.gif) 0 2px no-repeat; padding:2px 0 2px 25px;*/ font-weight:bold; color:#dc6809; }

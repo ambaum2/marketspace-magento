@@ -25,48 +25,15 @@
  */
 ?>
 
-<?php $_product = $this->getProduct();
-$cartLabel = "Add to Cart";
-$ticketType = "";
-$showQty = "style='display:block;'";
-$attribute_set = Mage::getModel("eav/entity_attribute_set")->load($_product->getAttributeSetId());
-$product_type_name = $_product["type_id"]; 
-$attribute_set_name = $attribute_set['attribute_set_name'];
-$ticketType = $_product->getResource()->getAttribute("product_type")->getFrontend()->getValue($_product);
-switch($ticketType):
-   case 'Ticket':
-      $cartLabel = "Add to Cart";
-      break;
-   case 'Register-Package':
-      $cartLabel = "Register for Experience";
-      $showQty = "style='display:none;'";
-      break;
-   case 'Register-Venue':
-      $cartLabel = "Register for Venue";
-      $showQty = "style='display:none;'";
-      break;
-   case 'Information':
-      $cartLabel = "";
-      break;
-   case 'Product-Purchase' : 
-	  if($attribute_set_name == "Market Place" && $product_type_name == "bundle") {
-	  	$showQty = "style='display:none;'";
-	  }
-	  break;
-   default:
-      $cartLabel = "Add to Cart";
-endswitch;
-
-
-?>
+<?php $_product = $this->getProduct(); ?>
 
 <?php if($_product->isSaleable()): ?>
     <div class="add-to-cart">
         <?php if(!$_product->isGrouped()): ?>
-        <label <?php echo $showQty ?> for="qty"><?php echo $this->__('Qty:') ?></label>
-        <input <?php echo $showQty ?> type="text" name="qty" maxlength="12" value="<?php echo $this->getMinimalQty($_product) ?>" title="<?php echo $this->__('Qty') ?>" class="input-text qty product_qty_select" />
+          <label <?php echo $showQty ?> for="qty"><?php echo $this->__('Qty:') ?></label>
+          <input <?php echo $showQty ?> type="text" name="qty" maxlength="12" value="<?php echo $this->getMinimalQty($_product) ?>" title="<?php echo $this->__('Qty') ?>" class="input-text qty product_qty_select" />
         <?php endif; ?>
-        <button type="button" title="<?php echo $this->__('Add to Cart') ?>" class="btn btn-success" onclick="productAddToCartForm.submit(this)"><span><span><?php echo $this->__($cartLabel) ?></span></span></button>
+          <button type="button" title="<?php echo $this->__('Add to Cart') ?>" class="btn btn-ms-action-cart" onclick="productAddToCartForm.submit(this)"><span><span><?php echo $this->__("Add to Cart") ?></span></span></button>
         <?php echo $this->getChildHtml('', true, true) ?>
     </div>
 <?php endif; ?>
