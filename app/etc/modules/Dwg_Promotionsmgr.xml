@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+  <modules>
+    <Dwg_Promotionsmgr>
+      <codePool>local</codePool>
+      <active>true</active>
+    </Dwg_Promotionsmgr>
+  </modules>
+</config>

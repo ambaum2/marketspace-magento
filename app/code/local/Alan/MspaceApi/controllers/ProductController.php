@@ -96,6 +96,7 @@ class Alan_MspaceApi_ProductController extends Mage_Core_Controller_Front_Action
 	 * api
 	 */
 	public function pV1Action() {
-		
+		ini_set('error_reporting', E_ALL);
+		ini_set('display_errors', '1');		
 	}	
 }
