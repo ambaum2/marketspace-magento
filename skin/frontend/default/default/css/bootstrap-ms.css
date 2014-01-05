@@ -1,4 +1,4 @@
-@import url(http://fonts.googleapis.com/css?family=Roboto+Slab);
+@import url(http://fonts.googleapis.com/css?family=Roboto+Slab|Ubuntu+Condensed);
 body {background: #341b00;color:#341b00;}
 .engage-text {
 	font-family: 'Roboto Slab', serif;
@@ -6,6 +6,11 @@ body {background: #341b00;color:#341b00;}
 	font-size:32px;
 	margin: 10px 10px 5px 5px;
 }
+.price-box .price, .text-ms-label, .text-ms-price {
+	/*font-family: 'Ubuntu Condensed', sans-serif;*/
+	color:#970e5a;
+}
+
 .btn-ms-action {
 	background: #BFC932;
 	color:black;
@@ -118,17 +123,16 @@ h1, h2, h3, h4, h5 {color:#970e5a;}
 }
 .product-view .product-img-box {
 	text-align:center;
-	background: #DAF0FD;
+	background: transparent;
 }
 
 .product-view .product-overview-box {
-	margin-top: 0px;
+	margin-top: 19px;
 	padding-top: 0px;
 }
 .product-view .product-overview-box h4 {
 	font-size: 18px;
 	font-weight: 600;
-	background: #cccccc;
 }
 .product-view .available-box {
 	padding: 10px 0px 10px 0px;
@@ -138,14 +142,29 @@ h1, h2, h3, h4, h5 {color:#970e5a;}
 	font-size:20px;
 	color: #970e5a;
 }
+.product-view .carousel-control.right, .product-view .carousel-control.left {
+	background: none;
+}
 #product-attribute-specs-table th {
 	color:black;
 }
-#carousel-example-generic {height:350px;background:black;} /* making the height larger partly fixes the 'bounce' problem */
-#carousel-example-generic img {margin:0 auto;}
-.main #carousel-example-generic {height:auto;background:none;}
-.main #carousel-example-generic img {margin:0px;}
-.nav-pills .email-friend a {padding:0px;}
+#carousel-example-generic {
+	height:350px;
+	background:black;
+} /* making the height larger partly fixes the 'bounce' problem */
+#carousel-example-generic img {
+	margin:0 auto;
+}
+.main #carousel-example-generic {
+	height:auto;
+	background:none;
+}
+.main #carousel-example-generic img {
+	margin:0px;
+}
+.nav-pills .email-friend a {
+	padding:0px;
+}
 .header {
 	background:url("images/ms-banner.jpg") no-repeat #dcf1fd;
 	background-position: 50% 100%;
@@ -249,4 +268,19 @@ h1, h2, h3, h4, h5 {color:#970e5a;}
 .footer .nav li a:hover {
 	background: #cfdb0e;
 	color:black;
+}
+
+/* grid view */
+.products-grid li.item {
+	width: 160px;
+}
+.products-grid .text-ms-label a {
+	font-size: 16px;
+	color:#970e5a;
+}
+.products-grid .btn-ms-action {
+	margin-top:5px;
+}
+.products-grid li.item {
+	height:350px;
 }
