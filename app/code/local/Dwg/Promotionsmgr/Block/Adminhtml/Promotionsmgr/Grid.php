@@ -37,9 +37,10 @@ class Dwg_Promotionsmgr_Block_Adminhtml_Promotionsmgr_Grid extends Mage_Adminhtm
             'header'    => Mage::helper('promotionsmgr')->__('Position'),
             'align'     =>'left',
             'index'     => 'position',
+            'type' => 'text',
             'width'	=> '100px',
         ));
-        $this->addColumn('region_name', array(
+        $this->addColumn('region', array(
             'header'    => Mage::helper('promotionsmgr')->__('Region'),
             'align'     =>'left',
             'index'     => 'region_name',
@@ -54,7 +55,14 @@ class Dwg_Promotionsmgr_Block_Adminhtml_Promotionsmgr_Grid extends Mage_Adminhtm
             //'default'   => '--',
             'index'     => 'category_name',
         ));
-		
+        $this->addColumn('product_id', array(
+            'header'    => Mage::helper('promotionsmgr')->__('Product Id'),
+            'align'     => 'left',
+            'width'     => '120px',
+            'type'      => 'text',
+            'default'   => '--',
+            'index'     => 'product_id',
+        ));		
 		$this->addColumn('start_time', array(
             'header'    => Mage::helper('promotionsmgr')->__('Begin Time'),
             'align'     => 'left',

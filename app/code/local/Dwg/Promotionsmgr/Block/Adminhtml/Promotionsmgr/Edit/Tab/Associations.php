@@ -33,6 +33,8 @@
             'class'     => '',
             'required'  => false,
             'name'      => 'product_id',
+            'after_element_html' => '<small>Manually enter in the product id for a featured product
+            	until i refactor the api</small>',
         ));
 		
          $fieldset->addField('credits_link', 'text', array(

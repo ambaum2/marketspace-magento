@@ -42,11 +42,7 @@ class Alan_MspaceApi_ProductController extends Mage_Core_Controller_Front_Action
     
     $ModulePackageClassName = Mage::app()->getRequest()->getControllerModule();
     $path = Mage::helper('core/url')->getCurrentUrl();
-    
-    //echo "<pre>" . print_r($_SERVER, true) . "</pre>";
-    //echo "<p>" . $_SERVER['REQUEST_METHOD'] . "</p>";
-		//$helloreg = "hello";
-		//$data = $apiAuth->encryptBase64("hello");		
+    	
 		$request = explode('/', substr($path, strpos($path, 'mspaceapi') + strlen('mspaceapi')));
     
     //run some authentication on a header token
@@ -97,6 +93,21 @@ class Alan_MspaceApi_ProductController extends Mage_Core_Controller_Front_Action
 	 */
 	public function pV1Action() {
 		ini_set('error_reporting', E_ALL);
-		ini_set('display_errors', '1');		
+		ini_set('display_errors', '1');
+		$method = $_SERVER['REQUEST_METHOD'];
+    $ModulePackageClassName = Mage::app()->getRequest()->getControllerModule();
+    $path = Mage::helper('core/url')->getCurrentUrl();
+		$request = explode('/', substr($path, strpos($path, 'mspaceapi') + strlen('mspaceapi')));
+		if(isset($request[3]) && isset($request[2])) {
+			if(class_exists($ModulePackageClassName . "_model_" . strtolower($request[2]) . "_" . strtolower($request[3]))) {
+				$class = $ModulePackageClassName . "_model_" . strtolower($request[2]) . "_" . strtolower($request[3]);
+        $params = $apiAuth->getRequestParamsArray($request);
+        $result = $object->$methodName($params);
+        
+        $json = json_encode($result);
+        $this->getResponse()->setHeader('Content-type', 'application/json');
+        $this->getResponse()->setBody($json);
+			}
+		}
 	}	
 }

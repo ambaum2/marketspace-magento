@@ -74,11 +74,11 @@
           ),
     		));
 	
-       $fieldset->addField('display_order', 'text', array(
+       $fieldset->addField('order', 'text', array(
         'label'     => Mage::helper('promotionsmgr')->__('Order 1 to . if '),
         'class'     => '',
         'required'  => true,
-        'name'      => 'display_order',
+        'name'      => 'order',
        ));		
 		
        $attributeId = Mage::getResourceModel('eav/entity_attribute')->getIdByCode('catalog_product','escape_region');
