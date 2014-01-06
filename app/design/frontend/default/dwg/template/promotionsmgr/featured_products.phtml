@@ -1,23 +1,28 @@
-<?php
-
-		$productData = Mage::getModel('promotionsmgr/promotionsmgr')->getCollection()
-			->addFilter('position','featured')
-			->addFilter('status', 1)
-			->setOrder('abc', 'ASC')
-			->setPageSize(16)
-			->getData();
-			print "hello";
-			print_r($productData);
-		
-		if(count($productData)>0) {
-			$output = "<h1 class='subtitle'><img src='/skin/frontend/default/default/images/es15/headline_featured_marketplace_products.png'></img></h1><ul class='products-grid'>";
-			foreach($productData as $prod) {
-				$_product =  Mage::getModel('catalog/product');//should use singleton or object reference I think need to experiment
-				$currProd = $_product->load($prod['product_id']);
-				$output .= "<li class='item'><a class='product-image' href='".$currProd->getProductUrl()."'>";
-				$output .= "<img src='".$this->helper('catalog/image')->init($currProd, 'thumbnail')->resize(135)."' ></img></a>";
-				$output .= "<a href='".$currProd->getProductUrl()."'<h2 class='product-name'>".$currProd->getName()."</h2></a></li>";
-			}
-			$output .= "</ul>";
-			print $output;
-		}	     
+<?php 
+	$productData = $this->productGrid();
+	$_product =  Mage::getModel('catalog/product');
+?>
+	<?php if($productData) : ?>
+		<h4 class='text-ms-feature'>Featured Travel Packages and MarketSpace Products</h4>
+		<?php $i = 0; ?>
+		<?php foreach($productData as $prod) : ?>
+			<?php if($i % 3 == 0) : ?>
+				<div class="row">
+			<?php endif; ?>
+				<div class="col-xs-6 col-md-3 ms-featured-item">
+					<div class='thumbnail'>
+						<?php 
+							$currProd = $_product->load($prod['product_id']);
+						?>
+					  <a class="product-image" href="<?php print $currProd->getProductUrl() ?>">
+						<img src="<?php print $this->helper('catalog/image')->init($currProd, 'thumbnail')->resize(135)?>" /></a>
+						<a href="<?php print $currProd->getProductUrl() ?>"<h2 class='text-ms-label product-name'><?php print $currProd->getName() ?>"</h2></a>
+					</div>
+				</div>
+			<?php $i++ ?>
+			<?php if($i % 3 == 0) : ?>
+				</div>
+			<?php endif; ?>
+		<?php endforeach; ?>
+		</div>
+	<?php endif; ?>

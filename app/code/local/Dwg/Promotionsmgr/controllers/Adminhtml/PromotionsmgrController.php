@@ -79,7 +79,7 @@ class Dwg_Promotionsmgr_Adminhtml_PromotionsmgrController extends Mage_Adminhtml
 	                $promotionsmgr = Mage::getModel('promotionsmgr/promotionsmgr');
 	                $promotionsmgr->setStatus($postData['status'])
 	                    ->setPosition($postData['position'])
-	                    ->setAbc($postData['abc'])
+	                    ->setItemOrder($postData['item_order'])
 	                    ->setRegion($postData['region'])
 											//->setRegionName($this->getAttributeOptionName('escape_region',$postData['region']))
 											->setCategoryId($postData['category_id'])
@@ -97,7 +97,7 @@ class Dwg_Promotionsmgr_Adminhtml_PromotionsmgrController extends Mage_Adminhtml
 	                  $promotionsmgr->setId($this->getRequest()->getParam('promotionsmgr_id'))
 					  					->setStatus($postData['status'])
 	                    ->setPosition($postData['position'])
-	                    ->setAbc($postData['abc'])
+	                    ->setItemOrder($postData['item_order'])
 	                    ->setRegion($postData['region'])
 											//->setRegionName($this->getAttributeOptionName('escape_region',$postData['region']))
 											->setCategoryId($postData['category_id'])

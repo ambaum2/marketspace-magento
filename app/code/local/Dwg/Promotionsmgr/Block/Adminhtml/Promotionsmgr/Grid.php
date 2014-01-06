@@ -40,10 +40,10 @@ class Dwg_Promotionsmgr_Block_Adminhtml_Promotionsmgr_Grid extends Mage_Adminhtm
             'type' => 'text',
             'width'	=> '100px',
         ));
-        $this->addColumn('abc', array(
+        $this->addColumn('item_order', array(
             'header'    => Mage::helper('promotionsmgr')->__('Order'),
             'align'     =>'left',
-            'index'     => 'abc',
+            'index'     => 'item_order',
             'width'	=> '100px',
         ));
  

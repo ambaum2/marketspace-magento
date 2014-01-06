@@ -37,6 +37,7 @@
          'class' => 'required-entry',
          'required' => true,
          'name' => 'status',
+         'value' => 1,
          'values'	=> array(
             array(
               'value' => 1,
@@ -77,11 +78,11 @@
 			 for($i=0; $i < 17; $i++) {
 			   $order_values[] = array('value' => $i, 'label' => $i);
 			 }
-       $fieldset->addField('abc', 'select', array(
+       $fieldset->addField('item_order', 'select', array(
         'label'     => Mage::helper('promotionsmgr')->__('Order from 1 to 16 '),
         'class'     => 'required-entry',
         'required'  => true,
-        'name'      => 'abc',
+        'name'      => 'item_order',
         'values'	=> $order_values,//array(array('value' => '3335', 'label' => 'default region'))
        ));		
 		

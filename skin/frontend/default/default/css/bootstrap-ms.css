@@ -1,5 +1,20 @@
 @import url(http://fonts.googleapis.com/css?family=Roboto+Slab|Ubuntu+Condensed);
 body {background: #341b00;color:#341b00;}
+
+h1, h2, h3, h4, h5 {color:#970e5a;}
+.well {
+	background:#cccccc;
+}
+h4 {
+	font-size: 18px;
+  font-weight: 600;
+}
+.white-well {
+	background: #ffffff;
+}
+.text-ms-feature {
+	color:#341B00;
+}
 .engage-text {
 	font-family: 'Roboto Slab', serif;
 	color:#970e5a;
@@ -100,9 +115,14 @@ body {background: #341b00;color:#341b00;}
 .main-container .main .col-main .btn-engage:hover {
 	color:black;
 }
-h1, h2, h3, h4, h5 {color:#970e5a;}
-.well {
-	background:#cccccc;
+.ms-featured-and-ads {
+	text-align:center;
+}
+.ms-featured-and-ads .well {
+	padding-top:0px;
+}
+.ms-featured .ms-featured-item {
+	padding-right: 0px;
 }
 .product-essential {
 	background:none;

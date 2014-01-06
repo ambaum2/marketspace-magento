@@ -51,7 +51,7 @@ CREATE TABLE {$this->getTable('promotionsmgr')} (
 	`promotionsmgr_id` int(11) unsigned NOT NULL auto_increment,
 	`status` int(1) NOT NULL,
 	`position` varchar(20) NOT NULL,
-	`abc` varchar(7) NOT NULL,
+	`item_order` int(4) NOT NULL,
   `region` int(7) NOT NULL,
 	`category_id` int(7) NOT NULL,
 	`product_id` int(11) NULL,
