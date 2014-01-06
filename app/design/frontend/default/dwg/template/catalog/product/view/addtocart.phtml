@@ -28,9 +28,10 @@
 <?php $_product = $this->getProduct(); ?>
 
 <?php if($_product->isSaleable()): ?>
-    <div class="add-to-cart">
+    <div class="add-to-cart row">
+    	<div class="col-lg-6 col-md-6 col-sm-6">
     	<div class="input-group">
-        <?php if(!$_product->isGrouped()): ?>   	
+        <?php if(!$_product->isGrouped()): ?>
 					  <span class="input-group-addon"><?php echo $this->__('Qty:') ?></span>
 					  <input <?php echo $showQty ?> type="text" name="qty" maxlength="12" value="<?php echo $this->getMinimalQty($_product) ?>" title="<?php echo $this->__('Qty') ?>" class="input-text qty product_qty_select form-control" />				
         <?php endif; ?>
@@ -38,5 +39,6 @@
           <button type="button" title="<?php echo $this->__('Add to Cart') ?>" class="btn btn-ms-action-cart" onclick="productAddToCartForm.submit(this)"><span><span><?php echo $this->__("Add to Cart") ?></span></span></button>
       	</span>
       </div>
+    </div>
     </div>
 <?php endif; ?>
