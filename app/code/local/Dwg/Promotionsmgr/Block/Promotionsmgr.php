@@ -7,7 +7,7 @@ class Dwg_Promotionsmgr_Block_Promotionsmgr extends Mage_Core_Block_Template
  * @todo add a description in the promotionsmgr table and to the form for alt tags
  */
    public function promotionsRightPanel($categoryId,$region) {
-   		$promotionsData = Mage::getModel('promotionsmgr/promotionsmgr')->getCollection();
+   	$promotionsData = Mage::getModel('promotionsmgr/promotionsmgr')->getCollection();
 		//get a max of two ordered by display order return as array
 		$promotionsData->addFilter('region',$region)
 			->addFilter('position','Right')
@@ -88,28 +88,25 @@ class Dwg_Promotionsmgr_Block_Promotionsmgr extends Mage_Core_Block_Template
 			}
 			return $output . $imageMap;
 	}
-   public function productGrid() {
-   	//$productData = $this->getProducts();
-   	$_product =  Mage::getModel('catalog/product');//you should declare a singleton or object reference I believe
-   	$productData = Mage::getModel('promotionsmgr/promotionsmgr')->getCollection()
-             ->addFilter('feat_status',1)
-             ->setOrder('feat_order','ASC')
-             ->setPageSize(16)
-             ->getData();
-         if(count($productData)>0) {
-         $output = "<h1 class='subtitle'><img src='/skin/frontend/default/default/images/es15/headline_featured_marketplace_products.png'></img></h1><ul class='products-grid'>";
-   	foreach($productData as $prod) {
-   		$_product =  Mage::getModel('catalog/product');//should use singleton or object reference I think need to experiment
-   		$currProd = $_product->load($prod['entity_id']);
-   	         $output .= "<li class='item'><a class='product-image' href='".$currProd->getProductUrl()."'>";
-                 $output .= "<img src='".$this->helper('catalog/image')->init($currProd, 'thumbnail')->resize(135)."' ></img></a>";
-                 $output .= "<a href='".$currProd->getProductUrl()."'<h2 class='product-name'>".$currProd->getName()."</h2></a></li>";
-   	}
-   	$output .= "</ul>";
-         return $output;
-         }
-            	
-   }
-   
-   
+	public function productGrid() {
+		$_product =  Mage::getModel('catalog/product');//you should declare a singleton or object reference I believe
+		$productData = Mage::getModel('promotionsmgr/promotionsmgr')->getCollection()
+			->addFilter('position','featured')
+			->addFilter('status', 1)
+			->setOrder('order','ASC')
+			->setPageSize(16)
+			->getData();
+		if(count($productData)>0) {
+			$output = "<h1 class='subtitle'><img src='/skin/frontend/default/default/images/es15/headline_featured_marketplace_products.png'></img></h1><ul class='products-grid'>";
+			foreach($productData as $prod) {
+				$_product =  Mage::getModel('catalog/product');//should use singleton or object reference I think need to experiment
+				$currProd = $_product->load($prod['entity_id']);
+				$output .= "<li class='item'><a class='product-image' href='".$currProd->getProductUrl()."'>";
+				$output .= "<img src='".$this->helper('catalog/image')->init($currProd, 'thumbnail')->resize(135)."' ></img></a>";
+				$output .= "<a href='".$currProd->getProductUrl()."'<h2 class='product-name'>".$currProd->getName()."</h2></a></li>";
+			}
+			$output .= "</ul>";
+			return $output;
+		}	            	
+	}   
 }

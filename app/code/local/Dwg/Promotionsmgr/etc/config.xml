@@ -82,36 +82,24 @@
 		<models>
 			<promotionsmgr>
 				<class>Dwg_Promotionsmgr_Model</class>
-				<resourceModel>promotionsmgr_mysql4</resourceModel>
+				<resourceModel>promotionsmgr_resource</resourceModel>
 			</promotionsmgr>
-			<promotionsmgr_mysql4>
+			<promotionsmgr_resource>
 				<class>Dwg_Promotionsmgr_Model_Mysql4</class>
 				<entities>
 					<promotionsmgr>
 						<table>promotionsmgr</table>
 					</promotionsmgr>
 				</entities>
-			</promotionsmgr_mysql4>
+			</promotionsmgr_resource>
 		</models>
 		<resources>
 			<promotionsmgr_setup>
 				<setup>
 					<module>Dwg_Promotionsmgr</module>
+					<class>Dwg_Promotionsmgr_Model_Resource_Setup</class>
 				</setup>
-				<connection>
-					<use>core_setup</use>
-				</connection>
 			</promotionsmgr_setup>
-			<promotionsmgr_write>
-				<connection>
-					<use>core_write</use>
-				</connection>
-			</promotionsmgr_write>
-			<promotionsmgr_read>
-				<connection>
-					<use>core_read</use>
-				</connection>
-			</promotionsmgr_read>
 		</resources>
 		<blocks>
 			<promotionsmgr>

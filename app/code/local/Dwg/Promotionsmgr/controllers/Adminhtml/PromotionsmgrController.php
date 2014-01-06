@@ -79,36 +79,34 @@ class Dwg_Promotionsmgr_Adminhtml_PromotionsmgrController extends Mage_Adminhtml
 	                $promotionsmgr = Mage::getModel('promotionsmgr/promotionsmgr');
 	                $promotionsmgr->setStatus($postData['status'])
 	                    ->setPosition($postData['position'])
-	                    ->setDisplayOrder($postData['display_order'])
+	                    ->setAbc($postData['abc'])
 	                    ->setRegion($postData['region'])
-						->setRegionName($this->getAttributeOptionName('escape_region',$postData['region']))
-						->setCategoryId($postData['category_id'])
-						->setCategoryName($this->getCategoryNameById($postData['category_id']))
-						->setImageUrl($postData['image_url'])
-						->setCreditsLink($postData['credits_link'])
-						->setGuideId($postData['guide_id'])
-						->setProductId($postData['product_id'])
-						->setLink($postData['link'])
-						->setStartTime($postData['start_time'])
-						->setEndTime($postData['end_time'])
+											//->setRegionName($this->getAttributeOptionName('escape_region',$postData['region']))
+											->setCategoryId($postData['category_id'])
+											->setCategoryName($this->getCategoryNameById($postData['category_id']))
+											->setImageUrl($postData['image_url'])
+											->setGuideId($postData['guide_id'])
+											->setProductId($postData['product_id'])
+											->setLink($postData['link'])
+											->setStartTime($postData['start_time'])
+											->setEndTime($postData['end_time'])
 	                    ->save();
 	                } else { // edit the existing record
 	                $promotionsmgr = Mage::getModel('promotionsmgr/promotionsmgr');
 	                //this will update the db the setId is important here. We check if their is already a record in the table with that pk
 	                  $promotionsmgr->setId($this->getRequest()->getParam('promotionsmgr_id'))
-					  	->setStatus($postData['status'])
+					  					->setStatus($postData['status'])
 	                    ->setPosition($postData['position'])
-	                    ->setDisplayOrder($postData['display_order'])
+	                    ->setAbc($postData['abc'])
 	                    ->setRegion($postData['region'])
-						->setRegionName($this->getAttributeOptionName('escape_region',$postData['region']))
-						->setCategoryId($postData['category_id'])
-						->setCategoryName($this->getCategoryNameById($postData['category_id']))
-						->setLink($postData['link'])
-						->setCreditsLink($postData['credits_link'])
-						->setGuideId($postData['guide_id'])
-						->setProductId($postData['product_id'])
-						->setStartTime($postData['start_time'])
-						->setEndTime($postData['end_time']);
+											//->setRegionName($this->getAttributeOptionName('escape_region',$postData['region']))
+											->setCategoryId($postData['category_id'])
+											->setCategoryName($this->getCategoryNameById($postData['category_id']))
+											->setLink($postData['link'])
+											->setGuideId($postData['guide_id'])
+											->setProductId($postData['product_id'])
+											->setStartTime($postData['start_time'])
+											->setEndTime($postData['end_time']);
 	                  (!(empty($data['image_url'])) ? $promotionsmgr->setImageUrl($data['image_url']) : '');
 	                    $promotionsmgr->save();
 	                }

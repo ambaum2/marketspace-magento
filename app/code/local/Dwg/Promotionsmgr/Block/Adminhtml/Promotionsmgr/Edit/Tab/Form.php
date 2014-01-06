@@ -73,12 +73,16 @@
 	          ),
           ),
     		));
-	
-       $fieldset->addField('order', 'text', array(
-        'label'     => Mage::helper('promotionsmgr')->__('Order 1 to . if '),
-        'class'     => '',
+			 $order_values = array();
+			 for($i=0; $i < 17; $i++) {
+			   $order_values[] = array('value' => $i, 'label' => $i);
+			 }
+       $fieldset->addField('abc', 'select', array(
+        'label'     => Mage::helper('promotionsmgr')->__('Order from 1 to 16 '),
+        'class'     => 'required-entry',
         'required'  => true,
-        'name'      => 'order',
+        'name'      => 'abc',
+        'values'	=> $order_values,//array(array('value' => '3335', 'label' => 'default region'))
        ));		
 		
        $attributeId = Mage::getResourceModel('eav/entity_attribute')->getIdByCode('catalog_product','escape_region');

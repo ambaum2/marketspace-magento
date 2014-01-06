@@ -40,14 +40,14 @@ class Dwg_Promotionsmgr_Block_Adminhtml_Promotionsmgr_Grid extends Mage_Adminhtm
             'type' => 'text',
             'width'	=> '100px',
         ));
-        $this->addColumn('region', array(
-            'header'    => Mage::helper('promotionsmgr')->__('Region'),
+        $this->addColumn('abc', array(
+            'header'    => Mage::helper('promotionsmgr')->__('Order'),
             'align'     =>'left',
-            'index'     => 'region_name',
+            'index'     => 'abc',
             'width'	=> '100px',
         ));
  
-        $this->addColumn('category_name', array(
+        $this->addColumn('category_id', array(
             'header'    => Mage::helper('promotionsmgr')->__('Category'),
             'align'     => 'left',
             'width'     => '120px',
