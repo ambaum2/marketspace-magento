@@ -11,6 +11,7 @@ h4 {
 }
 .white-well {
 	background: #ffffff;
+	padding-left:30px;
 }
 .text-ms-feature {
 	color:#341B00;
@@ -116,13 +117,10 @@ h4 {
 	color:black;
 }
 .ms-featured-and-ads {
-	text-align:center;
+	text-align:left;
 }
 .ms-featured-and-ads .well {
 	padding-top:0px;
-}
-.ms-featured .ms-featured-item {
-	padding-right: 0px;
 }
 .product-essential {
 	background:none;
@@ -167,6 +165,7 @@ h4 {
 }
 #product-attribute-specs-table th {
 	color:black;
+	font-size: 14px;
 }
 #carousel-example-generic {
 	height:350px;

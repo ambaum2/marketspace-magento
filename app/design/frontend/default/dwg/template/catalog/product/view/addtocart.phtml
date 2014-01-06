@@ -29,11 +29,14 @@
 
 <?php if($_product->isSaleable()): ?>
     <div class="add-to-cart">
-        <?php if(!$_product->isGrouped()): ?>
-          <label <?php echo $showQty ?> for="qty"><?php echo $this->__('Qty:') ?></label>
-          <input <?php echo $showQty ?> type="text" name="qty" maxlength="12" value="<?php echo $this->getMinimalQty($_product) ?>" title="<?php echo $this->__('Qty') ?>" class="input-text qty product_qty_select" />
+    	<div class="input-group">
+        <?php if(!$_product->isGrouped()): ?>   	
+					  <span class="input-group-addon"><?php echo $this->__('Qty:') ?></span>
+					  <input <?php echo $showQty ?> type="text" name="qty" maxlength="12" value="<?php echo $this->getMinimalQty($_product) ?>" title="<?php echo $this->__('Qty') ?>" class="input-text qty product_qty_select form-control" />				
         <?php endif; ?>
+        <span class="input-group-btn">
           <button type="button" title="<?php echo $this->__('Add to Cart') ?>" class="btn btn-ms-action-cart" onclick="productAddToCartForm.submit(this)"><span><span><?php echo $this->__("Add to Cart") ?></span></span></button>
-        <?php echo $this->getChildHtml('', true, true) ?>
+      	</span>
+      </div>
     </div>
 <?php endif; ?>

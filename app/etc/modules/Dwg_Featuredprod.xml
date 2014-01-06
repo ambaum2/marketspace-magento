@@ -3,7 +3,7 @@
   <modules>
     <Dwg_Featuredprod>
       <codePool>local</codePool>
-      <active>true</active>
+      <active>false</active>
     </Dwg_Featuredprod>
   </modules>
 </config>

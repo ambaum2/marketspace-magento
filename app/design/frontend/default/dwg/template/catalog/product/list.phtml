@@ -103,10 +103,10 @@
                 <?php print $this->getPriceHtml($_product, true) ?>      
                 <div class="actions">
                     <?php if($_product->isSaleable()): ?>
-                        <button type="button" title="<?php echo $this->__('Add to Cart') ?>" class="btn btn-ms-action-cart" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')"><span><span><?php echo $this->__("Add To Cart") ?></span></span></button>
-                        <br /><button type="button" class="btn text-left btn-ms-action text-ms-label"><?php echo $this->__("Available"); ?><br /></button>
+                        <button type="button" style="display:none;" title="<?php echo $this->__('Add to Cart') ?>" class="btn btn-ms-action-cart" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')"><span><span><?php echo $this->__("Add To Cart") ?></span></span></button>
+                        <button type="button" class="btn text-left btn-ms-action text-ms-label"><?php echo $this->__("Available"); ?><br /></button>
                     <?php else: ?>                   
-                        <br /><button type="button" class="btn text-left btn-ms-action text-ms-label"><?php echo $this->__("Not Available"); ?><br /></button>
+                        <button type="button" class="btn text-left btn-ms-action text-ms-label"><?php echo $this->__("Not Available"); ?><br /></button>
                     <?php endif; ?>
                     <ul class="add-to-links">
                         <?php if ($this->helper('wishlist')->isAllow()) : ?>
