@@ -24,7 +24,7 @@ class Product_types_Model_Product_typesTest extends PHPUnit_Framework_TestCase
 		foreach ($attributeSetCollection as $id=>$attributeSet) {
 		  $entityTypeId = $attributeSet->getEntityTypeId();
 		  $name = $attributeSet->getAttributeSetName();
-		 	print $name .  "-$id";
+		 	//print $name .  "-$id";
 		}
 		//$h = fopen("attrsetoutput.txt", "w+");
 		//fwrite($h, print_r(Mage::getResourceModel('eav/entity_attribute_set_collection')->load(), true));
@@ -51,6 +51,16 @@ class Product_types_Model_Product_typesTest extends PHPUnit_Framework_TestCase
 			}
 		}
 		//var_export($options_array);
+	}
+	public function testfalseandfalse() {
+		$_product = Mage::getModel('catalog/product')->load(12);
+		print $_product->getProductType();
+		print $_product['product_type'];
+		if(false && false) {
+			print "true";
+		} else {
+			print "false";
+		}
 	}
 	public function testLoadProductById() {
 		$product = Mage::getModel('catalog/product')->load(12);
