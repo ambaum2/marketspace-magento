@@ -26,8 +26,25 @@
 ?>
 
 <?php $_product = $this->getProduct(); ?>
+<?php 
+  $_product = $this->getProduct();
+  $stock = (int) Mage::getModel('cataloginventory/stock_item')->loadByProduct($_product)->getQty();
+	/* @TODO refactor push up into model */
+	$show = true;
+	if(in_array($_product['product_type'], array(8, 4, 3))) {
+		$show = true;
+		$format = '<button type="button" title="' . $this->__('Add to Cart') .'" class="btn btn-ms-action-cart" onclick="productAddToCartForm.submit(this)"><span><span>' 
+			. $this->__("Add to Cart") . '</span></span></button>';
+	} elseif(in_array($_product['product_type'], array(10))) {
+		$show = true;
+		$format = '<button type="button" title="' . $this->__('Reserve') .'" class="btn btn-ms-action-cart" onclick="productAddToCartForm.submit(this)"><span><span>' 
+			. $this->__("Reserve") . '</span></span></button>';
+	} else {
+		$show = false;
+	}
+?>
 
-<?php if($_product->isSaleable()): ?>
+<?php if($_product->isSaleable() && $show): ?>
     <div class="add-to-cart row">
     	<div class="col-lg-6 col-md-6 col-sm-6">
     	<div class="input-group">
@@ -36,7 +53,7 @@
 					  <input type="text" name="qty" maxlength="12" value="<?php echo $this->getMinimalQty($_product) ?>" title="<?php echo $this->__('Qty') ?>" class="input-text qty product_qty_select form-control" />				
         <?php endif; ?>
         <span class="input-group-btn">
-          <button type="button" title="<?php echo $this->__('Add to Cart') ?>" class="btn btn-ms-action-cart" onclick="productAddToCartForm.submit(this)"><span><span><?php echo $this->__("Add to Cart") ?></span></span></button>
+          <?php print $format; ?>
       	</span>
       </div>
     </div>
