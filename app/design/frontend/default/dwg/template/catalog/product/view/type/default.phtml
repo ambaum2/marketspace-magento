@@ -28,11 +28,23 @@
 <?php 
   $_product = $this->getProduct();
   $stock = (int) Mage::getModel('cataloginventory/stock_item')->loadByProduct($_product)->getQty();
+	/* @TODO refactor push up into model */
+	$show = true;
+	$attribute_set_id = $_product->getAttributeSetId();
+	if(in_array($attribute_set_id, array(4, 7 , 3, 10))) {
+		$show = true;
+		$format = '<button type="button" class="btn text-left btn-ms-info">' . $this->__("Available - ") . '<span class="badge push-right"><?php echo $stock; ?></span></button>';
+	} elseif(in_array($attribute_set_id, array(8, 9))) {
+		$show = true;
+		$format = '<button type="button" class="btn text-left btn-ms-info">' . $this->__("Available") . '</button>';
+	} else {
+		$show = false;
+	}
 ?>
 
-<?php if ($_product->isAvailable()): ?><?php //echo $this->__('Availability: ')  class="availability in-stock" class="availability in-stock" style="float:right;"?>
-    <button type="button" class="btn text-left btn-ms-info"><?php echo $this->__("Available - "); ?><span class="badge push-right"><?php echo $stock; ?></span></button>
+<?php if ($_product->isAvailable() && $show): ?><?php //echo $this->__('Availability: ')  class="availability in-stock" class="availability in-stock" style="float:right;"?>
+    <?php print $format; ?>
 <?php else: //<p class="availability out-of-stock">?>
-    <button type="button" disabled="disabled" class="btn btn-warning"><?php echo $this->__('Not Available:') ?></button>
+    <!--<button type="button" disabled="disabled" class="btn btn-warning"><?php echo $this->__('Not Available:') ?></button>-->
 <?php endif; ?>
 <?php echo $this->getChildHtml('product_type_data_extra') ?>
