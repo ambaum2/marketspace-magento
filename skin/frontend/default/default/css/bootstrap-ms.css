@@ -29,14 +29,19 @@ h4 {
 
 .btn-ms-action {
 	background: #BFC932;
-	color:black;
+	color:white;
 	cursor: auto;
+}
+.btn-ms-info {
+	background:#dddddd;
+	color:black;
+	cursor:auto;
 }
 .btn-ms-action-cart {
 	background: #BFC932;
 	color:black;
 }
-.btn-ms-action .badge {
+.btn-ms-action .badge, .btn-ms-info .badge {
 	color: #970e5a;
 	background:white;
 }

@@ -31,7 +31,7 @@
 ?>
 
 <?php if ($_product->isAvailable()): ?><?php //echo $this->__('Availability: ')  class="availability in-stock" class="availability in-stock" style="float:right;"?>
-    <button type="button" class="btn text-left btn-ms-action"><?php echo $this->__("Available - "); ?><span class="badge push-right"><?php echo $stock; ?></span></button>
+    <button type="button" class="btn text-left btn-ms-info"><?php echo $this->__("Available - "); ?><span class="badge push-right"><?php echo $stock; ?></span></button>
 <?php else: //<p class="availability out-of-stock">?>
     <button type="button" disabled="disabled" class="btn btn-warning"><?php echo $this->__('Not Available:') ?></button>
 <?php endif; ?>

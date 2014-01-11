@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+
+<config>
+	<modules>
+		<Dwg_Product_types>
+			<version>0.1.0</version>
+		</Dwg_Product_types>
+	</modules>
+	<global>
+		<models>
+			<product_types>
+				<class>Dwg_Product_types_Model</class>
+			</product_types>
+		</models>
+		<blocks>
+			<product_types>
+				<class>Dwg_Product_types_Block</class>
+			</product_types>
+		</blocks>
+	</global>
+</config>
