@@ -31,7 +31,7 @@
   $stock = (int) Mage::getModel('cataloginventory/stock_item')->loadByProduct($_product)->getQty();
 	/* @TODO refactor push up into model */
 	$show = true;
-	if(in_array($_product['product_type'], array(8, 4, 3))) {
+	if(in_array($_product['product_type'], array(4, 3, 9))) {
 		$show = true;
 		$format = '<button type="button" title="' . $this->__('Add to Cart') .'" class="btn btn-ms-action-cart" onclick="productAddToCartForm.submit(this)"><span><span>' 
 			. $this->__("Add to Cart") . '</span></span></button>';

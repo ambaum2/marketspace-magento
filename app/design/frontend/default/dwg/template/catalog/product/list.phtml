@@ -45,6 +45,14 @@
     <?php $_iterator = 0; ?>
     <ol class="products-list" id="products-list">
     <?php foreach ($_productCollection as $_product): ?>
+    	<?php
+				$show = true;
+				if(in_array($_product['product_type'], array(5))) {
+					$show = false;
+				} else {
+					$show = true;
+				}	
+			?>
         <li class="item<?php if( ++$_iterator == sizeof($_productCollection) ): ?> last<?php endif; ?>">
             <?php // Product Image ?>
             <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" class="product-image"><img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(135); ?>" width="135" height="135" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" /></a>
@@ -57,7 +65,7 @@
                     <?php echo $this->getReviewsSummaryHtml($_product) ?>
                     <?php endif; ?>
                     <?php ($_product->getPrice()==0) ? print '' : print $this->getPriceHtml($_product, true) ?>
-                    <?php if($_product->isSaleable()): ?>
+                    <?php if($_product->isSaleable() && $show): ?>
                         <p><button type="button" title="<?php echo $this->__('Add to Cart') ?>" class="button btn-cart" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')"><span><span><?php echo $this->__("Add To Cart") ?></span></span></button></p>
                         <span><?php echo $this->__("Available"); ?><br /></span>
                     <?php else: ?>
@@ -68,9 +76,6 @@
                         <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $_productNameStripped ?>" class="link-learn"><?php echo $this->__('Learn More') ?></a>
                     </div>
                     <ul class="add-to-links">
-                        <?php if ($this->helper('wishlist')->isAllow()) : ?>
-                            <li><a href="<?php echo $this->helper('wishlist')->getAddUrl($_product) ?>" class="link-wishlist"><?php echo $this->__('Add to Wishlist') ?></a></li>
-                        <?php endif; ?>
                         <?php if($_compareUrl=$this->getAddToCompareUrl($_product)): ?>
                             <!--<li><span class="separator">|</span> <a href="<?php echo $_compareUrl ?>" class="link-compare"><?php //echo $this->__('Add to Compare') ?></a></li>-->
                         <?php endif; ?>
@@ -91,6 +96,14 @@
     <?php $_collectionSize = $_productCollection->count() ?>
     <?php $_columnCount = $this->getColumnCount() + 1; //columns per page ?> 
     <?php $i=0; foreach ($_productCollection as $_product): ?>
+    	<?php
+				$show = true;
+				if(in_array($_product['product_type'], array(5))) {
+					$show = false;
+				} else {
+					$show = true;
+				}	
+			?>
         <?php if ($i++%$_columnCount==0): ?>
         <ul class="products-grid">
         <?php endif ?>
@@ -102,16 +115,15 @@
                 <?php endif; ?>               
                 <?php print $this->getPriceHtml($_product, true) ?>      
                 <div class="actions">
+                	<?php if($show) : ?>
                     <?php if($_product->isSaleable()): ?>
                         <button type="button" style="display:none;" title="<?php echo $this->__('Add to Cart') ?>" class="btn btn-ms-action-cart" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')"><span><span><?php echo $this->__("Add To Cart") ?></span></span></button>
                         <button type="button" class="btn text-left btn-ms-action text-ms-label"><?php echo $this->__("Available"); ?><br /></button>
                     <?php else: ?>                   
                         <button type="button" class="btn text-left btn-ms-action text-ms-label"><?php echo $this->__("Not Available"); ?><br /></button>
                     <?php endif; ?>
+                  <?php endif; ?>
                     <ul class="add-to-links">
-                        <?php if ($this->helper('wishlist')->isAllow()) : ?>
-                            <li><a href="<?php echo $this->helper('wishlist')->getAddUrl($_product) ?>" class="link-wishlist text-ms-label"><?php echo $this->__('Add to Wishlist') ?></a></li>
-                        <?php endif; ?>
                         <?php if($_compareUrl=$this->getAddToCompareUrl($_product)): ?>
                            <!-- <li><span class="separator">|</span> <a href="<?php //echo $_compareUrl ?>" class="link-compare"><?php //echo $this->__('Add to Compare') ?></a></li> -->
                         <?php endif; ?>
