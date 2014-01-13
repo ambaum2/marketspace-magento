@@ -22,11 +22,13 @@ h4 {
 	font-size:32px;
 	margin: 10px 10px 5px 5px;
 }
-.price-box .price, .text-ms-label, .text-ms-price {
+ .price-box .price, .text-ms-label, .text-ms-price {
 	/*font-family: 'Ubuntu Condensed', sans-serif;*/
 	color:#970e5a;
 }
-
+.product-view .price-box .text-ms-price .price, .products-grid .price-box .text-ms-price .price {
+	color: #BFC932;
+}
 .btn-ms-action {
 	background: #BFC932;
 	color:white;
@@ -48,9 +50,17 @@ h4 {
 .btn-ms-social {
 	padding: 0px 12px;
 	margin-top: -10px;
+	background: #BFC932;
+	color:black;
+	border: none;
 }
 .btn-ms-social a, .btn-ms-social .link-wishlist {
-	color: #ffffff;
+	color: #000000;
+}
+.btn-ms-social a:hover, .btn-ms-social:hover {
+	color: #363333;
+	text-decoration:none;
+	background: #BFC932;
 }
 .offer-text {
 	font-weight:bold;

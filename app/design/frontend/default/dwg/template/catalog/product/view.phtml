@@ -52,10 +52,12 @@
             <div class="ms-media-wrapper">
               <?php echo $this->getChildHtml('media') ?>
               <button type="button" class="btn btn-primary btn-ms-social">
-                <span class="glyphicon glyphicon-envelope"></span>
+                <span class="glyphicon glyphicon-check"></span>
                 <?php $_product->isSaleable() ? print $this->getChildHtml('addto') : '' ?>
               </button>
-              <button type="button" class="btn btn-info btn-ms-social"><a href="<?php echo $this->getReviewsUrl() ?>#review-form"><?php echo $this->__('Review') ?></a></button>
+              <button type="button" class="btn btn-info btn-ms-social"><span class="glyphicon glyphicon-edit"></span>
+            		<a href="<?php echo $this->getReviewsUrl() ?>#review-form"><?php echo $this->__('Review') ?></a>
+            	</button>
               <div class="fb-like" style="width:auto;height:16px;" data-send="true" data-width="150" data-show-faces="true" data-action="recommend" layout="button_count"></div>
               <div id="fb-root"></div>
             </div>
@@ -72,21 +74,23 @@
                 </div>
             <?php endif;?>
           </div>
+          <?php if ($_product->isSaleable()): ?>
+	          <div class="row">
+              <div class="col-xs-12 col-sm-6 md-col-6">
+                <?php echo $this->getTierPriceHtml() ?>
+                <?php echo $this->getPriceHtml($_product)  ?>
+              </div>
+	          </div>
+          <?php endif; ?>
           <div class="row available-box">
-            <div class="">
+            <div class="col-xs-12 col-sm-6 md-col-6">
               <?php //echo $this->getReviewsSummaryHtml($_product, false, true)?>
               <?php echo $this->getChildHtml('alert_urls') ?>
               <?php echo $this->getChildHtml('product_type_data') ?>
               <?php echo $this->getChildHtml('extrahint') ?>
             </div>
-          </div>
-          <div class="row">
             <?php if ($_product->isSaleable()): ?>
-                <div class="pull-left">
-                  <?php echo $this->getTierPriceHtml() ?>
-                  <?php echo $this->getPriceHtml($_product)  ?>
-                </div>
-                <div class="pull-right">
+                <div class="col-xs-12 col-sm-6 md-col-6">
                   <?php echo $this->getChildHtml('addtocart') ?>
                 </div>
             <?php endif; ?>
