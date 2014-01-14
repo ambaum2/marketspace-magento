@@ -33,6 +33,14 @@
 ?>
 <?php $_helper = $this->helper('catalog/output'); ?>
 <?php $_product = $this->getProduct(); ?>
+<?php 
+  $showMedia = true;
+  if(in_array($_product['product_type'], array(11, 12))) {
+    $showMedia = true;
+  } else {
+    $showMedia = false;
+  }
+?>
 <script type="text/javascript">
     var optionsPrice = new Product.OptionsPrice(<?php echo $this->getJsonConfig() ?>);
 </script>
@@ -55,8 +63,8 @@
                 <span class="glyphicon glyphicon-check"></span>
                 <?php $_product->isSaleable() ? print $this->getChildHtml('addto') : '' ?>
               </button>
-              <button type="button" class="btn btn-info btn-ms-social"><span class="glyphicon glyphicon-edit"></span>
-            		<a href="<?php echo $this->getReviewsUrl() ?>#review-form"><?php echo $this->__('Review') ?></a>
+              <span class="glyphicon glyphicon-edit"></span>
+            		<a class="btn btn-info btn-ms-social"href="<?php echo $this->getReviewsUrl() ?>#review-form"><?php echo $this->__('Review') ?></a>
             	</button>
               <div class="fb-share-button fb_iframe_widget" style="width:auto;height:28px;" data-type="button" data-send="true" data-width="150" data-layout="button"></div>
               <div id="fb-root"></div>
@@ -110,9 +118,11 @@
 				        </div>
 				<?php endforeach;?>
 			</div>
-			<div class="col-md-6 col-xs-12">
-				<?php echo $this->getChildHtml('media_thumbnails') ?>
-			</div>
+			<?php if($showMedia) : ?>
+  			<div class="col-md-6 col-xs-12">
+  				<?php echo $this->getChildHtml('media_thumbnails') ?>
+  			</div>
+			<?php endif; ?>
       <?php echo $this->getChildHtml('upsell_products') ?>
       <?php //echo $this->getChildHtml('product_additional_data') ?>
     </div>

@@ -39,7 +39,11 @@
 		$show = true;
 		$format = '<button type="button" title="' . $this->__('Reserve') .'" class="btn btn-ms-action-cart" onclick="productAddToCartForm.submit(this)"><span><span>' 
 			. $this->__("Reserve") . '</span></span></button>';
-	} else {
+	} elseif(in_array($_product['product_type'], array(7))) {
+    $show = true;
+    $format = '<button type="button" title="' . $this->__('Get Coupon') .'" class="btn btn-ms-action-cart" onclick="productAddToCartForm.submit(this)"><span><span>' 
+      . $this->__("Get Coupon") . '</span></span></button>';
+  } else {
 		$show = false;
 	}
 ?>
