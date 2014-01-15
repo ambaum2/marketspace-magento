@@ -23,9 +23,17 @@
  * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
+/* @var $this Mage_Wishlist_Block_Customer_Wishlist_Render_Item_Price */
 ?>
-<p style="font-size:12px; line-height:16px; margin:0 0 16px;">
-    <?php echo $this->__("RSS link to %s's wishlist",$this->helper('wishlist')->getCustomerName()) ?>
-    <br />
-    <a href="<?php echo $this->helper('wishlist')->getRssUrl($this->getWishlistId()); ?>"><?php echo $this->helper('wishlist')->getRssUrl($this->getWishlistId()); ?></a>
-</p>
+
+<?php echo $this->getCleanProductPriceHtml(); ?>
+
+<?php /* @var $product Mage_Catalog_Model_Product */ ?>
+<?php $product = $this->getProduct(); ?>
+<?php $finalPrice = $product->getFinalPrice(1); ?>
+<?php if ($product->canConfigure()): ?>
+    <p class="configured-price">
+        <span class="price-label"><?php echo Mage::helper('wishlist')->__('Configured Price:') ?></span>
+        <span class="price"><?php echo Mage::helper('core')->currency($finalPrice, true, false); ?></span>
+    </p>
+<?php endif; ?>
