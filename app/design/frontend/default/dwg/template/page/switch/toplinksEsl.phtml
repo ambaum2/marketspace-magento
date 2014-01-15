@@ -5,9 +5,9 @@
 			<li class="topLink"><a href="<?php print Mage::getBaseUrl() ?>customer/account">MY ACCOUNT</a></li>
 			<li class="topLink"><a href="<?php print Mage::getBaseUrl() ?>checkout/cart">SHOPPING CART</a></li>
 			<?php if (! Mage::getSingleton('customer/session')->isLoggedIn()): ?>
-				<li class="topLink"><a href="<?php echo Mage::helper('customer')->getLoginUrl(); ?>">LOGOUT</a></li>
+				<li class="topLink"><a href="<?php echo Mage::helper('customer')->getLoginUrl(); ?>">LOGIN</a></li>
 			<?php else: ?>
-				<li class="topLink"><a href="<?php echo Mage::helper('customer')->getLogoutUrl(); ?>">LOGIN</a></li>
+				<li class="topLink"><a href="<?php echo Mage::helper('customer')->getLogoutUrl(); ?>">LOGOUT</a></li>
 			<?php endif; ?>
 			<!--<li><?php echo $this->getChildHtml('topSearch') ?></li>-->
 		</ul>

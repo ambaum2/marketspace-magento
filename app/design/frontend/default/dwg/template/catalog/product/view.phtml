@@ -36,9 +36,9 @@
 <?php 
   $showMedia = true;
   if(in_array($_product['product_type'], array(11, 12))) {
-    $showMedia = true;
-  } else {
     $showMedia = false;
+  } else {
+    $showMedia = true;
   }
 ?>
 <script type="text/javascript">
@@ -110,12 +110,12 @@
     <div class="product-collateral row">
     	<div class="col-md-6 col-xs-12">
 				<?php foreach ($this->getChildGroup('detailed_info', 'getChildHtml') as $alias => $html):?>
-				        <div class="box-collateral <?php echo "box-{$alias}"?>">
-				            <?php if ($title = $this->getChildData($alias, 'title')):?>
-				            <h2><?php echo $this->escapeHtml($title); ?></h2>
-				            <?php endif;?>
-				            <?php echo $html; ?>
-				        </div>
+	        <div class="box-collateral <?php echo "box-{$alias}"?>">
+	            <?php if ($title = $this->getChildData($alias, 'title')):?>
+	            <h2><?php echo $this->escapeHtml($title); ?></h2>
+	            <?php endif;?>
+	            <?php echo $html; ?>
+	        </div>
 				<?php endforeach;?>
 			</div>
 			<?php if($showMedia) : ?>

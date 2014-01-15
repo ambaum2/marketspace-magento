@@ -30,7 +30,7 @@
   $stock = (int) Mage::getModel('cataloginventory/stock_item')->loadByProduct($_product)->getQty();
 	/* @TODO refactor push up into model */
 	$show = true;
-	if(in_array($_product['product_type'], array(4, 7 , 3, 10))) {
+	if(in_array($_product['product_type'], array(4, 7, 3, 10))) {
 		$show = true;
 		$format = '<button type="button" class="btn text-left btn-ms-info">' . $this->__("Available - ") . '<span class="badge push-right">' . $stock . '</span></button>';
 	} elseif(in_array($_product['product_type'], array(8, 9, 11, 12))) {
