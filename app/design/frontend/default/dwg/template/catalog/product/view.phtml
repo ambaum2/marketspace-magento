@@ -59,13 +59,8 @@
             <h1><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h1>
             <div class="ms-media-wrapper">
               <?php echo $this->getChildHtml('media') ?>
-              <button type="button" class="btn btn-primary btn-ms-social">
-                <span class="glyphicon glyphicon-check"></span>
-                <?php $_product->isSaleable() ? print $this->getChildHtml('addto') : '' ?>
-              </button>
-              <span class="glyphicon glyphicon-edit"></span>
-            		<a class="btn btn-info btn-ms-social"href="<?php echo $this->getReviewsUrl() ?>#review-form"><?php echo $this->__('Review') ?></a>
-            	</button>
+              <?php $_product->isSaleable() ? print $this->getChildHtml('addto') : '' ?>
+              <!--<span class="glyphicon glyphicon-edit"></span> -->
               <div class="fb-share-button fb_iframe_widget" style="width:auto;height:28px;" data-type="button" data-send="true" data-width="150" data-layout="button"></div>
               <div id="fb-root"></div>
             </div>
@@ -125,6 +120,7 @@
 			<?php if($showMedia) : ?>
   			<div class="col-md-6 col-xs-12">
   				<?php echo $this->getChildHtml('media_thumbnails'); ?>
+  				<?php //echo $this->getChildHtml('review_form'); ?>
   			</div>
 			<?php endif; ?>
       <?php echo $this->getChildHtml('upsell_products'); ?>
