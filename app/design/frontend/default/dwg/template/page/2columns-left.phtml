@@ -41,13 +41,15 @@
     <div class="page">
         <?php echo $this->getChildHtml('header') ?>
         <div class="main-container col2-left-layout">
-            <div class="main">
+            <div class="main container">
+              <div class="row">
                 <?php echo $this->getChildHtml('breadcrumbs') ?>
-                <div class="col-main">
+                <div class="col-main col-md-9 col-sm-9">
                     <?php echo $this->getChildHtml('global_messages') ?>
                     <?php echo $this->getChildHtml('content') ?>
                 </div>
-                <div class="col-left sidebar"><?php echo $this->getChildHtml('left') ?></div>
+                <div class="col-left col-md-3 col-sm-3 sidebar"><?php echo $this->getChildHtml('left') ?></div>
+              </div>
             </div>
         </div>
         <?php echo $this->getChildHtml('footer') ?>
