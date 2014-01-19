@@ -35,10 +35,17 @@
 <?php $_product = $this->getProduct(); ?>
 <?php 
   $showMedia = true;
+	$detailsClass = "col-md-6 col-xs-12";
   if(in_array($_product['product_type'], array(11, 12))) {
     $showMedia = false;
   } else {
-    $showMedia = true;
+  	$media = new Dwg_Template_Model_Media;
+		if(count($media->getProductImageRotatorImages($_product)) > 0) {
+    	$showMedia = true;
+		} else {
+			$detailsClass = "col-md-12 col-xs-12";
+			$showMedia = false;
+		}
   }
 ?>
 <script type="text/javascript">
@@ -52,7 +59,11 @@
           <input type="hidden" name="product" value="<?php echo $_product->getId() ?>" />
           <input type="hidden" name="related_product" id="related-products-field" value="" />
       </div>
-
+			<div class="row">
+				<div class="pull-right">
+					<a href="#">See All of Our Products</a>
+				</div>
+			</div>
       <div class="row">
         <div class="product-img-box col-md-7 col-sm-4 col-xs-12">
           <div class="row">
@@ -103,7 +114,7 @@
     <div class="clearer"></div>
 
     <div class="product-collateral row">
-    	<div class="col-md-6 col-xs-12">
+    	<div class="<?php print $detailsClass; ?>">
 				<?php foreach ($this->getChildGroup('detailed_info', 'getChildHtml') as $alias => $html):?>
 					<?php if($alias != 'additional') : ?>
 		        <div class="box-collateral <?php echo "box-{$alias}"?>">

@@ -53,15 +53,16 @@ class Product_types_Model_Product_typesTest extends PHPUnit_Framework_TestCase
 		//var_export($options_array);
 	}
 	public function testIsLoggedIn() {
-$session = Mage::getSingleton('customer/session', array('name'=>'frontend'));
-$groupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
-$group = Mage::getModel ('customer/group')->load($groupId);
-$groupName = $group->getCode();
-$loggedIn = false;
-if ($session->isLoggedIn() && $groupName == "Retailer") { 
-$loggedIn = true;
-} else { //echo "not logged in"; 
-}
+		$session = Mage::getSingleton('customer/session', array('name'=>'frontend'));
+		$groupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
+		$group = Mage::getModel ('customer/group')->load($groupId);
+		$groupName = $group->getCode();
+		$loggedIn = false;
+		if ($session->isLoggedIn() && $groupName == "Retailer") { 
+			$loggedIn = true;
+		} else { //echo "not logged in"; 
+		
+		}
 	}
 	public function testfalseandfalse() {
 		$_product = Mage::getModel('catalog/product')->load(12);

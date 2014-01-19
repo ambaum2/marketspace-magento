@@ -33,17 +33,18 @@
 <?php
     $_product = $this->getProduct();
     $_helper = $this->helper('catalog/output');
+		$media = new Dwg_Template_Model_Media;
 ?>
-<?php if (count($this->getGalleryImages()) > 0): ?>
+<?php if (count($media->getProductImageRotatorImages($_product)) > 0): ?>
 <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
     <ol class="carousel-indicators">
-	    <?php for($i=0; $i < count($this->getGalleryImages()); $i++): ?>
+	    <?php for($i=0; $i < count($media->getProductImageRotatorImages($_product)); $i++): ?>
 	    	<li data-target="#carousel-example-generic" data-slide-to="<?php echo $i ?>" <?php ($i == 0) ? print 'class="active"' : print '' ?>></li>
 	    <?php endfor; ?>
     </ol>
     <div class="carousel-inner">
     	<?php $i = 0; ?>
-	    <?php foreach ($this->getGalleryImages() as $key=>$_image): ?>
+	    <?php foreach ($media->getProductImageRotatorImages($_product) as $key=>$_image): ?>
 	        <div class="item<?php $i == 0 ? print " active" : "" ?>">
 	        	<img src="<?php echo $this->helper('catalog/image')->init($this->getProduct(), 'thumbnail', $_image->getFile())->resize(370); ?>"  alt="<?php echo $this->htmlEscape($_image->getLabel()) ?>" />
 	            <!--<a href="#" onclick="popWin('<?php echo $this->getGalleryUrl($_image) ?>', 'gallery', 'width=300,height=300,left=0,top=0,location=no,status=yes,scrollbars=yes,resizable=yes'); return false;" title="<?php echo $this->htmlEscape($_image->getLabel()) ?>"></a>

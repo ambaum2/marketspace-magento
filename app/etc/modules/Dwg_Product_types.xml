@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<config>
-  <modules>
-    <Dwg_Product_types>
-      <codePool>local</codePool>
-      <active>true</active>
-    </Dwg_Product_types>
-  </modules>
-</config>
