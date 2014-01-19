@@ -2,10 +2,10 @@
 <layout version="0.1.0">   
   <filter_index_index>   
     <reference name="root">   
-      <action method="setTemplate"><template>page/2columns-left.phtml</template></action>   
+      <action method="setTemplate"><template>page/1column.phtml</template></action>   
     </reference>
     <reference name="left">   
-      <block type="filter/left" name="filter_left" template="filter/left.phtml"/>   
+      <!--<block type="filter/left" name="filter_left" template="filter/left.phtml"/> -->   
     </reference>   
     <reference name="content">   
       <block type="filter/index" name="filter_index" template="filter/index.phtml"/>   
