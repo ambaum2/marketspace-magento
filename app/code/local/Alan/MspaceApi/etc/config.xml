@@ -23,6 +23,10 @@
   			<class>Alan_MspaceApi_Model_V1_Attributeset</class>
   			<class>Alan_MspaceApi_Model_V1_Type</class>
   			<class>Alan_MspaceApi_Model_ApiAuth</class>
+  			<class>Alan_MspaceApi_Model_ApiPath</class>
+  			<class>Alan_MspaceApi_Model_V1_Sales</class>
+  			<class>Alan_MspaceApi_Model_V1_Sales_Orders</class>
+  			<class>Alan_MspaceApi_Model_V1_Sales_Orders_Owners</class>
   		</mspaceapi>
   	</models>
     <helpers>
