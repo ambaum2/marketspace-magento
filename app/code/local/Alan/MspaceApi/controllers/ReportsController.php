@@ -45,10 +45,6 @@ class Alan_MspaceApi_ReportsController extends Mage_Core_Controller_Front_Action
     $request['type'] = $_SERVER['REQUEST_METHOD']; //get is post, get, put, etc
     //run some authentication on a header token
     $authenticated = false;
-    //$result =  $ApiPath->processRequest($request);
-    //print_r($result);
-    //print_r($ApiPath->getApiClassData($result));
-    //print Mage::app()->getRequest()->getControllerModule();
     //if(isset($_SERVER['HTTP_AUTHTOKEN']) && isset($_SERVER['HTTP_AUTHIV'])) {
     //$authenticated = $apiAuth->validateAuthToken($_SERVER['HTTP_AUTHTOKEN'], $_SERVER['HTTP_AUTHIV']);
       if($authenticated || true) {

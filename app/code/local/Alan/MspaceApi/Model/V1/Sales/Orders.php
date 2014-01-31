@@ -21,11 +21,11 @@ class Alan_MspaceApi_Model_V1_Sales_Orders extends Mage_Core_Model_Abstract
    *  mixed integer or string
    */
   public function getItem($request) {
-    return 'get item. Item id: ' . $request['url_param'] . "\n";
+    return '';
   }
   
   public function getItemCollection($request) {
-    return 'item collection ' . "\n";
+    return '';
   }
   /**
    * if a single item was requested then that 
@@ -47,7 +47,7 @@ class Alan_MspaceApi_Model_V1_Sales_Orders extends Mage_Core_Model_Abstract
   }
  
   public function delete($request) {
-    throw new Exception("Put Not Implemented", 1);
+    throw new Exception("Delete Not Implemented", 1);
   }
 }
   
