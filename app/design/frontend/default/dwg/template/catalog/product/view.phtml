@@ -35,6 +35,7 @@
 <?php $_product = $this->getProduct(); ?>
 <?php 
 	$media = new Dwg_Template_Model_Media;
+	$profile = $media->getProfileUrl($_product);
   $showMedia = true;
 	$detailsClass = "col-md-6 col-xs-12";
   if(in_array($_product['product_type'], array(11, 12))) {
@@ -59,12 +60,12 @@
           <input type="hidden" name="product" value="<?php echo $_product->getId() ?>" />
           <input type="hidden" name="related_product" id="related-products-field" value="" />
       </div>
-      <?php if($profile = $media->getProfileUrl($_product)) : ?>
+      <?php if($profile) : ?>
 	      <div class="row">
 	      	<div class="pull-right">
 	      		<h4>
-	      			<a class="ms-green-text" href="<?php print $profile['url_path']; ?>">
-	      				<?php isset($profile['caption_for_link_to_profile']) ? print $profile['caption_for_link_to_profile'] : print 'View Profile'; ?>
+	      			<a class="ms-green-text" href="/<?php print $profile['url_path']; ?>">
+	      				<?php !empty($profile['caption_for_link_to_profile']) ? print $profile['caption_for_link_to_profile'] : print 'View Profile'; ?>
 	      			</a>
 	      		</h4>
 	      	</div>
@@ -92,7 +93,7 @@
 		          		</div>
 		  						<div class="col-md-6 ms-heading-product-text pull-right">
 										<a class="ms-green-text" href="/marketspace-products?id=<?php print $_product->getMarketspaceOwner(); ?>">
-											<?php ($profile = $media->getProfileUrl($_product)) ? print $profile['caption_for_see_all_products']: print 'See All of Our Products'; ?>
+											<?php !empty($profile['caption_for_see_all_products']) ? print $profile['caption_for_see_all_products'] : print 'See All of Our Products'; ?>
 										</a>
 									</div>
 								</div>
