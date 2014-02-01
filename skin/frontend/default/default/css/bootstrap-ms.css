@@ -169,6 +169,10 @@ h4 {
 	text-align:center;
 	background: transparent;
 }
+.product-img-box .product-image img {
+	/*max-height: 450px;
+	max-width: 350px;*/
+}
 
 .product-view .product-overview-box {
 	margin-top: 19px;
@@ -199,6 +203,8 @@ h4 {
 } /* making the height larger partly fixes the 'bounce' problem */
 #carousel-example-generic img {
 	margin:0 auto;
+	/*max-width: 400px;
+	max-height: 350px;*/
 }
 .main #carousel-example-generic {
 	height:auto;
@@ -338,4 +344,7 @@ h4 {
 
 .product-essential .short-description {
 	padding: 0 15px;
+}
+.product-essential .short-description ul {
+	list-style-position: inside;
 }
