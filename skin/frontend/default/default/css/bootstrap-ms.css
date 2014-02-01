@@ -169,6 +169,9 @@ h4 {
 	text-align:center;
 	background: transparent;
 }
+.product-img-box .ms-media-wrapper {
+	padding-right: 10px;
+}
 .product-img-box .product-image img {
 	/*max-height: 450px;
 	max-width: 350px;*/
