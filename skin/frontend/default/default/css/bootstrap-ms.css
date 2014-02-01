@@ -22,6 +22,12 @@ h4 {
 	font-size:32px;
 	margin: 10px 10px 5px 5px;
 }
+.ms-green-text {
+	color: #a2ad0d;
+}
+.ms-heading-product-text {
+
+}
  .price-box .price, .text-ms-label, .text-ms-price {
 	/*font-family: 'Ubuntu Condensed', sans-serif;*/
 	color:#970e5a;
@@ -33,6 +39,7 @@ h4 {
 	padding-left:0px;
 	padding-right:0px;
 }
+
 .btn-ms-action {
 	background: #BFC932;
 	color:white;
@@ -321,4 +328,14 @@ h4 {
 }
 .products-grid li.item {
 	height:350px;
+}
+.product-essential .ms-heading-product-text {
+	margin-top:10px;	
+}
+.product-essential .ms-heading-product-text a {
+	font-size: .9em;
+}
+
+.product-essential .short-description {
+	padding: 0 15px;
 }

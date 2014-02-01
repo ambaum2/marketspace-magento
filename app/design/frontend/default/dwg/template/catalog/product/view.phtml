@@ -59,11 +59,6 @@
           <input type="hidden" name="product" value="<?php echo $_product->getId() ?>" />
           <input type="hidden" name="related_product" id="related-products-field" value="" />
       </div>
-			<div class="row">
-				<div class="pull-right">
-					<a href="/marketspace-products?id=<?php print $_product->getMarketspaceOwner(); ?>">See All of Our Products</a>
-				</div>
-			</div>
       <div class="row">
         <div class="product-img-box col-md-7 col-sm-4 col-xs-12">
           <div class="row">
@@ -80,11 +75,18 @@
 				<div class="col-md-5 col-sm-8 col-xs-12 product-overview-box">
 				  <div class="row">
             <?php if ($_product->getShortDescription()):?>
-                <div class="short-description">
-                    <h4><?php echo $this->__('Product Overview') ?></h4>
-                    <div class="std">
-                      <?php echo $_helper->productAttribute($_product, nl2br($_product->getShortDescription()), 'short_description') ?>
-                    </div>
+		            <div class="row">
+		            	<div class="col-md-6">
+		          			<h4><?php echo $this->__('Product Overview') ?></h4>
+		          		</div>
+		  						<div class="col-md-6 ms-heading-product-text pull-right">
+										<a class="ms-green-text" href="/marketspace-products?id=<?php print $_product->getMarketspaceOwner(); ?>">See All of Our Products</a>
+									</div>
+								</div>
+                <div class="row short-description">
+                  <div class="std">
+                    <?php echo $_helper->productAttribute($_product, nl2br($_product->getShortDescription()), 'short_description') ?>
+                  </div>
                 </div>
             <?php endif;?>
           </div>
