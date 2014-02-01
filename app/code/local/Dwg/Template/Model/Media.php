@@ -35,4 +35,27 @@ class Dwg_Template_Model_Media extends Mage_Catalog_Model_Product
 		}
 		return $this->getData('media_gallery_images');
 	}
+	/**
+	 * get profile link from a profile attribute set
+	 * for a given marketspace owner id
+	 * @param _product
+	 *  product model object
+	 * @return array
+	 * 	return product array 
+	 */
+	public function getProfileUrl($_product) {
+		$result = array();
+		if($_product->getAttributeSetId() != 12) {
+	    $product = Mage::getModel("catalog/product")
+	    	->getCollection()
+				->addAttributeToSelect('url_path')
+				->addAttributeToSelect('caption_for_see_all_products')
+				->addAttributeToSelect('caption_for_link_to_profile')
+				->addFieldToFilter('attribute_set_id', 12)
+				->addFieldToFilter('marketspace_owner', $_product->getMarketspaceOwner())
+				->getFirstItem();
+			$result = $product->getData();
+		}
+		return $result;
+	}
 }
