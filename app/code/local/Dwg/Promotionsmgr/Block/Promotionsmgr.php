@@ -88,6 +88,9 @@ class Dwg_Promotionsmgr_Block_Promotionsmgr extends Mage_Core_Block_Template
 			}
 			return $output . $imageMap;
 	}
+  /**
+	 * get featured products 
+	 */
 	public function productGrid() {
 		$productData = Mage::getModel('promotionsmgr/promotionsmgr')->getCollection()
 			->addFilter('position','featured')
@@ -100,5 +103,21 @@ class Dwg_Promotionsmgr_Block_Promotionsmgr extends Mage_Core_Block_Template
 		} else {
 			return false;
 		}	
-	}   
+	}
+	/**
+	 * get homepage slider images
+	 */
+  public function getImageRotatorImages() {
+		$images = Mage::getModel('promotionsmgr/promotionsmgr')->getCollection()
+			->addFilter('position','Slide')
+			->addFilter('status', 1)
+			->setOrder('item_order', 'ASC')
+			->setPageSize(10)
+			->getData();	
+		if(count($images)>0) {
+			return $images;
+		} else {
+			return false;
+		}
+	} 
 }

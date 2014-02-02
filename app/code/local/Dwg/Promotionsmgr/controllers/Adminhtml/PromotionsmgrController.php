@@ -54,76 +54,65 @@ class Dwg_Promotionsmgr_Adminhtml_PromotionsmgrController extends Mage_Adminhtml
    */
     public function saveAction()
     {
-        if ( $this->getRequest()->getPost() ) {
-            try {
-               $postData = $this->getRequest()->getPost(); //get post data
- 
-                //when adding new table columns you may need to flush cache storage - even if caching disabled 
-	            if(isset($_FILES['image_url']['name']) and (file_exists($_FILES['image_url']['tmp_name']))) { //must have uploaded a valid file
-					try {
+			if ( $this->getRequest()->getPost() ) {
+				try {
+				  $postData = $this->getRequest()->getPost(); //get post data
+				  if(isset($_FILES['image_url']['name']) and (file_exists($_FILES['image_url']['tmp_name']))) { //must have uploaded a valid file
 						$uploader = new Varien_File_Uploader('image_url');
 						$uploader->setAllowedExtensions(array('jpg','jpeg','gif','png')); // or pdf or anything
-					    $uploader->setAllowRenameFiles(false);
-					    // setAllowRenameFiles(true) -> move your file in a folder the magento way
-						// setAllowRenameFiles(true) -> move your file directly in the $path folder
-					    $uploader->setFilesDispersion(false);
-					    $path = Mage::getBaseDir('media') . DS . "promotions" . DS ; 
+					  $uploader->setAllowRenameFiles(false);
+					  //setAllowRenameFiles(true) -> move your file in a folder the magento way
+					  $uploader->setFilesDispersion(false);
+					  $path = Mage::getBaseDir('media') . DS . "promotions" . DS; 
 						$uploader->save($path, $_FILES['image_url']['name']);
 						$data['image_url'] = $_FILES['image_url']['name'];
-					  }catch(Exception $e) {
-					  }
-				} else {
-                	
-                }	
-	                if(empty($postData['promotionsmgr_id'])) { //if the item is not in table yet then we add a record.
-	                $promotionsmgr = Mage::getModel('promotionsmgr/promotionsmgr');
-	                $promotionsmgr->setStatus($postData['status'])
-	                    ->setPosition($postData['position'])
-	                    ->setItemOrder($postData['item_order'])
-	                    ->setRegion($postData['region'])
-											//->setRegionName($this->getAttributeOptionName('escape_region',$postData['region']))
-											->setCategoryId($postData['category_id'])
-											->setCategoryName($this->getCategoryNameById($postData['category_id']))
-											->setImageUrl($postData['image_url'])
-											->setGuideId($postData['guide_id'])
-											->setProductId($postData['product_id'])
-											->setLink($postData['link'])
-											->setStartTime($postData['start_time'])
-											->setEndTime($postData['end_time'])
-	                    ->save();
-	                } else { // edit the existing record
-	                $promotionsmgr = Mage::getModel('promotionsmgr/promotionsmgr');
-	                //this will update the db the setId is important here. We check if their is already a record in the table with that pk
-	                  $promotionsmgr->setId($this->getRequest()->getParam('promotionsmgr_id'))
-					  					->setStatus($postData['status'])
-	                    ->setPosition($postData['position'])
-	                    ->setItemOrder($postData['item_order'])
-	                    ->setRegion($postData['region'])
-											//->setRegionName($this->getAttributeOptionName('escape_region',$postData['region']))
-											->setCategoryId($postData['category_id'])
-											->setCategoryName($this->getCategoryNameById($postData['category_id']))
-											->setLink($postData['link'])
-											->setGuideId($postData['guide_id'])
-											->setProductId($postData['product_id'])
-											->setStartTime($postData['start_time'])
-											->setEndTime($postData['end_time']);
-	                  (!(empty($data['image_url'])) ? $promotionsmgr->setImageUrl($data['image_url']) : '');
-	                    $promotionsmgr->save();
-	                }
-	                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('Item was successfully saved'));
-	                Mage::getSingleton('adminhtml/session')->setPromotionsmgrData(false);
-	 
-	                $this->_redirect('*/*/');
-	                return;
-
-            } catch (Exception $e) {
-                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
-                Mage::getSingleton('adminhtml/session')->setPromotionsmgrData($this->getRequest()->getPost());
-                $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
-                return;
-            }
-        }
-        //$this->_redirect('*/*/');
+					}
+	        if(empty($postData['promotionsmgr_id'])) { //if the item is not in table yet then we add a record.
+	        $promotionsmgr = Mage::getModel('promotionsmgr/promotionsmgr');
+	        $promotionsmgr->setStatus($postData['status'])
+	            ->setPosition($postData['position'])
+	            ->setItemOrder($postData['item_order'])
+	            ->setRegion($postData['region'])
+							//->setRegionName($this->getAttributeOptionName('escape_region',$postData['region']))
+							->setCategoryId($postData['category_id'])
+							->setCategoryName($this->getCategoryNameById($postData['category_id']))
+							->setImageUrl($data['image_url'])
+							->setGuideId($postData['guide_id'])
+							->setProductId($postData['product_id'])
+							->setLink($postData['link'])
+							->setStartTime($postData['start_time'])
+							->setEndTime($postData['end_time'])
+	            ->save();
+	        } else { // edit the existing record
+	        $promotionsmgr = Mage::getModel('promotionsmgr/promotionsmgr');
+	        //this will update the db the setId is important here. We check if their is already a record in the table with that pk
+	          $promotionsmgr->setId($this->getRequest()->getParam('promotionsmgr_id'))
+	  					->setStatus($postData['status'])
+	            ->setPosition($postData['position'])
+	            ->setItemOrder($postData['item_order'])
+	            ->setRegion($postData['region'])
+							//->setRegionName($this->getAttributeOptionName('escape_region',$postData['region']))
+							->setCategoryId($postData['category_id'])
+							->setCategoryName($this->getCategoryNameById($postData['category_id']))
+							->setLink($postData['link'])
+							->setGuideId($postData['guide_id'])
+							->setProductId($postData['product_id'])
+							->setStartTime($postData['start_time'])
+							->setEndTime($postData['end_time']);
+	          (!empty($data['image_url']) ? $promotionsmgr->setImageUrl($data['image_url']) : '');
+	            $promotionsmgr->save();
+	        }
+	          Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('Item was successfully saved. Image at: ' . $path));
+	          Mage::getSingleton('adminhtml/session')->setPromotionsmgrData(false);
+						$this->_redirect('*/*/');
+				    return;
+	        } catch (Exception $e) {
+	            Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+	            Mage::getSingleton('adminhtml/session')->setPromotionsmgrData($this->getRequest()->getPost());
+	            $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
+	            return;
+	        }
+			}
     }
    
     /**

@@ -95,6 +95,7 @@ Default layout, loads most of the pages
                   <action method="setElementClass"><value>top-container</value></action>
               </block>
           		</block>
+          	<block type="promotionsmgr/promotionsmgr" name="image_rotator" template="promotionsmgr/image_rotator.phtml" />
 						<block type="promotionsmgr/promotionsmgr" name="featured_products" template="promotionsmgr/featured_products.phtml" />
             <block type="page/html_breadcrumbs" name="breadcrumbs" as="breadcrumbs"/>
 
