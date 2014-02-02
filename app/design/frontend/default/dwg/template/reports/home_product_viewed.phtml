@@ -32,7 +32,7 @@
 ?>
 <?php if ($_products = $this->getRecentlyViewedProducts()): ?>
 <h2 class="subtitle"><?php echo $this->__('Your Recently Viewed') ?></h2>
-<?php $_columnCount = $this->getColumnCount(); ?>
+<?php $_columnCount = 4;  //use to be $this->getColumnCount() but that was not working ?>
     <?php $i=0; foreach ($_products as $_product): ?>
         <?php if ($i++%$_columnCount==0): ?>
         <ul class="products-grid">
