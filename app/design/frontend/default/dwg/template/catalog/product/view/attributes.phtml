@@ -34,7 +34,7 @@
     $_helper = $this->helper('catalog/output');
     $_product = $this->getProduct();
 	$show = true;
-	if(in_array($_product['product_type'], array(5))) {
+	if(in_array($_product['product_type'], array())) {
 		$show = false;
 	} else {
 		$show = true;
