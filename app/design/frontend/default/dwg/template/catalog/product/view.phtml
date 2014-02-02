@@ -93,7 +93,7 @@
 		          		</div>
 		  						<div class="col-md-6 ms-heading-product-text pull-right">
 										<a class="ms-green-text" href="/marketspace-products?id=<?php print $_product->getMarketspaceOwner(); ?>">
-											<?php !empty($profile['caption_for_see_all_products']) ? print $profile['caption_for_see_all_products'] : print 'See All of Our Products'; ?>
+											<?php ($seeAllProducts = $media->getSeeAllProductsUrl($_product)) ? print $seeAllProducts['caption_for_see_all_products'] : print 'See All of Our Products'; ?>
 										</a>
 									</div>
 								</div>
