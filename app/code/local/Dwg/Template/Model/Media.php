@@ -58,4 +58,22 @@ class Dwg_Template_Model_Media extends Mage_Catalog_Model_Product
 		}
 		return $result;
 	}
+	/**
+	 * get see all products link name
+	 * @param _product
+	 * 	product model object
+	 * @return array
+	 * return product array
+	 */
+	public function getSeeAllProductsUrl($_product) {
+		$result = array();
+    $product = Mage::getModel("catalog/product")
+    	->getCollection()
+			->addAttributeToSelect('url_path')
+			->addAttributeToSelect('caption_for_see_all_products')
+			->addFieldToFilter('marketspace_owner', $_product->getMarketspaceOwner())
+			->getFirstItem();
+		$result = $product->getData();
+		return $result;		
+	}
 }
