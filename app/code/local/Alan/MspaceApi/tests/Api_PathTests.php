@@ -7,19 +7,37 @@ class Alan_MspaceApi_Path_Tests extends PHPUnit_Framework_TestCase
 	{
 		Mage::app();
 	}
-	
+
+  public function testgetApiClassData() {
+    $api_path = new Alan_MspaceApi_Model_ApiPath;
+    $paths = $this->getTestData();
+    for($i = 0; $i < count($paths); $i++) {
+      $result = $api_path->getApiClassData($api_path->processRequest($paths[$i]));
+      $this->assertEquals($paths[$i]['result'], $result['class_name']);
+      $this->assertEquals($paths[$i]['num_url_params'], count($result['url_params']));
+    }     
+  }
 	public function testgetRequestClass() {
 		$api_path = new Alan_MspaceApi_Model_ApiPath;
-		$paths = array(
-			0 => array('request' => 'http://test.communitymarketspace.com/mspaceapi/reports/v1/sales/orders?param1=33&param2=555', 'result' => 'Alan_MspaceApi_Model_V1_Sales_Orders', 'request_type' => 'GET', 'num_params' => 2, 'params' => 'param1=33&param2=555'),
-			1 => array('request' => 'http://test.communitymarketspace.com/mspaceapi/reports/v1/sales/orders/?param1=66', 'result' => 'Alan_MspaceApi_Model_V1_Sales_Orders', 'request_type' => 'get', 'num_params' => 1, 'params' => 'param1=33'),
-			2 => array('request' => 'http://test.communitymarketspace.com/mspaceapi/reports/V1/sales/Orders', 'result' => 'Alan_MspaceApi_Model_V1_Sales_Orders', 'request_type' => 'get', 'num_params' => 0, 'params' => ''),
-			3 => array('request' => 'http://test.communitymarketspace.com/mspaceapi/reports/v1/Sales/orders/', 'result' => 'Alan_MspaceApi_Model_V1_Sales_Orders', 'request_type' => 'get', 'num_params' => 0, 'params' => ''),
-			4 => array('request' => 'http://test.communitymarketspace.com/mspaceapi/reports/V1/sales/orders/3', 'result' => 'Alan_MspaceApi_Model_V1_Sales_Orders', 'request_type' => 'get', 'num_params' => 0, 'params' => '3'),
-			5 => array('request' => 'http://test.communitymarketspace.com/mspaceapi/reports/v1/Sales/orders/55', 'result' => 'Alan_MspaceApi_Model_V1_Sales_Orders', 'request_type' => 'get', 'num_params' => 0, 'params' => '55'),
-			6 => array('request' => 'http://test.communitymarketspace.com/mspaceapi/reports/v1/sales/orders/junkclass/55', 'result' => '', 'request_type' => 'GET', 'num_params' => 0, 'params' => '55'),
-		);
-		for($i = 0; $i < count($paths); $i++) {
+		$paths = $this->getTestData();
+    for($i = 0; $i < count($paths); $i++) {
+      $result = $api_path->processRequest($paths[$i], $version = 'v1');
+      $this->assertTrue(is_array($result));
+    }
+  }
+  public function getTestData() {
+    return array(
+      0 => array('url' => 'http://test.communitymarketspace.com/mspaceapi/reports/v1/sales/orders?param1=33&param2=555&', 'result' => 'Alan_MspaceApi_Model_V1_Sales_Orders', 'request_type' => 'GET', 'num_url_params' => 0, 'num_params' => 2, 'params' => 'param1=33&param2=555'),
+      1 => array('url' => 'http://test.communitymarketspace.com/mspaceapi/reports/v1/sales/orders/?param1=66/&', 'result' => 'Alan_MspaceApi_Model_V1_Sales_Orders', 'request_type' => 'get', 'num_url_params' => 0, 'num_params' => 1, 'params' => 'param1=33'),
+      2 => array('url' => 'http://test.communitymarketspace.com/mspaceapi/reports/V1/sales/Orders', 'result' => 'Alan_MspaceApi_Model_V1_Sales_Orders', 'request_type' => 'get', 'num_url_params' => 0, 'num_params' => 0, 'params' => ''),
+      3 => array('url' => 'http://test.communitymarketspace.com/mspaceapi/reports/v1/Sales/orders/', 'result' => 'Alan_MspaceApi_Model_V1_Sales_Orders', 'request_type' => 'get', 'num_url_params' => 0, 'num_params' => 0, 'params' => ''),
+      4 => array('url' => 'http://test.communitymarketspace.com/mspaceapi/reports/V1/sales/orders/3/', 'result' => 'Alan_MspaceApi_Model_V1_Sales_Orders', 'request_type' => 'get', 'num_url_params' => 1, 'num_params' => 0, 'params' => '3'),
+      5 => array('url' => 'http://test.communitymarketspace.com/mspaceapi/reports/v1/Sales/orders/55', 'result' => 'Alan_MspaceApi_Model_V1_Sales_Orders', 'request_type' => 'get', 'num_url_params' => 1,'num_params' => 0, 'params' => '55'),
+      6 => array('url' => 'http://test.communitymarketspace.com/mspaceapi/reports/v1/sales/orders/junkclass/55', 'result' => 'Alan_MspaceApi_Model_V1_Sales_Orders', 'request_type' => 'GET', 'num_url_params' => 2, 'num_params' => 0, 'params' => '55'),
+      6 => array('url' => 'http://test.communitymarketspace.com/mspaceapi/reports/v1/sale/orders/junkclass/55', 'result' => '', 'request_type' => 'GET', 'num_url_params' => 4, 'num_params' => 0, 'params' => '55'),
+    );
+  }
+/*		for($i = 0; $i < count($paths); $i++) {
 		  $params = array();
       $version = 'v1';
 			$request = substr($paths[$i]['request'], strpos(strtoupper($paths[$i]['request']), strtoupper($version) . '/') + strlen(strtoupper($version) .'/'));
@@ -46,7 +64,7 @@ class Alan_MspaceApi_Path_Tests extends PHPUnit_Framework_TestCase
         $object->{$method}($class);
       }
 		}
-	}
+	}*/
   /*public function testGetClassExists() {
     print "\n check class: " . class_exists("Alan_MspaceApi_Model_V1_Sales_Orders ") . " class found? \n";
     print "\n check class: " . class_exists("Alan_MspaceApi_Model_V1_Sales_Orders") . " class found? \n";
@@ -66,7 +84,7 @@ class Alan_MspaceApi_Path_Tests extends PHPUnit_Framework_TestCase
    * a param. returning an empty string for class name means
    * not found
    */
-	public function getApiClass($request) {
+	/*public function getApiClass($request) {
 		$class['original'] = "Alan_MspaceApi_Model_V1";
 		$class['new'] = "";
 		$request_length = count($request);
@@ -87,5 +105,5 @@ class Alan_MspaceApi_Path_Tests extends PHPUnit_Framework_TestCase
       $class['original'] = $class['new']; //now set original to new
 		}
 		return $class;
-	}
+	}*/
 }

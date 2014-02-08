@@ -3,8 +3,8 @@
 class Alan_MspaceApi_Model_ApiPath extends Mage_Core_Model_Abstract {
 	
   public function getRequestInfo($request_data, $version = 'v1') {
-    $request = $this->processRequest($request_data, $version);
-    $request = $this->getApiClassData($request);
+    $request_result = $this->processRequest($request_data, $version);
+    $request = $this->getApiClassData($request_result);
     return $request;
   }
   /** 
@@ -28,6 +28,7 @@ class Alan_MspaceApi_Model_ApiPath extends Mage_Core_Model_Abstract {
       $request = substr($request, 0, strpos($request, '?'));
     }
     $request = explode('/', $request);
+    $request['params'] = $params;
     return $request;
   }		
   /**
@@ -60,31 +61,29 @@ class Alan_MspaceApi_Model_ApiPath extends Mage_Core_Model_Abstract {
    * @param request
    *  array of a url reqest params
    * @return array
-   *  return class_name and url_param if there is 
-   * a param. returning an empty string for class name means
-   * not found
+   *  return class_name and url_params if there are
+   *  parameters between slashes
+   *  returning an empty string for class name means
+   *  class not found
    */
-  public function getApiClassData($request) {
+  public function getApiClassData($request, $version = 'v1') {
     $class = array();
-    $class['original'] = "Alan_MspaceApi_Model_V1";
-    $class['new'] = "";
+    $class['params'] = $request['params'];
+    unset($request['params']);
+    $class['previous'] = "Alan_MspaceApi_Model_" . strtoupper($version);
+    $class['class_name'] = "";
+    $class['current'] = "";
     $request_length = count($request);
     for($i = 0; $i < $request_length; $i++) {
-      $class['new'] = ($class['original'] . '_' . ucfirst($request[$i]));
-      if(($i + 1) == $request_length) {
-        //print "found? " . mageFindClassFile('Alan_MspaceApi_Model_V1_Sales_Orders');
-       if(mageFindClassFile($class['new'])) {
-          $class['class_name'] = $class['new'];
-        } else {
-          if(!mageFindClassFile($class['original'])) {
-            $class['class_name'] = '';
-          } else {
-            $class['class_name'] = $class['original'];
-            !empty($request[$i]) ? $class['url_param'] = $request[$i] : ''; //if old class was used means the latest class had a param in it or was empty
-          }
-        }
+      $class['current'] = ($class['previous'] . '_' . ucfirst($request[$i]));
+      if(mageFindClassFile($class['current'])) { //if the class is good then set class_name equal to the checked class name
+        $class['class_name'] = $class['current'];
+        $class['url_params'] = array(); //empty url params because 
+      } else { //assume request element was a param since it did not make a valid class
+        if(!empty($request[$i])) //don't add empty values - this may not be desired
+          $class['url_params'][] = $request[$i];
       }
-      $class['original'] = $class['new']; //now set original to new*/
+      $class['previous'] = $class['current'];
     }
     return $class;
   }	
