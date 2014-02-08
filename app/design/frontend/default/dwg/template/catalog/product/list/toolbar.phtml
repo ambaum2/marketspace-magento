@@ -31,6 +31,9 @@
  * @see Mage_Catalog_Block_Product_List_Toolbar
  */
 ?>
+<?php 
+	$show_grid_sort_by = false; //hide sort by grid per jim
+?>
 <?php if($this->getCollection()->getSize()): ?>
 <div class="toolbar">
     <div class="pager">
@@ -57,7 +60,7 @@
 
     </div>
 
-    <?php if( $this->isExpanded() ): ?>
+    <?php if( $this->isExpanded() && $show_grid_sort_by): ?>
     <div class="sorter">
         <?php if( $this->isEnabledViewSwitcher() ): ?>
         <p class="view-mode">
