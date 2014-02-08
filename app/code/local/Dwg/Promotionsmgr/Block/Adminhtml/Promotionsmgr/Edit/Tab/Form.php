@@ -79,52 +79,57 @@
 			   $order_values[] = array('value' => $i, 'label' => $i);
 			 }
        $fieldset->addField('item_order', 'select', array(
-        'label'     => Mage::helper('promotionsmgr')->__('Order from 1 to 16 '),
-        'class'     => 'required-entry',
-        'required'  => true,
-        'name'      => 'item_order',
-        'values'	=> $order_values,//array(array('value' => '3335', 'label' => 'default region'))
+         'label'     => Mage::helper('promotionsmgr')->__('Order from 1 to 16 '),
+         'class'     => 'required-entry',
+         'required'  => true,
+         'name'      => 'item_order',
+         'values'	=> $order_values,//array(array('value' => '3335', 'label' => 'default region'))
        ));		
 		
        $attributeId = Mage::getResourceModel('eav/entity_attribute')->getIdByCode('catalog_product','escape_region');
 	 		 $attribute = Mage::getModel('catalog/resource_eav_attribute')->load($attributeId);
 		
-        $fieldset->addField('region', 'select', array(
-          'label'     => Mage::helper('promotionsmgr')->__('Region'),
+       $fieldset->addField('region', 'select', array(
+         'label'     => Mage::helper('promotionsmgr')->__('Region'),
+         'class'     => 'required-entry',
+         'required'  => false,
+         'name'      => 'region',
+         'values'	=> array_merge(array(array('value' => '0', 'label' => 'default region')), $attribute->getSource()->getAllOptions(false)), 
+         'after_element_html' => '<small>We are not currently using this. We used to have an attribute called escape_region that 
+        	was going to make it possible to have multiple region slideshows, featured products, etc<small>',         
+        ));
+
+        $fieldset->addField('category_id', 'select', array(
+          'label'     => Mage::helper('promotionsmgr')->__('Category'),
           'class'     => 'required-entry',
+          'required'  => true,
+          'name'      => 'category_id',
+          'values'	=> Dwg_Promotionsmgr_Block_Adminhtml_Promotionsmgr::getActiveCategories(),
+        ));
+
+        $fieldset->addField('link', 'text', array(
+          'label'     => Mage::helper('promotionsmgr')->__('Link'),
+          'class'     => '',
           'required'  => false,
-          'name'      => 'region',
-          'values'	=> array_merge(array(array('value' => '0', 'label' => 'default region')), $attribute->getSource()->getAllOptions(false)), 
-          'after_element_html' => '<small>We are not currently using this. We used to have an attribute called escape_region that 
-          	was going to make it possible to have multiple region slideshows, featured products, etc<small>',         
+          'name'      => 'link',
         ));
 
-         $fieldset->addField('category_id', 'select', array(
-            'label'     => Mage::helper('promotionsmgr')->__('Category'),
-            'class'     => 'required-entry',
-            'required'  => true,
-            'name'      => 'category_id',
-            'values'	=> Dwg_Promotionsmgr_Block_Adminhtml_Promotionsmgr::getActiveCategories(),
+				$fieldset->addField('image_url', 'file', array(
+					'label'     => Mage::helper('promotionsmgr')->__('Upload Image'),
+					'required'  => false,
+					'name'      => 'image_url',
+					'after_element_html' => (!(empty($promotionsmgrData['image_url'])) ? "Current Image:<a href='".Mage::getBaseUrl('media') . DS 
+						. "promotions" . DS . $promotionsmgrData['image_url'] ."' target='_blank'><img src='".Mage::getBaseUrl('media') . DS 
+						. "promotions" . DS . $promotionsmgrData['image_url'] ."' width='50' height='50' /></a>": ''),
+				));
+
+        $fieldset->addField('image_alt_tag', 'text', array(
+          'label'     => Mage::helper('promotionsmgr')->__('Image Alt Tag (description)'),
+          'class'     => '',
+          'required'  => false,
+          'name'      => 'image_alt_tag',
         ));
-
-         $fieldset->addField('link', 'text', array(
-            'label'     => Mage::helper('promotionsmgr')->__('Link'),
-            'class'     => '',
-            'required'  => false,
-            'name'      => 'link',
-        ));
-
-		$fieldset->addField('image_url', 'file', array(
-			'label'     => Mage::helper('promotionsmgr')->__('Upload Image'),
-			'required'  => false,
-			'name'      => 'image_url',
-			'after_element_html' => (!(empty($promotionsmgrData['image_url'])) ? "Current Image:<a href='".Mage::getBaseUrl('media') . DS 
-				. "promotions" . DS . $promotionsmgrData['image_url'] ."' target='_blank'><img src='".Mage::getBaseUrl('media') . DS 
-				. "promotions" . DS . $promotionsmgrData['image_url'] ."' width='50' height='50' /></a>": ''),
-		));
-
-
-		
+	
 		$requestInfo = $this->getRequest()->getBeforeForwardInfo();
 		
         if ( isset($requestInfo) && $requestInfo['action_name'] == "new" )	{ //have a blank form if this is the new page//Mage::getSingleton('adminhtml/session')->getPromotionsmgrData()

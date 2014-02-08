@@ -82,6 +82,7 @@ class Dwg_Promotionsmgr_Adminhtml_PromotionsmgrController extends Mage_Adminhtml
 							->setLink($postData['link'])
 							->setStartTime($postData['start_time'])
 							->setEndTime($postData['end_time'])
+							->setImageAltTag($postData['image_alt_tag'])
 	            ->save();
 	        } else { // edit the existing record
 	        $promotionsmgr = Mage::getModel('promotionsmgr/promotionsmgr');
@@ -98,7 +99,8 @@ class Dwg_Promotionsmgr_Adminhtml_PromotionsmgrController extends Mage_Adminhtml
 							->setGuideId($postData['guide_id'])
 							->setProductId($postData['product_id'])
 							->setStartTime($postData['start_time'])
-							->setEndTime($postData['end_time']);
+							->setEndTime($postData['end_time'])
+							->setImageAltTag($postData['image_alt_tag']);
 	          (!empty($data['image_url']) ? $promotionsmgr->setImageUrl($data['image_url']) : '');
 	            $promotionsmgr->save();
 	        }
