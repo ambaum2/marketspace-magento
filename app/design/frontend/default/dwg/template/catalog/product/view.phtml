@@ -39,6 +39,7 @@
   $showMedia = true;
 	$detailsClass = "col-md-6 col-xs-12";
   if(in_array($_product['product_type'], array(11, 12))) {
+    $detailsClass = "col-md-12 col-xs-12";	
     $showMedia = false;
   } else {
 		if(count($media->getProductImageRotatorImages($_product)) > 0) {
