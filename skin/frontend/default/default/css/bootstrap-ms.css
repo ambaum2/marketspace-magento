@@ -22,6 +22,9 @@ h4 {
 	font-size:32px;
 	margin: 10px 10px 5px 5px;
 }
+.engage-link:hover {
+	text-decoration: none;
+}
 .ms-green-text {
 	color: #a2ad0d;
 }
@@ -105,7 +108,7 @@ h4 {
 		
 	}
 	.ms-right-sidbar-homepage {
-		background: url("/skin/frontend/default/default/images/ms/About_CMS.jpg") no-repeat scroll 50% 100% rgba(0, 0, 0, 0);
+		/*background: url("/skin/frontend/default/default/images/ms/About_CMS.jpg") no-repeat scroll 50% 100% rgba(0, 0, 0, 0);*/
     height: 416px;
    }
 	.ms-home-about img {
@@ -128,7 +131,7 @@ h4 {
 		font-size:11px;
 	}
 	.ms-right-sidbar-homepage {
-		background: url("/skin/frontend/default/default/images/ms/About_CMS.jpg") no-repeat scroll 50% 100% rgba(0, 0, 0, 0);
+		/*background: url("/skin/frontend/default/default/images/ms/About_CMS.jpg") no-repeat scroll 50% 100% rgba(0, 0, 0, 0);*/
     height: 322px;
    }
 	.main-container .main .col-main .btn-engage {
