@@ -94,7 +94,7 @@
                 				
                 			</div>                			           			
                 		</div>
-                	<?php else : ?>
+                	<?php elseif(is_null(Mage::registry('current_product'))) : //on a category page?>
                     <?php echo $this->getChildHtml('global_messages') ?>
                    	<div class="row">
                    		<div class="col-md-9 col-sm-9">
@@ -112,7 +112,11 @@
                    			</div>                  			
                    		</div>                    	
                     </div>
+                  <?php else : ?>
+                  	<?php echo $this->getChildHtml('global_messages') ?>
+                    <?php echo $this->getChildHtml('content') ?>
                 	<?php endif; ?>
+                	
                 </div>
             </div>
         </div>
