@@ -96,10 +96,23 @@
                 		</div>
                 	<?php else : ?>
                     <?php echo $this->getChildHtml('global_messages') ?>
-                    <?php echo $this->getChildHtml('content') ?>
+                   	<div class="row">
+                   		<div class="col-md-9 col-sm-9">
+                   			<?php echo $this->getChildHtml('content') ?>
+                   		</div>
+                   		<div class="col-md-3 col-sm-3">
+                   			<div class="row">
+                   				<?php echo $this->getChildHtml('right') ?>
+                   			</div>
+                   			<div class="row">
+                   				<?php echo "ad placeholder 1"; ?>
+                   			</div>
+                   			<div class="row">
+                   				<?php echo "ad placeholder 2"; ?>
+                   			</div>                  			
+                   		</div>                    	
+                    </div>
                 	<?php endif; ?>
-                </div>
-                <div class="col-right sidebar"><?php echo $this->getChildHtml('right') ?>         
                 </div>
             </div>
         </div>

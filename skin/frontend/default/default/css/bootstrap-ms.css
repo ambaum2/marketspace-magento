@@ -328,6 +328,9 @@ h4 {
 }
 
 /* grid view */
+.col2-right-layout .products-grid {
+	width: auto;
+}
 .products-grid li.item {
 	width: 160px;
 }
@@ -352,5 +355,6 @@ h4 {
 	padding: 0 15px;
 }
 .product-essential .short-description ul {
-	list-style-position: inside;
+	list-style-position: outside;
+	margin-left: 18px;
 }
