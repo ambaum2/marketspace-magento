@@ -96,6 +96,7 @@ Default layout, loads most of the pages
               </block>
           		</block>
           	<block type="promotionsmgr/promotionsmgr" name="image_rotator" template="promotionsmgr/image_rotator.phtml" />
+          	<block type="promotionsmgr/promotionsmgr" name="right_sidebar_content" template="promotionsmgr/right_sidebar_content.phtml" />
 						<block type="promotionsmgr/promotionsmgr" name="featured_products" template="promotionsmgr/featured_products.phtml" />
             <block type="page/html_breadcrumbs" name="breadcrumbs" as="breadcrumbs"/>
 

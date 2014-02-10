@@ -129,19 +129,20 @@ class Dwg_Promotionsmgr_Block_Promotionsmgr extends Mage_Core_Block_Template
 	/**
 	 * get ad images
 	 * @param options
-	 * 	array of settings category_id, item_order etc
+	 * 	array of settings category_id, item_order, 
+	 * limit
 	 * @return mixed
 	 *  return an array of images or false if none exist
 	 */
   public function getAdImagesByPosition($options) {
   	isset($options['category_id']) ? $category_id = $options['category_id'] : $category_id = 1;
-		isset($options['position']) ? $position = $options['position'] : $position = 'right_top';
+		isset($options['limit']) ? $limit = $options['limit'] : $limit = 2;
 		$images = Mage::getModel('promotionsmgr/promotionsmgr')->getCollection()
-			->addFilter('position', $position)
+			->addFilter('position', 'right_top')
 			->addFilter('status', 1)
 			->addFilter('category_id', $category_id)
 			->setOrder('item_order', 'ASC')
-			->setPageSize(1)
+			->setPageSize($limit)
 			->getData();	
 		if(count($images)>0) {
 			return $images;

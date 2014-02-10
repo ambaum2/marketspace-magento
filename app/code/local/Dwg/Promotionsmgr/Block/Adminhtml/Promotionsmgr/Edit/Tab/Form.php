@@ -62,11 +62,7 @@
 	          ),
 	          array(
 	          	'value' => 'right_top',
-	            'label' => Mage::helper('promotionsmgr')->__('Right Sidebar Top Image')
-						),
-	          array(
-	          	'value' => 'right_bottom',
-	            'label' => Mage::helper('promotionsmgr')->__('Right Sidebar Bottom Image')
+	            'label' => Mage::helper('promotionsmgr')->__('Right Sidebar Image')
 						),
 						array(
 	            'value' => 'Slide',

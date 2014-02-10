@@ -1,0 +1,21 @@
+<?php
+	if($_category  = Mage::registry('current_category')) {
+		$images = $this->getAdImagesByPosition(array('category_id' => $_category->getId(), 'limit' => $this->ads_count));
+	} else {
+		$images = $this->getAdImagesByPosition(array('category_id' => 1, 'limit' => $this->ads_count));
+	}
+?>
+<?php if($images) : ?>
+	<?php for($i = 0; $i < count($images); $i++) : ?>
+	  <?php if(!empty($images[$i]['link'])) : ?>
+	  	<a href="<?php print $images[$i]['link']; ?>">
+	  <?php endif; ?>
+	  
+	  <img class="img-responsive" width="100%" src="<?php echo Mage::getBaseUrl('media') . DS . "promotions" . DS . $images[$i]['image_url'] ?>" 
+	  	alt="<?php !empty($images[$i]['image_alt_tag']) ? print $images[$i]['image_alt_tag'] : print 'community marketspace'; ?>"></a>
+	  
+	  <?php if(!empty($images[$i]['link'])) : ?>
+	  	</a>
+	  <?php endif; ?>
+	<?php endfor; ?>
+<?php endif; ?>

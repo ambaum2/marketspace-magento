@@ -105,11 +105,9 @@
                    				<?php echo $this->getChildHtml('right') ?>
                    			</div>
                    			<div class="row">
-                   				<?php echo "ad placeholder 1"; ?>
-                   			</div>
-                   			<div class="row">
-                   				<?php echo "ad placeholder 2"; ?>
-                   			</div>                  			
+                   				<?php $this->getChild('right_sidebar_content')->setData('ads_count', 2); ?>
+                   				<?php echo $this->getChildHtml('right_sidebar_content'); ?>
+                   			</div>                 			
                    		</div>                    	
                     </div>
                   <?php else : ?>
