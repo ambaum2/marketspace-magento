@@ -105,14 +105,43 @@ class Dwg_Promotionsmgr_Block_Promotionsmgr extends Mage_Core_Block_Template
 		}	
 	}
 	/**
-	 * get homepage slider images
+	 * get  slider images
+	 * @param options
+	 * 	array of settings category_id, item_order etc
+	 * @return mixed
+	 *  return an array of images or false if none exist
 	 */
-  public function getImageRotatorImages() {
+  public function getImageRotatorImages($options) {
+  	isset($options['category_id']) ? $category_id = $options['category_id'] : $category_id = 1;
 		$images = Mage::getModel('promotionsmgr/promotionsmgr')->getCollection()
 			->addFilter('position','Slide')
 			->addFilter('status', 1)
+			->addFilter('category_id', $category_id)
 			->setOrder('item_order', 'ASC')
 			->setPageSize(10)
+			->getData();	
+		if(count($images)>0) {
+			return $images;
+		} else {
+			return false;
+		}
+	}
+	/**
+	 * get ad images
+	 * @param options
+	 * 	array of settings category_id, item_order etc
+	 * @return mixed
+	 *  return an array of images or false if none exist
+	 */
+  public function getAdImagesByPosition($options) {
+  	isset($options['category_id']) ? $category_id = $options['category_id'] : $category_id = 1;
+		isset($options['position']) ? $position = $options['position'] : $position = 'right_top';
+		$images = Mage::getModel('promotionsmgr/promotionsmgr')->getCollection()
+			->addFilter('position', $position)
+			->addFilter('status', 1)
+			->addFilter('category_id', $category_id)
+			->setOrder('item_order', 'ASC')
+			->setPageSize(1)
 			->getData();	
 		if(count($images)>0) {
 			return $images;

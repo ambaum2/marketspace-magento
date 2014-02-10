@@ -53,7 +53,7 @@ class Dwg_Promotionsmgr_Block_Adminhtml_Promotionsmgr_Grid extends Mage_Adminhtm
             'width'     => '120px',
             'type'      => 'text',
             //'default'   => '--',
-            'index'     => 'category_name',
+            'index'     => 'category_id',
         ));
         $this->addColumn('product_id', array(
             'header'    => Mage::helper('promotionsmgr')->__('Product Id'),

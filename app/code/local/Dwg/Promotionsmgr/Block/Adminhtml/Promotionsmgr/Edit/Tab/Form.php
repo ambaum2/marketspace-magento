@@ -61,8 +61,12 @@
 	            'label' => Mage::helper('promotionsmgr')->__('Featured Product'),
 	          ),
 	          array(
-	          	'value' => 'Right',
-	            'label' => Mage::helper('promotionsmgr')->__('Right')
+	          	'value' => 'right_top',
+	            'label' => Mage::helper('promotionsmgr')->__('Right Sidebar Top Image')
+						),
+	          array(
+	          	'value' => 'right_bottom',
+	            'label' => Mage::helper('promotionsmgr')->__('Right Sidebar Bottom Image')
 						),
 						array(
 	            'value' => 'Slide',

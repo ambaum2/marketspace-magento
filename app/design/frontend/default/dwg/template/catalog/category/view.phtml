@@ -33,6 +33,7 @@
 ?>
 <?php
     $_helper    = $this->helper('catalog/output');
+		$promotions = new Dwg_Promotionsmgr_Block_Promotionsmgr;
     $_category  = $this->getCurrentCategory();
     $_imgHtml   = '';
     if ($_imgUrl = $_category->getImageUrl()) {
@@ -53,11 +54,10 @@
     <?php echo $_imgHtml ?>
 <?php endif; ?>
 
-<?php if($_description=$this->getCurrentCategory()->getDescription()): ?>
-    <div class="category-description std">
-        <?php print "rotator placeholder"; //echo $_helper->categoryAttribute($_category, $_description, 'description') ?>
-    </div>
-    <?php endif; ?>
+<?php //if($_description=$this->getCurrentCategory()->getDescription())://echo $_helper->categoryAttribute($_category, $_description, 'description') ?>
+<?php if($slider = $promotions->getImageRotatorImages(array('category_id' => $_category->getId()))) : ?>
+		<?php echo $this->getChildHtml('image_rotator'); ?>
+<?php endif; ?>
 
 <?php if($this->isContentMode()): ?>
     <?php echo $this->getCmsBlockHtml() ?>

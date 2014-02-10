@@ -1,5 +1,9 @@
-<?php 
-	$images = $this->getImageRotatorImages();
+<?php
+	if($_category  = Mage::registry('current_category')) {
+		$images = $this->getImageRotatorImages(array('category_id' => $_category->getId()));
+	} else {
+		$images = $this->getImageRotatorImages(array('category_id' => 1));
+	}
 ?>
 
 <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">

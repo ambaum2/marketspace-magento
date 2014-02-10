@@ -22,15 +22,28 @@ class promotionsTest extends PHPUnit_Framework_TestCase
     //$items->getSelect()->where('attribute_id=?', 136);
     
   }
-  public function testgetImageRotatorImages() {
+  /*public function testgetImageRotatorImages() {
 		$productData = Mage::getModel('promotionsmgr/promotionsmgr')->getCollection()
 			->addFilter('position','Slide')
 			->addFilter('status', 1)
 			->setOrder('item_order', 'ASC')
 			->setPageSize(10)
 			->getData();		
-    print_r($productData);
-
-  }
+    //print_r($productData);
+  }*/
+	public function testgetImageRotatorImages() {
+		$promo = new Dwg_Promotionsmgr_Block_Promotionsmgr;
+		$options = array('category_id' => 1);
+		$images = $promo->getImageRotatorImages($options);
+		$this->assertTrue(!empty($images));
+		//print_r($images);
+	}
+	
+	public function testgetAdImagesByPosition() {
+		$promo = new Dwg_Promotionsmgr_Block_Promotionsmgr;
+		$options = array('category_id' => 37, 'position' => 'right_top');
+		$images = $promo->getAdImagesByPosition($options);
+		print_r($images);
+	}
 }
   
