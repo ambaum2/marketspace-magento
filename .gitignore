@@ -6,3 +6,5 @@ var/session/*
 var/report/*
 app/etc/local.xml
 media/*
+skin/frontend/default/msil/*
+app/design/frontend/default/msil/*
