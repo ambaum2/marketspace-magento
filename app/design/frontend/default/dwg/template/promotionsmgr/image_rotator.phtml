@@ -18,7 +18,7 @@
   	<?php for($i = 0; $i < count($images); $i++) : ?>
 	    <div class="item<?php $i == 0 ? print ' active' : '' ?>"> <!-- I think active class causes the image slider to bump up on rotate -->
 	      <?php if(!empty($images[$i]['link'])) : ?>
-	      	<a href="<?php print $images[$i]['link']; ?>">
+	      	<a target="_parent" href="<?php print $images[$i]['link']; ?>">
 	      <?php endif; ?>
 	      
 	      <img class="img-responsive" width="100%" src="<?php echo Mage::getBaseUrl('media') . DS . "promotions" . DS . $images[$i]['image_url'] ?>" 

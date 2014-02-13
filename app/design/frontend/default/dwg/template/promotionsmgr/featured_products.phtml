@@ -14,7 +14,7 @@
 						<?php 
 							$currProd = $_product->load($prod['product_id']);
 						?>
-					  <a class="product-image" href="<?php print $currProd->getProductUrl() ?>">
+					  <a target="_parent" ="product-image" href="<?php print $currProd->getProductUrl() ?>">
 						<img src="<?php print $this->helper('catalog/image')->init($currProd, 'thumbnail')->resize(135)?>" /></a>
 						<a href="<?php print $currProd->getProductUrl() ?>"<h2 class='text-ms-label product-name'><?php print $currProd->getName() ?>"</h2></a>
 					</div>
