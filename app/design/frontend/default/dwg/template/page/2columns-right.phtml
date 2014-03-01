@@ -82,7 +82,7 @@
                 			</div>
                 		</div>
                 		<div class="row ms-featured-and-ads">
-                			<div class="col-md-9 well white-well">
+                			<div class="col-md-8 well col-sm-9 ms-featured-content white-well">
                 				<div class="row ms-featured">
                 					<?php echo $this->getChildHtml('featured_products') ?>
                 				</div>
@@ -90,9 +90,12 @@
                 					
                 				</div>
                 			</div>
-                			<div class="col-md-3 ms-ads-sidebar">
-                				
-                			</div>                			           			
+                			<div class="col-md-4 col-sm-3 ms-ads-sidebar">
+                        <div class="row">
+                          <?php $this->getChild('right_sidebar_content')->setData('ads_count', 2); ?>
+                          <?php echo $this->getChildHtml('right_sidebar_content'); ?>
+                        </div>
+                			</div>                  			           			
                 		</div>
                 	<?php elseif(is_null(Mage::registry('current_product'))) : //on a category page?>
                     <?php echo $this->getChildHtml('global_messages') ?>

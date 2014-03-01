@@ -99,6 +99,7 @@ h4 {
 	background: linear-gradient(to bottom, #b0b931 0%,#77800a 100%); /* W3C */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b0b931', endColorstr='#77800a',GradientType=0 ); /* IE6-8 */
 }
+
 @media (min-width: 992px) {
 	.ms-home-about {
 		margin-left:-15px;
@@ -111,6 +112,16 @@ h4 {
 		/*background: url("/skin/frontend/default/default/images/ms/About_CMS.jpg") no-repeat scroll 50% 100% rgba(0, 0, 0, 0);*/
     height: 416px;
    }
+
+  .ms-ads-sidebar {
+		width: 255px;
+		min-height: 200px;
+		background: #D2D2D2;
+		padding-top: 30px;
+  }
+	.ms-featured-content {
+		width: 765px;
+	}
 	.ms-home-about img {
 		width:243px;
 		height:58px;
@@ -150,6 +161,10 @@ h4 {
 }
 .ms-featured-and-ads .well {
 	padding-top:0px;
+}
+.ms-right-sidebar-image {
+	margin: 0 auto;
+	padding: 0 0 30px 0;
 }
 .product-essential {
 	background:none;
@@ -217,7 +232,7 @@ h4 {
 	background:none;
 }
 .main #carousel-example-generic img {
-	margin:0px;
+	margin:0 auto;
 }
 .nav-pills .email-friend a {
 	padding:0px;

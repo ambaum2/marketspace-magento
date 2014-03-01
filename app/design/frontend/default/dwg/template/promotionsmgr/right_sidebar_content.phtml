@@ -11,7 +11,7 @@
 	  <?php if(!empty($images[$i]['link'])) : ?>
 	  	<a target="_blank" href="<?php print $images[$i]['link']; ?>">
 	  <?php endif; ?>
-	   <img class="img-responsive ms-right-sidbar-image" src="<?php echo Mage::getBaseUrl('media') . DS . "promotions" . DS . $images[$i]['image_url'] ?>" 
+	   <img class="img-responsive ms-right-sidebar-image" src="<?php echo Mage::getBaseUrl('media') . DS . "promotions" . DS . $images[$i]['image_url'] ?>" 
 	  	  alt="<?php !empty($images[$i]['image_alt_tag']) ? print $images[$i]['image_alt_tag'] : print 'community marketspace'; ?>"></a>
 	  
 	  <?php if(!empty($images[$i]['link'])) : ?>
