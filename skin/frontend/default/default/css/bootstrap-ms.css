@@ -373,3 +373,20 @@ h4 {
 	list-style-position: outside;
 	margin-left: 18px;
 }
+
+/* category view */
+.page .ms-content-col2-right .main {
+       background: #D2D2D2;
+}
+.page .ms-content-col2-right .main .breadcrumbs {
+       background: #ffffff;
+       margin:0px;
+       padding:0px;
+}
+.page .ms-content-col2-right .main .breadcrumbs ul {
+       padding: 0px;
+}
+.page .ms-content-col2-right .main .ms-main-content {
+       background: #ffffff;
+}
+
