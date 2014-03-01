@@ -234,6 +234,12 @@ h4 {
 .main #carousel-example-generic img {
 	margin:0 auto;
 }
+#carousel-example-generic .carousel-control .icon-prev, .carousel-control .glyphicon-chevron-left {
+	left: 0%;
+}
+#carousel-example-generic .carousel-control .icon-prev, .carousel-control .glyphicon-chevron-left {
+	right: 3%;
+}
 .nav-pills .email-friend a {
 	padding:0px;
 }
