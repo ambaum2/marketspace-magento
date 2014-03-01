@@ -31,6 +31,13 @@ class promotionsTest extends PHPUnit_Framework_TestCase
 			->getData();		
     //print_r($productData);
   }*/
+  public function testgetProductGrid() {
+  	$promo = new Dwg_Promotionsmgr_Block_Promotionsmgr;
+		$images = $promo->productGrid();
+		foreach($images as $key => $value) {
+			//$_product =  Mage::getModel('catalog/product')
+		}
+  }
 	public function testgetImageRotatorImages() {
 		$promo = new Dwg_Promotionsmgr_Block_Promotionsmgr;
 		$options = array('category_id' => 1);
@@ -43,7 +50,7 @@ class promotionsTest extends PHPUnit_Framework_TestCase
 		$promo = new Dwg_Promotionsmgr_Block_Promotionsmgr;
 		$options = array('category_id' => 37, 'position' => 'right_top');
 		$images = $promo->getAdImagesByPosition($options);
-		print_r($images);
+		//print_r($images);
 	}
 }
   
