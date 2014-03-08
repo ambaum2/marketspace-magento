@@ -29,6 +29,22 @@
  * Template for Mage_Page_Block_Html
  */
 ?>
+<?php 
+	$page_type = Mage::app()->getFrontController()->getRequest()->getControllerName(); //get page controller for logic
+	print $page_type;
+	$page_type_class = '';
+	switch ($page_type) {
+		case 'product':
+			$page_type_class = "ms-product-col2-right";
+			break;
+		case 'category':
+			$page_type_class = "ms-content-col2-right";
+			break;
+		default:
+			
+			break;
+	}
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->getLang() ?>" lang="<?php echo $this->getLang() ?>">
 <head>
@@ -41,7 +57,7 @@
     <?php echo $this->getChildHtml('global_notices') ?>
     <div class="page">
         <?php echo $this->getChildHtml('header') ?>
-        <div class="main-container col2-right-layout <?php ($homepage) ? print 'ms-homepage-col2-right' : print 'ms-content-col2-right'; ?>">
+        <div class="main-container col2-right-layout <?php ($homepage) ? print 'ms-homepage-col2-right' : print $page_type_class; ?>">
             <div class="main container">
                 <div class="col-main">
                 	<?php if($homepage) : ?>
@@ -96,7 +112,7 @@
                         </div>
                 			</div>                  			           			
                 		</div>
-                	<?php elseif(is_null(Mage::registry('current_product'))) : //on a category page?>
+                	<?php elseif($page_type == 'category' || $page_type == 'result') : //on a category page?>
                     <?php echo $this->getChildHtml('global_messages') ?>
                    	<div class="row">
                    		<div class="col-md-9 col-sm-9 ms-main-content">
