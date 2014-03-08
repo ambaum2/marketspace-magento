@@ -1,6 +1,12 @@
 @import url(http://fonts.googleapis.com/css?family=Roboto+Slab|Ubuntu+Condensed);
 body {background: #341b00;color:#341b00;}
-
+ul {
+	list-style-position: inside;
+	list-style-type: disc;
+}
+ul .item, ul .subLink, .block-content ul li  {
+	list-style-type: none;
+}
 h1, h2, h3, h4, h5 {color:#970e5a;}
 .well {
 	background:#cccccc;
@@ -297,7 +303,7 @@ h4 {
 #headerMainMenu .mainLink {position:relative;}
 #headerMainMenu .mainLink .subLinks {text-decoration:none;}
 #headerMainMenu .mainLink .subMenu {display:none;position:absolute;z-index:100;left:0px;top:30px;text-align:left;padding:5px;border:1px solid #899BA5;background:white;}
-#headerMainMenu .mainLink .subMenu li {background:#ECF3F6 url(/skin/frontend/default/default/images/bkg_nav1.gif) 0 100% repeat-x;width:250px;padding:8px;}
+#headerMainMenu .mainLink .subMenu li {background:#ffffff;width:250px;padding:8px;}
 #headerMainMenu .mainLink .subMenu li a {color:black;display:block;}
 #headerMainMenu .mainLink .subMenu li a:hover {
 	background:#9DCECE;
