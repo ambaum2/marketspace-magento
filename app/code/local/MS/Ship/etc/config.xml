@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<config>
+  <modules>
+    <MS_Ship>
+      <version>0.1.0</version>
+    </MS_Ship>
+  </modules>
+  <global>
+    <helpers>
+      <ship>
+        <class>MS_Ship_Helper</class>
+      </ship>
+    </helpers>
+	<models>
+	  <ship>
+		<class>MS_Ship_Model</class>
+		<resourceModel>ship_mysql4</resourceModel>
+	  </ship>
+	</models>
+	<resources>
+	  <ms_ship_setup>
+		<setup>
+		  <module>MS_Ship</module>
+		  <class>Mage_Catalog_Model_Resource_Eav_Mysql4_Setup</class>
+		</setup>
+		<connection>
+		  <use>core_setup</use>
+		</connection>
+	  </ms_ship_setup>
+	  <ms_ship_write>
+		<connection>
+		  <use>core_write</use>
+		</connection>
+	  </ms_ship_write>
+	  <ms_ship_read>
+		<connection>
+		  <use>core_read</use>
+		</connection>
+	  </ms_ship_read>
+	</resources>
+  </global>    
+	<default>
+        <carriers>
+            <msship>
+                <active>1</active>
+                <model>ship/carrier_msship</model>
+                <name>Marketspace Options</name>
+                <title>Marketspace Shipping</title>
+                <description>shipping options:  per product, by weight, or flat shipping methods	</description>
+                <sort_order>0</sort_order>
+            </msship>
+        </carriers>
+    </default>
+</config> 
