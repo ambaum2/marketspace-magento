@@ -12,4 +12,9 @@ class MS_Attribtute_Tests extends PHPUnit_Framework_TestCase
     $attribute = Mage::getModel('eav/config')->getAttribute('catalog_product', 'ms_shipping_type');
     print $attribute['attribute_id'];
   }
+  
+  public function test_getproductbyid() {
+    $product = Mage::getModel('catalog/product')->load(47);
+    print '\n' . $product["product_id"];
+  }
 }

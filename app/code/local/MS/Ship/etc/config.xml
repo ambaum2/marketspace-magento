@@ -13,9 +13,18 @@
     </helpers>
 	<models>
 	  <ship>
-		<class>MS_Ship_Model</class>
-		<resourceModel>ship_mysql4</resourceModel>
+			<class>MS_Ship_Model</class>
+			<resourceModel>ship_mysql4</resourceModel>		
 	  </ship>
+	  <ms_ship>
+	  	<class>MS_Ship_Model_Rates</class><!-- why this needs to be here and not in the <models><ship> tag!!!!...I have no idea???? just when you start liking magento... -->
+	  	<class>MS_Ship_Model_Types</class>
+	  	<class>MS_Ship_Model_Rates_Totals_Order</class>
+	  	<class>MS_Ship_Model_Rates_Totals_Product_By_Weight</class>
+	  	<class>MS_Ship_Model_Rates_Totals_Product</class>
+	  	<class>MS_Ship_Model_Rates_Totals_Free</class>
+	  	<class>MS_Ship_Model_Rates_Calculate</class> <!-- must put file in a folder and name should be calculate to work-->
+	  </ms_ship>
 	</models>
 	<resources>
 	  <ms_ship_setup>
