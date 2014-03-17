@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+  <msmtp_adminhtml_msmtpbackend_index>
+	<reference name="content">
+	  <block type="msmtp/adminhtml_msmtpbackend" name="msmtpbackend" template="msmtp/msmtpbackend.phtml"/>
+	</reference>
+  </msmtp_adminhtml_msmtpbackend_index>
+</layout>
