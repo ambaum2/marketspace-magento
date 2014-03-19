@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<config>
+  <modules>
+    <MS_Template>
+      <version>0.1.0</version>
+    </MS_Template>
+  </modules>
+  <global>
+    <helpers>
+      <ms_template>
+        <class>MS_Template_Helper</class>
+      </ms_template>
+    </helpers>
+	<models>
+	  <template>
+		<class>MS_Template_Model</class>
+		<resourceModel>template_mysql4</resourceModel>
+	  </template>
+      <ms_template>
+          <class>MS_Template_Model_SellerProfile</class>
+      </ms_template>
+			<sales>
+				<rewrite>
+					<order>MS_Template_Model_Sales_Order</order>
+				</rewrite>
+			</sales>
+			<sales>
+				<rewrite>
+					<order_invoice>MS_Template_Model_Sales_Order_Invoice</order_invoice>
+				</rewrite>
+			</sales>
+	</models>
+  </global>
+</config> 

@@ -13,9 +13,8 @@ class MS_Ship_Model_Rates extends Mage_Core_Model_Abstract
      * @return object MS_Ship_Model_Shipping_Rates
      */
     public function get($request) {
-      $result = array();
-      $this->total_price = 0;
-      $this->total_cost = 0;
+      $this->price = 0;
+      $this->cost = 0;
       $this->display = false;
       $types = new MS_Ship_Model_Rates_Types;
       foreach ($request->getAllItems() as $_item) {

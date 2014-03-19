@@ -31,11 +31,6 @@
 					<template>MS_Msmtp_Model_Newsletter_Template</template>
 				</rewrite>
 			</newsletter>
-			<sales>
-				<rewrite>
-					<order>MS_Msmtp_Model_Sales_Order</order>
-				</rewrite>
-			</sales>
 	</models>
   </global>
   <admin>

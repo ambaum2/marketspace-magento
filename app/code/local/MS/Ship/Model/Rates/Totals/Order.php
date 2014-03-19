@@ -1,6 +1,6 @@
 <?php
 
-class MS_Ship_Model_Rates_Totals_Order extends Mage_Core_Model_Abstract
+class MS_Ship_Model_Products_Rates_Totals_Order extends Mage_Core_Model_Abstract
 {
   var $price;
   var $cost;
@@ -16,7 +16,7 @@ class MS_Ship_Model_Rates_Totals_Order extends Mage_Core_Model_Abstract
         $this->price = $_product['ms_shipping_cost'];
         $this->cost = $_product['ms_shipping_cost'];
         $this->line_item_info['label'] = $_product['name'];
-        $this->line_item_info['quantity'] = $_item->getQty();
+        $this->line_item_info['quantity'] = $_item->getQtyOrdered();
         $this->line_item_info['price'] = Mage::helper('core')->formatPrice($this->price, true);
         return $this;
       } catch (Exception $e) {

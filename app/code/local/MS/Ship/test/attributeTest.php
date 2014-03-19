@@ -17,4 +17,9 @@ class MS_Attribtute_Tests extends PHPUnit_Framework_TestCase
     $product = Mage::getModel('catalog/product')->load(47);
     print '\n' . $product["product_id"];
   }
+
+  public function test_get_free_products_shipping() {
+    $free = new MS_Ship_Model_Products_Rates_Totals_Free();
+    $types = new MS_Ship_Model_Products_Rates_Types;
+  }
 }
