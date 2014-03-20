@@ -44,7 +44,9 @@ $display = "display:block;";
 //@HANDY - $_option->decoratedIsLast - last item
 ?>
 <div class="form-group">
-    <label<?php if ($_option->getIsRequire()) echo ' class="required"' ?>><?php if ($_option->getIsRequire()) echo '<em>*</em>' ?>
+    <label<?php if ($_option->getIsRequire()) echo ' class="required" ' ?>
+        for="options_<?php echo $_option->getId(); ?>_text">
+        <?php if ($_option->getIsRequire()) echo '<em>*</em>' ?>
         <?php echo  $this->htmlEscape($_option->getTitle()) ?>
     </label>
     <span><?php echo $this->getFormatedPrice() ?></span>
