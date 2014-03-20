@@ -6,34 +6,41 @@
     </MS_Template>
   </modules>
   <global>
+    <blocks>
+        <catalog>
+            <rewrite>
+                <product_view_options_type_select>MS_Template_Block_Catalog_Product_View_Options_Type_Select</product_view_options_type_select>
+            </rewrite>
+        </catalog>
+    </blocks>
     <helpers>
       <ms_template>
         <class>MS_Template_Helper</class>
       </ms_template>
     </helpers>
 	<models>
-	  <template>
-		<class>MS_Template_Model</class>
-		<resourceModel>template_mysql4</resourceModel>
-	  </template>
-      <ms_template>
-          <class>MS_Template_Model_SellerProfile</class>
-      </ms_template>
-			<sales>
-				<rewrite>
-					<order>MS_Template_Model_Sales_Order</order>
-				</rewrite>
-			</sales>
-            <core>
-                <rewrite>
-                    <email_template_mailer>MS_Template_Model_Core_Email_Template_Mailer</email_template_mailer>
-                </rewrite>
-            </core>
-			<sales>
-				<rewrite>
-					<order_invoice>MS_Template_Model_Sales_Order_Invoice</order_invoice>
-				</rewrite>
-			</sales>
+        <template>
+            <class>MS_Template_Model</class>
+            <resourceModel>template_mysql4</resourceModel>
+        </template>
+        <ms_template>
+            <class>MS_Template_Model_SellerProfile</class>
+        </ms_template>
+        <sales>
+            <rewrite>
+                <order>MS_Template_Model_Sales_Order</order>
+            </rewrite>
+        </sales>
+        <core>
+            <rewrite>
+                <email_template_mailer>MS_Template_Model_Core_Email_Template_Mailer</email_template_mailer>
+            </rewrite>
+        </core>
+        <sales>
+            <rewrite>
+                <order_invoice>MS_Template_Model_Sales_Order_Invoice</order_invoice>
+            </rewrite>
+        </sales>
 	</models>
   </global>
 </config> 

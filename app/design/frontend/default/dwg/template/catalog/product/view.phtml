@@ -33,13 +33,13 @@
 ?>
 <?php $_helper = $this->helper('catalog/output'); ?>
 <?php $_product = $this->getProduct(); ?>
-<?php 
+<?php
 	$media = new Dwg_Template_Model_Media;
 	$profile = $media->getProfileUrl($_product);
   $showMedia = true;
 	$detailsClass = "col-md-6 col-xs-12";
-  if(in_array($_product['product_type'], array(11, 12))) {
-    $detailsClass = "col-md-12 col-xs-12";	
+  if(in_array($_product['product_type'], array(11, 12, 21))) {
+    $detailsClass = "col-md-12 col-xs-12";
     $showMedia = false;
   } else {
 		if(count($media->getProductImageRotatorImages($_product)) > 0) {
@@ -128,7 +128,7 @@
                 </div>
             <?php endif; ?>
           </div>
-        </div>	        
+        </div>
 			</div>
     <div class="clearer"></div>
 
@@ -184,7 +184,7 @@
             <?php echo $this->getChildChildHtml('container2', '', true, true) ?>
         <?php endif;?>
 			</div>
-		</div> 
+		</div>
 </form>
 </div>
     <script type="text/javascript">
@@ -236,15 +236,15 @@
                 Object.extend(Validation.methods, nv);
             }
         }.bind(productAddToCartForm);
-				
+
 				var optionsPrice = new Product.OptionsPrice(<?php echo $this->getJsonConfig() ?>);
 					//the top add to cart would never send any value except 1 to the cart
 					//turns out the very bottom add to cart is all the form cares about so
 					//change the value of the bottom add to cart to whatever the user puts in the top
 					jQuery(document).ready(function() {
 					jQuery(".product_qty_select").change(function()
-					{ 
-						qty = jQuery(this).val(); jQuery(".product_qty_select").attr("value",qty); }					
+					{
+						qty = jQuery(this).val(); jQuery(".product_qty_select").attr("value",qty); }
 					);
 				});
     //]]>

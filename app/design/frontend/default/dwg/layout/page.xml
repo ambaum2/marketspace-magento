@@ -66,9 +66,9 @@ Default layout, loads most of the pages
                 <action method="addJs"><script>jquery/jquery-1.5.1.min.js</script></action>
                 <action method="addJs"><script>jquery/jquery-ui-1.8.14.custom.min.js</script></action>
                 <action method="addJs"><script>jquery/jquery.datepick.ext.js</script></action>
-								<action method="addJs"><script>estabs/estabs.js</script></action>
-								<action method="addJs"><script>bootstrap.min.js</script></action>
-								<action method="addJs"><script>jquery/rollovers/navRollover.js</script></action>
+                <action method="addJs"><script>estabs/estabs.js</script></action>
+                <action method="addJs"><script>bootstrap.min.js</script></action>
+                <action method="addJs"><script>jquery/rollovers/navRollover.js</script></action>
             	<action method="addJs"><script>jquery/jquery.datepick.js</script></action>
                 <action method="addJs"><script>jquery/jquery.datepick.validation.js</script></action>
             </block>

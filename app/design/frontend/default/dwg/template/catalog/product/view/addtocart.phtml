@@ -32,22 +32,26 @@
 	/* @TODO refactor push up into model */
 	$show = true;
   $showQuantity = true;
-	if(in_array($_product['product_type'], array(4, 3, 9, 12))) {
-		$format = '<button type="button" title="' . $this->__('Add to Cart') .'" class="btn btn-ms-action-cart" onclick="productAddToCartForm.submit(this)"><span><span>' 
-			. $this->__("Add to Cart") . '</span></span></button>';
-	} elseif(in_array($_product['product_type'], array(10))) {
-		$format = '<button type="button" title="' . $this->__('Reserve') .'" class="btn btn-ms-action-cart" onclick="productAddToCartForm.submit(this)"><span><span>' 
-			. $this->__("Reserve") . '</span></span></button>';
-	} elseif(in_array($_product['product_type'], array(7))) {
-    $format = '<button type="button" title="' . $this->__('Get Coupon') .'" class="btn btn-ms-action-cart" onclick="productAddToCartForm.submit(this)"><span><span>' 
+    //@todo junk add this to ms_template module
+    if(in_array($_product['product_type'], array(4, 3, 9, 12))) {
+        $format = '<button type="button" title="' . $this->__('Add to Cart') .'" class="btn btn-ms-action-cart" onclick="productAddToCartForm.submit(this)"><span><span>'
+            . $this->__("Add to Cart") . '</span></span></button>';
+    } elseif(in_array($_product['product_type'], array(10))) {
+        $format = '<button type="button" title="' . $this->__('Reserve') .'" class="btn btn-ms-action-cart" onclick="productAddToCartForm.submit(this)"><span><span>'
+            . $this->__("Reserve") . '</span></span></button>';
+    } elseif(in_array($_product['product_type'], array(7))) {
+    $format = '<button type="button" title="' . $this->__('Get Coupon') .'" class="btn btn-ms-action-cart" onclick="productAddToCartForm.submit(this)"><span><span>'
       . $this->__("Get Coupon") . '</span></span></button>';
-  } elseif(in_array($_product['product_type'], array(11))) {
-    $format = '<button type="button" title="' . $this->__('Submit') .'" class="btn btn-ms-action-cart" onclick="productAddToCartForm.submit(this)"><span><span>' 
+    } elseif(in_array($_product['product_type'], array(11))) {
+    $format = '<button type="button" title="' . $this->__('Submit') .'" class="btn btn-ms-action-cart" onclick="productAddToCartForm.submit(this)"><span><span>'
       . $this->__("Submit") . '</span></span></button>';
-  } else {
-		$show = false;
-	}
-	if(in_array($_product['product_type'], array(11, 12))) {
+    } elseif(in_array($_product['product_type'], array(21))) {
+        $format = '<button type="button" title="' . $this->__('Join') .'" class="btn btn-ms-action-cart" onclick="productAddToCartForm.submit(this)"><span><span>'
+            . $this->__("Join") . '</span></span></button>';
+    } else {
+        $show = false;
+    }
+	if(in_array($_product['product_type'], array(11, 12, 21))) {
 	  $showQuantity = false;
   }
 ?>

@@ -26,7 +26,7 @@
 ?>
 <?php $_option = $this->getOption() ?>
 <?php 
-$session = Mage::getSingleton('customer/session', array('name'=>'frontend'));
+/*$session = Mage::getSingleton('customer/session', array('name'=>'frontend'));
 $groupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
 $group = Mage::getModel ('customer/group')->load($groupId);
 $groupName = $group->getCode();
@@ -39,19 +39,32 @@ if ($session->isLoggedIn() && $groupName == "Retailer") {
 $loggedIn = true;
 $display = "display:block;";
 } else { //echo "not logged in"; 
-}
+}*/
+
+//@HANDY - $_option->decoratedIsLast - last item
 ?>
-<dt><label<?php if ($_option->getIsRequire()) echo ' class="required" style="' . $display .'"' ?> <?php echo " style='". $display."'"; ?>><?php if ($_option->getIsRequire()) echo '<em>*</em>' ?><?php echo  $this->htmlEscape($_option->getTitle()) ?></label>
-    <?php echo $this->getFormatedPrice() ?></dt>
-<dd<?php if ($_option->decoratedIsLast){?> class="last"<?php }?><?php echo " style='". $display."'"; ?>>
-    <div class="input-box" <?php echo " style='". $display."'"; ?>>
-    <?php if ($_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_FIELD): ?>
-        <input type="text" style="width:19%;float:left;" onchange="opConfig.reloadPrice()" id="options_<?php echo $_option->getId() ?>_text" class="input-text<?php echo $_option->getIsRequire() ? ' required-entry' : '' ?> <?php echo $_option->getMaxCharacters() ? ' validate-length maximum-length-'.$_option->getMaxCharacters() : '' ?> product-custom-option <?php $_option->getPriceType()=='multiply' ? print 'multiply' : '' ?>" name="options[<?php echo $_option->getId() ?>]" value="" /><?php $_option->getPriceType()=='multiply' ? print "<span class='numericError' style='display:none;font-weight:bold;color:red;margin-left:180px;'>Please enter numbers only</span>" : "" ?>
-    <?php elseif ($_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_AREA): ?>
-        <textarea id="options_<?php echo $_option->getId() ?>_text" onchange="opConfig.reloadPrice()" class="<?php echo $_option->getIsRequire() ? ' required-entry' : '' ?> <?php echo $_option->getMaxCharacters() ? ' validate-length maximum-length-'.$_option->getMaxCharacters() : '' ?> product-custom-option" name="options[<?php echo $_option->getId() ?>]" rows="5" cols="25"></textarea>
-    <?php endif; ?>
-    <?php if ($_option->getMaxCharacters()): ?>
-        <p class="note"><?php echo Mage::helper('catalog')->__('Maximum number of characters:')?> <strong><?php echo $_option->getMaxCharacters() ?></strong></p>
-    <?php endif; ?>
-    </div>
-</dd>
+<div class="form-group">
+    <label<?php if ($_option->getIsRequire()) echo ' class="required"' ?>><?php if ($_option->getIsRequire()) echo '<em>*</em>' ?>
+        <?php echo  $this->htmlEscape($_option->getTitle()) ?>
+    </label>
+    <span><?php echo $this->getFormatedPrice() ?></span>
+        <?php if ($_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_FIELD): ?>
+            <input type="text" onchange="opConfig.reloadPrice()" id="options_<?php echo $_option->getId() ?>_text"
+                   class="form-control input-text<?php echo $_option->getIsRequire() ? ' required-entry' : '' ?>
+                       <?php echo $_option->getMaxCharacters() ? ' validate-length maximum-length-'.$_option->getMaxCharacters() : '' ?> product-custom-option
+                       <?php $_option->getPriceType()=='multiply' ? print 'multiply' : '' ?>"
+                   name="options[<?php echo $_option->getId() ?>]" value="" />
+            <?php $_option->getPriceType()=='multiply' ? print "<span class='numericError'>Please enter numbers only</span>" : "" ?>
+        <?php elseif ($_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_AREA): ?>
+            <textarea id="options_<?php echo $_option->getId() ?>_text" onchange="opConfig.reloadPrice()"
+                      class="form-control <?php echo $_option->getIsRequire() ? ' required-entry' : '' ?>
+                      <?php echo $_option->getMaxCharacters() ? ' validate-length maximum-length-'.$_option->getMaxCharacters() : '' ?> product-custom-option"
+                      name="options[<?php echo $_option->getId() ?>]" rows="5" cols="25"></textarea>
+        <?php endif; ?>
+        <?php if ($_option->getMaxCharacters()): ?>
+            <p class="form-control note">
+                <?php echo Mage::helper('catalog')->__('Maximum number of characters:')?>
+                <strong><?php echo $_option->getMaxCharacters() ?></strong>
+            </p>
+        <?php endif; ?>
+</div>
