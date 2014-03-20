@@ -1,7 +1,7 @@
 <?php
-require 'app/code/local/MS/Template/dompdf/vendor/autoload.php';
+require Mage::getBaseDir() . '/app/code/local/MS/Template/dompdf/vendor/autoload.php';
 define('DOMPDF_ENABLE_AUTOLOAD', false);
-require_once 'app/code/local/MS/Template/dompdf/vendor/dompdf/dompdf/dompdf_config.inc.php';
+require_once Mage::getBaseDir() . '/app/code/local/MS/Template/dompdf/vendor/dompdf/dompdf/dompdf_config.inc.php';
 class MS_Template_Model_Sales_Order extends Mage_Sales_Model_Order
 {
     /**
@@ -78,12 +78,17 @@ class MS_Template_Model_Sales_Order extends Mage_Sales_Model_Order
                 'payment_html' => $paymentBlockHtml
             )
         );
-        /*$dompdf = new DOMPDF();
-        $dompdf->load_html("<p>hello</p>");
-        $dompdf->render();
-        $output = $dompdf->output();
-        $mailer->addAttachment($output, 'test.pdf');*/
-
+        //@todo this violates open closed principle
+        foreach ($this->getAllItems() as $item) {
+            $product = Mage::getModel('catalog/product')->load($item->getProductId());
+            if(in_array($product->getAttributeSetId(), array(16, 17, 10))){
+                $dompdf = new DOMPDF();
+                $dompdf->load_html("<p>" . $product->getName() . "</p>");
+                $dompdf->render();
+                $output = $dompdf->output();
+                $mailer->addAttachment($output, $item->getName().".pdf");
+            }
+        }
         $mailer->send();
 
         $this->setEmailSent(true);
@@ -156,6 +161,7 @@ class MS_Template_Model_Sales_Order extends Mage_Sales_Model_Order
                 'billing' => $this->getBillingAddress()
             )
         );
+
         $mailer->send();
 
         return $this;

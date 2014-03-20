@@ -21,11 +21,11 @@
 		<class>MS_Msmtp_Model</class>
 		<resourceModel>msmtp_mysql4</resourceModel>
 	  </msmtp>
-			<core>
-				<rewrite>
-					<email_template>MS_Msmtp_Model_Core_Email_Template</email_template>
-				</rewrite>
-			</core>
+            <core>
+                <rewrite>
+                    <email_template>MS_Msmtp_Model_Core_Email_Template</email_template>
+                </rewrite>
+            </core>
 			<newsletter>
 				<rewrite>
 					<template>MS_Msmtp_Model_Newsletter_Template</template>

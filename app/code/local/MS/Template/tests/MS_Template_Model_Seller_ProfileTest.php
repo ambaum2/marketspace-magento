@@ -35,8 +35,10 @@ class MS_Template_Model_Seller_ProfileTest extends PHPUnit_Framework_TestCase {
         $dompdf->load_html("<p>hello</p>");
         $dompdf->render();
         $output = $dompdf->output();
-        print $output;
-
+        //print $output;
+        $mailerover = new MS_Template_Model_Core_Email_Template_Mailer();
+        $mail_template = new MS_Template_Model_Core_Email_Template();
+        $sales_order = new MS_Template_Model_Sales_Order();
     }
 }
  
