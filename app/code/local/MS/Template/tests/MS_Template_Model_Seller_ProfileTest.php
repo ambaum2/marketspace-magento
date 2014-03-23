@@ -20,7 +20,6 @@ class MS_Template_Model_Seller_ProfileTest extends PHPUnit_Framework_TestCase {
         $_item = Mage::getModel('catalog/product')->load(54);
         $Seller_Profile = new MS_Template_Model_SellerProfile();
         $result = $Seller_Profile->get($_item);
-
         $this->assertTrue(is_array($result));
         $this->assertGreaterThan(0, strlen($result['name']));
     }
@@ -29,7 +28,17 @@ class MS_Template_Model_Seller_ProfileTest extends PHPUnit_Framework_TestCase {
         $this->assertGreaterThan(0, strlen(Mage::helper('ms_template')->getSellerProfile($_item)));
         print Mage::helper('ms_template')->getSellerProfile($_item);
     }
-
+    public function test_has_profile_helper() {
+        $_item = Mage::getModel('catalog/product')->load(35);
+        $this->assertTrue(Mage::helper('ms_template')->sellerProfileHasProducts($_item));
+        print Mage::helper('ms_template')->sellerProfileHasProducts($_item);
+    }
+    public function test_get_seller_profile_url() {
+        $_item = Mage::getModel('catalog/product')->load(35);
+        $result = Mage::helper('ms_template')->getSellerProfileUrl($_item);
+        $this->assertTrue(!empty($result));
+        print Mage::helper('ms_template')->getSellerProfileUrl($_item);
+    }
     public function test_dompdf() {
         $dompdf = new DOMPDF();
         $dompdf->load_html("<p>hello</p>");
@@ -37,7 +46,7 @@ class MS_Template_Model_Seller_ProfileTest extends PHPUnit_Framework_TestCase {
         $output = $dompdf->output();
         //print $output;
         $mailerover = new MS_Template_Model_Core_Email_Template_Mailer();
-        $mail_template = new MS_Template_Model_Core_Email_Template();
+        //$mail_template = new MS_Template_Model_Core_Email_Template();
         $sales_order = new MS_Template_Model_Sales_Order();
     }
 }

@@ -36,19 +36,20 @@
 <?php
 	$media = new Dwg_Template_Model_Media;
 	$profile = $media->getProfileUrl($_product);
-  $showMedia = true;
-	$detailsClass = "col-md-6 col-xs-12";
-  if(in_array($_product['product_type'], array(11, 12, 21))) {
-    $detailsClass = "col-md-12 col-xs-12";
-    $showMedia = false;
-  } else {
-		if(count($media->getProductImageRotatorImages($_product)) > 0) {
-    	$showMedia = true;
-		} else {
-			$detailsClass = "col-md-12 col-xs-12";
-			$showMedia = false;
-		}
-  }
+
+    $showMedia = true;
+    $detailsClass = "col-md-6 col-xs-12";
+    if(in_array($_product['product_type'], array(11, 12, 21))) {
+        $detailsClass = "col-md-12 col-xs-12";
+        $showMedia = false;
+    } else {
+        if(count($media->getProductImageRotatorImages($_product)) > 0) {
+        $showMedia = true;
+        } else {
+            $detailsClass = "col-md-12 col-xs-12";
+            $showMedia = false;
+        }
+    }
 ?>
 <script type="text/javascript">
     var optionsPrice = new Product.OptionsPrice(<?php echo $this->getJsonConfig() ?>);
