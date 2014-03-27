@@ -1,6 +1,6 @@
 <?php
 
-class MS_Ship_Model_Products_Rates_Totals_Order extends Mage_Core_Model_Abstract
+class MS_Ship_Model_Rates_Totals_Order extends Mage_Core_Model_Abstract
 {
   var $price;
   var $cost;

@@ -17,13 +17,10 @@ class MS_Ship_Model_ProductRates extends Mage_Core_Model_Abstract
         $this->cost = 0;
         $this->display = false;
         $types = new MS_Ship_Model_Products_Rates_Types;
-
-        $_product = $_item->getProduct();
-        $_product = Mage::getModel('catalog/product')->load($_product->getId()); //you must load the product model to get its data may do a collection instead to save memory
+        $_product = Mage::getModel('catalog/product')->load($_item->getProductId()); //you must load the product model to get its data may do a collection instead to save memory
         if ($type = $types->get($_product['ms_shipping_type']))
         {
             $this->type = $type;
-
             $this->display = true;
             $Rate_Total = new $type;
             $result = $Rate_Total->get($_item, $_product);
