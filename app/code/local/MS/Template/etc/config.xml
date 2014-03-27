@@ -2,7 +2,7 @@
 <config>
   <modules>
     <MS_Template>
-      <version>0.1.0</version>
+      <version>0.2.0</version>
     </MS_Template>
   </modules>
   <global>
@@ -18,6 +18,13 @@
         <class>MS_Template_Helper</class>
       </ms_template>
     </helpers>
+    <resources>
+      <ms_template_setup>
+          <setup>
+              <module>MS_Template</module>
+          </setup>
+      </ms_template_setup>
+    </resources>
 	<models>
         <template>
             <class>MS_Template_Model</class>

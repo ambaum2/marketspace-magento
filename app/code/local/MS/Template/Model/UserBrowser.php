@@ -2,8 +2,13 @@
 
 class MS_Template_Model_UserBrowser extends Mage_Core_Model_Abstract
 {
+    /**
+     * @param $agent_string
+     * @return bool - true if browser is not supported
+     * false otherwise
+     */
     public function getUnsupported($agent_string) {
-        $browser_supported = true;
+        $browser_unsupported = false;
         preg_match('/MSIE (.*?);/', $agent_string, $matches);
 
         if (count($matches)>1){
@@ -12,7 +17,7 @@ class MS_Template_Model_UserBrowser extends Mage_Core_Model_Abstract
 
             switch(true){
                 case ($version<=8):
-                    $browser_supported = false;
+                    $browser_unsupported = true;
                     break;
 
                 case ($version==9):
@@ -23,6 +28,6 @@ class MS_Template_Model_UserBrowser extends Mage_Core_Model_Abstract
                     //You get the idea
             }
         }
-        return $browser_supported;
+        return $browser_unsupported;
     }
 }

@@ -34,7 +34,7 @@
 				<?php  ?>
 			</div>
       <div class="row" id="headerLogoContainer">
-    		<a href="<?php echo $this->getUrl('') ?>" title="<?php echo $this->getLogoAlt() ?>" class="logo">
+    		<a href="<?php echo str_replace("index.php/", "", $this->getUrl('')) ?>" title="<?php echo $this->getLogoAlt() ?>" class="logo">
     			<img src="<?php echo $this->getLogoSrc() ?>" alt="<?php echo $this->getLogoAlt() ?>" />
   			</a>
 			</div>

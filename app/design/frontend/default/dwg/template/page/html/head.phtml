@@ -26,6 +26,7 @@
 $_product = Mage::registry('current_product'); 
 //$image_path = Mage::helper('catalog/image')->init(Mage::registry('current_product'), 'small_image')->resize(100,100);
 ?>
+<?php Mage::helper('ms_template')->redirectUnsupportedBrowser($_SERVER['HTTP_USER_AGENT'], Mage::helper('core/url')->getCurrentUrl()); ?>
 <title><?php echo $this->getTitle() ?></title>
 <meta http-equiv="Content-Type" content="<?php echo $this->getContentType() ?>" />
 <meta name="description" content="<?php echo htmlspecialchars($this->getDescription()) ?>" />

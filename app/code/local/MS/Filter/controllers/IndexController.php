@@ -17,7 +17,7 @@ class MS_Filter_IndexController extends Mage_Core_Controller_Front_Action{
 			$owner_id  = (int) $this->getRequest()->getParam('id');
 			$content = $this->getLayout()->getBlock('filter_index');
 			$content->setOwnerId($owner_id);
-      $this->renderLayout(); 
-	  
+      $this->renderLayout();
+
     }
 }
