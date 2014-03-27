@@ -38,6 +38,6 @@
         <?php echo $this->renderTotals('footer'); ?>
     </tfoot>
     <tbody>
-        <?php echo $this->renderTotals(); ?>
+        <?php echo str_replace(array(")", "("), "", $this->renderTotals()); //hack I couldn't find out where the elispse was coming from even after a grep?>
     </tbody>
 </table>
