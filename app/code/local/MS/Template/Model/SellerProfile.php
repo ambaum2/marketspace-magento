@@ -26,6 +26,12 @@ class MS_Template_Model_SellerProfile extends Mage_Core_Model_Abstract
         }
         return true;
     }
+
+    /**
+     * does this seller profile have products
+     * @param $_item
+     * @return array
+     */
     public function hasProducts($_item) {
         $result = array();
         if(!($this->isProfile($_item))) {
