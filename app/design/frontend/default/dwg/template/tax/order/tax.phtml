@@ -44,7 +44,7 @@
         ?>
         <?php foreach ($rates as $rate): ?>
         <tr class="summary-details-<?php echo $taxIter; ?> summary-details<?php if ($isTop): echo ' summary-details-first'; endif; ?>"<?php if (!$this->getIsPlaneMode()):?> style="display:none;"<?php endif;?>>
-            <td colspan="7" <?php echo $this->getLabelProperties()?>>
+            <td <?php echo $this->getLabelProperties()?>>
                 <?php echo $rate['title']; ?>
                 <?php if ($rate['percent']): ?>
                     (<?php echo $rate['percent']; ?>%)
@@ -70,12 +70,12 @@
 <?php else: ?>
 <tr>
 <?php endif; ?>
-    <td <?php echo $this->getLabelProperties()?>>
+    <td colspan="7" <?php echo $this->getLabelProperties()?>>
         <?php if ($this->displayFullSummary()): ?>
             <div class="summary-collapse"><?php echo $this->__('Tax'); ?></div>
         <?php else: ?>
             <?php echo $this->__('Tax'); ?>
         <?php endif;?>
     </td>
-    <td <?php echo $this->getValueProperties()?>><?php echo $_order->formatPrice($_source->getTaxAmount()) ?></td>
+    <td colspan="7" <?php echo $this->getValueProperties()?>><?php echo $_order->formatPrice($_source->getTaxAmount()) ?></td>
 </tr>
