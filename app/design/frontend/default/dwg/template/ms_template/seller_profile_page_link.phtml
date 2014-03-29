@@ -1,0 +1,12 @@
+<?php $_product = $this->_product; ?>
+<?php if($profile = $this->getProfileUrl($_product)) : ?>
+    <div class="row">
+        <div class="pull-right">
+            <h4>
+                <a class="ms-green-text" href="/<?php print $profile['url_path']; ?>">
+                    <?php !empty($profile['caption_for_link_to_profile']) ? print $profile['caption_for_link_to_profile'] : print 'View Profile'; ?>
+                </a>
+            </h4>
+        </div>
+    </div>
+<?php endif; ?>

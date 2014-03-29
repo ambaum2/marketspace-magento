@@ -1,12 +1,33 @@
 <?xml version="1.0"?>
 <config>
-  <modules>
-    <MS_Template>
-      <version>0.2.0</version>
-    </MS_Template>
-  </modules>
-  <global>
+    <modules>
+        <MS_Template>
+            <version>0.2.0</version>
+        </MS_Template>
+    </modules>
+    <frontend>
+        <routers>
+            <ms_template>
+                <use>standard</use>
+                <args>
+                    <module>MS_Template</module>
+                    <frontName>ms-template</frontName>
+                </args>
+            </ms_template>
+        </routers>
+        <!--<layout>
+            <updates>
+                <filter>
+                    <file>ms_template.xml</file>
+                </filter>
+            </updates>
+        </layout>-->
+    </frontend>
+    <global>
     <blocks>
+        <ms_template>
+            <class>MS_Template_Block</class>
+        </ms_template>
         <catalog>
             <rewrite>
                 <product_view_options_type_select>MS_Template_Block_Catalog_Product_View_Options_Type_Select</product_view_options_type_select>

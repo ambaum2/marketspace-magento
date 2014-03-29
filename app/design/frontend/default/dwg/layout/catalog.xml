@@ -95,7 +95,7 @@ Category default layout
         </reference>
         <reference name="content">
             <block type="catalog/category_view" name="category.products" template="catalog/category/view.phtml">
-            		<block type="promotionsmgr/promotionsmgr" name="image_rotator" template="promotionsmgr/image_rotator.phtml"></block>
+                <block type="promotionsmgr/promotionsmgr" name="image_rotator" template="promotionsmgr/image_rotator.phtml"></block>
                 <block type="catalog/product_list" name="product_list" template="catalog/product/list.phtml">
                   	<block type="catalog/product_list_toolbar" name="product_list_toolbar" template="catalog/product/list/toolbar.phtml">
                     	<block type="page/html_pager" name="product_list_toolbar_pager"></block>
@@ -116,7 +116,7 @@ Category default layout
                     <action method="addColumnCountLayoutDepend"><layout>two_columns_right</layout><count>4</count></action>
                     <action method="addColumnCountLayoutDepend"><layout>three_columns</layout><count>3</count></action>
                     <action method="setToolbarBlockName"><name>product_list_toolbar</name></action>
-                	</block>
+                </block>
             </block>
         </reference>
     </catalog_category_default>
@@ -221,6 +221,8 @@ Product view
         </reference>
         <reference name="content">
             <block type="catalog/product_view" name="product.info" template="catalog/product/view.phtml">
+                <block type="ms_template/template" name="ms_seller_profile_link" template="ms_template/seller_profile_link.phtml"></block>
+                <block type="ms_template/template" name="ms_seller_profile_page_link" template="ms_template/seller_profile_page_link.phtml"></block>
                 <!--
                 <action method="addReviewSummaryTemplate"><type>default</type><template>review/helper/summary.phtml</template></action>
                 <action method="addReviewSummaryTemplate"><type>short</type><template>review/helper/summary_short.phtml</template></action>

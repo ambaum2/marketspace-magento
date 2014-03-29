@@ -8,7 +8,4 @@ class MS_Filter_Block_Index extends Mage_Core_Block_Template{
 			->addFieldToFilter('marketspace_owner', $owner_id);
 		return $productData;
 	}
-
-
-
 }

@@ -1,0 +1,8 @@
+<?php $_product = $this->_product; ?>
+<?php if($seeAllProducts = $this->getSeeAllProductUrl($_product)) : ?>
+    <div class="col-md-6 ms-heading-product-text pull-right">
+        <a class="ms-green-text" href="/marketspace-products?id=<?php print $_product->getMarketspaceOwner(); ?>">
+            <?php !empty($seeAllProducts['caption_for_see_all_products']) ? print $seeAllProducts['caption_for_see_all_products'] : print 'See All of Our Products'; ?>
+        </a>
+    </div>
+<?php endif; ?>

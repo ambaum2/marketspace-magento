@@ -2,29 +2,79 @@
 
 class MS_Template_Model_SellerProfile extends Mage_Core_Model_Abstract
 {
+    /**
+     * get this products seller profile
+     * name and id by marketspace owner id. even if
+     * it is the seller profile
+     * @param $_item
+     * @return array
+     */
     public function get($_item) {
-        $result = array();
-        if(!($this->isProfile($_item))) {
-            $product = Mage::getModel("catalog/product")
-                ->getCollection()
-                ->addAttributeToSelect('name')
-                ->addFieldToFilter('attribute_set_id', 12)
-                ->addFieldToFilter('marketspace_owner', $_item->getMarketspaceOwner())
-                ->getFirstItem();
-            $result = $product->getData();
+        $product = Mage::getModel("catalog/product")
+            ->getCollection()
+            ->addAttributeToSelect('name')
+            ->addAttributeToSelect('product_id')
+            ->addFieldToFilter('attribute_set_id', 12)
+            ->addFieldToFilter('marketspace_owner', $_item->getMarketspaceOwner())
+            ->getFirstItem();
+        $result = $product->getData();
+        return $result;
+    }
+    /**
+     * get this products seller profile
+     * model. even if
+     * it is the seller profile
+     * @param $_item
+     * @return array
+     */
+    public function getModel($_item) {
+        try {
+            $result = $this->get($_item);
+            $result = Mage::getModel('catalog/product')->load($result['entity_id']);
+        } catch(Exception $e) {
+            throw new Exception("Failed to load product");
         }
         return $result;
     }
+
+    /**
+     * get the data for a seller profile given a
+     * product. this will return null if seller
+     * profile has no products. returns a link and
+     * other data otherwise
+     * @param $_product
+     * @return array
+     */
+    public function getDisplaySellerProfileData($_product) {
+        $result = array();
+        if($profile = $this->getModel($_product)) {
+            if($this->hasProducts($profile)) {
+                $result = $this->getSeeAllProductsUrl($profile);
+            }
+        }
+        return $result;
+    }
+    /**
+     * return all profile attribute set ids
+     * @todo put this in some data repository
+     * @return array
+     */
     public function getProfileAttributeSets() {
         return array(12);
     }
+
+    /**
+     * check if the item is a seller profile
+     * @param $_item
+     * @return bool
+     */
     public function isProfile($_item) {
         $profiles = $this->getProfileAttributeSets();
         $result = false;
         if(in_array($_item->getAttributeSetId(), $profiles)) {
             $result = true;
         }
-        return true;
+        return $result;
     }
 
     /**
@@ -34,7 +84,7 @@ class MS_Template_Model_SellerProfile extends Mage_Core_Model_Abstract
      */
     public function hasProducts($_item) {
         $result = array();
-        if(!($this->isProfile($_item))) {
+        if($this->isProfile($_item)) {
             $product = Mage::getModel("catalog/product")
                 ->getCollection()
                 ->addAttributeToSelect('name')
@@ -76,7 +126,6 @@ class MS_Template_Model_SellerProfile extends Mage_Core_Model_Abstract
      * return product array
      */
     public function getSeeAllProductsUrl($_product) {
-        $result = array();
         $product = Mage::getModel("catalog/product")
             ->getCollection()
             ->addAttributeToSelect('url_path')
@@ -86,4 +135,6 @@ class MS_Template_Model_SellerProfile extends Mage_Core_Model_Abstract
         $result = $product->getData();
         return $result;
     }
+
+
 }
