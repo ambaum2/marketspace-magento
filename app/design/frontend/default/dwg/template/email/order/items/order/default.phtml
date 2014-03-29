@@ -31,9 +31,6 @@ $d1 = strtotime($date);
 $dformat = strftime("%A %B %e, %G",$d1);
 $ProductShippingRate = new MS_Ship_Model_ProductRates();
 $shipping = $ProductShippingRate->get($_item);
-//$shipping = $ProductShippingRate->get($_item);
-//$shipping = stdClass;
-//$shipping->display = false;
 $shipping_cost = 0;
 if($shipping->display) {
     $shipping_cost = $shipping->cost;
