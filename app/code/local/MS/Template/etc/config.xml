@@ -53,6 +53,11 @@
         </template>
         <ms_template>
             <class>MS_Template_Model_SellerProfile</class>
+            <class>MS_Template_Model_EmailAttachments</class>
+            <class>MS_Template_Model_Attachments_Types</class>
+            <class>MS_Template_Model_Attachments_Types_Coupons</class>
+            <class>MS_Template_Model_Attachments_Types_Tickets</class>
+            <interface>MS_Template_Model_Core_Email_Template_Mailer_Interface</interface>
         </ms_template>
         <sales>
             <rewrite>

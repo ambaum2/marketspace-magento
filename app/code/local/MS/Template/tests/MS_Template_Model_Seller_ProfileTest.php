@@ -22,6 +22,7 @@ class MS_Template_Model_Seller_ProfileTest extends PHPUnit_Framework_TestCase {
     }
     public function test_getModel() {
         $profile_model = $this->sellerProfileModel->getModel($this->sellerProfile);
+        print_r($profile_model);
         $this->assertTrue(!empty($profile_model));
         $this->assertGreaterThan(0, $profile_model->getId());
     }

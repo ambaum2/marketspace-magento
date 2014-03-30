@@ -1,6 +1,6 @@
 <?php
 
-class MS_Template_Model_Core_Email_Template_Mailer extends Mage_Core_Model_Email_Template_Mailer
+class MS_Template_Model_Core_Email_Template_Mailer extends Mage_Core_Model_Email_Template_Mailer implements MS_Template_Model_Core_Email_Template_Mailer_Interface
 {
     protected $_afile = array();
 
