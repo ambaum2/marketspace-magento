@@ -9,7 +9,7 @@
             <?php print $product->getName(); ?>
         </td>
         <td>
-            Order #: <?php print $order->getRealOrderId(); ?>
+            Order #: <?php print $order; ?>
         </td>
     </tr>
 </table>

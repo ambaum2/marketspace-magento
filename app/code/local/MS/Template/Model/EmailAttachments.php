@@ -29,7 +29,7 @@ class MS_Template_Model_EmailAttachments extends Mage_Core_Model_Abstract
             if($type = $this->type->get($product->getAttributeSetId())) { //probably should add an if to check that type is not an array next
                 $AttachmentType = new $type;
                 $AttachmentType->product = $product;
-
+                $AttachmentType->order = $this->order;
                 $dompdf = new DOMPDF(); //create the pdf
                 $html = $AttachmentType->get();
                 $dompdf->load_html($html);

@@ -78,19 +78,10 @@ class MS_Template_Model_Sales_Order extends Mage_Sales_Model_Order
                 'payment_html' => $paymentBlockHtml
             )
         );
-        //@todo this violates open closed principle - make it a method
-        $EmailAttachments = new MS_Template_Model_EmailAttachments($this->getAllItems(), $this->getOrder(), $mailer);
+        //get any valid email attachments
+        $EmailAttachments = new MS_Template_Model_EmailAttachments($this->getAllItems(), $this->getRealOrderId(), $mailer);
         $mailer = $EmailAttachments->put();
-        /*foreach ($this->getAllItems() as $item) {
-            $product = Mage::getModel('catalog/product')->load($item->getProductId());
-            if(in_array($product->getAttributeSetId(), array(16, 17, 10))){ //see if of the right type
-                $dompdf = new DOMPDF(); //create the pdf
-                $dompdf->load_html("<p>" . $product->getName() . "</p>");
-                $dompdf->render();
-                $output = $dompdf->output();
-                $mailer->addAttachment($output, $item->getName().".pdf");
-            }
-        }*/
+
         $mailer->send();
 
         $this->setEmailSent(true);
