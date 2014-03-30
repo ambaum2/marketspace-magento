@@ -22,7 +22,9 @@ class MS_Template_Model_Seller_ProfileTest extends PHPUnit_Framework_TestCase {
     }
     public function test_getTerms() {
         //print_r($this->sellerProfile->getData());
-        print $this->sellerProfile->getMsTermsProducts();
+        $sellerProfile = Mage::getModel('catalog/product')->load(45);
+        print $sellerProfile->getData('seller_terms_refund');
+        //print $this->sellerProfile->getMsTermsProducts();
     }
     public function test_getModel() {
         $profile_model = $this->sellerProfileModel->getModel($this->sellerProfile);

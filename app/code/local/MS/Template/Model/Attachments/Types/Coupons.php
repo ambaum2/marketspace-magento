@@ -13,6 +13,7 @@ class MS_Template_Model_Attachments_Types_Coupons extends Mage_Core_Model_Abstra
         $product = $this->product;
         $order_id = $this->order_id;
         $order_quantity = $this->order_quantity;
+        $terms = "some terms";
         ob_start();
         include(Mage::getModuleDir('', 'MS_Template') . $this->template_path);
         $output = ob_get_clean();
