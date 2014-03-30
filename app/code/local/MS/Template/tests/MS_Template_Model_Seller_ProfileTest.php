@@ -20,9 +20,13 @@ class MS_Template_Model_Seller_ProfileTest extends PHPUnit_Framework_TestCase {
         $this->hasProducts = false;
         $this->sellerProfileModel = new MS_Template_Model_SellerProfile();
     }
+    public function test_getTerms() {
+        //print_r($this->sellerProfile->getData());
+        print $this->sellerProfile->getMsTermsProducts();
+    }
     public function test_getModel() {
         $profile_model = $this->sellerProfileModel->getModel($this->sellerProfile);
-        print_r($profile_model);
+        //print_r($profile_model);
         $this->assertTrue(!empty($profile_model));
         $this->assertGreaterThan(0, $profile_model->getId());
     }
