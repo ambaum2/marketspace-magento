@@ -79,21 +79,12 @@ class MS_Template_Model_Sales_Order extends Mage_Sales_Model_Order
             )
         );
         //get any valid email attachments
-
-        //foreach($this->items as $item) {
-            $order_info = array(
-                'order_created_at' => $this->getCreatedAt(),
-                'order_id' => $this->getRealOrderId(),
-                //'quantity' => $this->getQtyOrdered()
-            );
-            //$product = Mage::getModel('catalog/product')->load($item->getProductId());
-            $EmailAttachments = new MS_Template_Model_EmailAttachments($this->getAllItems(), $order_info, $mailer);
-            $pdf = array();
-            $pdf = $EmailAttachments->put();
-            foreach($pdf as $key => $value) {
-                $mailer->addAttachment($value, $key.".pdf");
-            }
-        //}
+        $order_info = array(
+            'order_created_at' => $this->getCreatedAt(),
+            'order_id' => $this->getRealOrderId(),
+        );
+        $EmailAttachments = new MS_Template_Model_EmailAttachments($this->getAllItems(), $order_info, $mailer);
+        $mailer = $EmailAttachments->put();
         $mailer->send();
 
         $this->setEmailSent(true);
