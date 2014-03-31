@@ -79,7 +79,11 @@ class MS_Template_Model_Sales_Order extends Mage_Sales_Model_Order
             )
         );
         //get any valid email attachments
-        $EmailAttachments = new MS_Template_Model_EmailAttachments($this->getAllItems(), $this->getRealOrderId(), $mailer);
+        $order_info = array(
+            'order_created_at' => $this->getCreatedAt(),
+            'order_id' => $this->getRealOrderId()
+        );
+        $EmailAttachments = new MS_Template_Model_EmailAttachments($this->getAllItems(), $order_info, $mailer);
         $mailer = $EmailAttachments->put();
 
         $mailer->send();
