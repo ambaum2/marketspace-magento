@@ -55,6 +55,8 @@ if($shipping->display) {
     <td align="center" valign="top" style="font-size:11px; padding:3px 9px; border-bottom:1px dotted #CCCCCC;"><?php echo Mage::helper('core')->formatPrice($_item->getRowTotal(), true) ?></td>
     <?php if($shipping->display) : ?>
         <td align="center" valign="top" style="font-size:11px; padding:3px 9px; border-bottom:1px dotted #CCCCCC;"><?php echo $shipping->line_item_info['price']; ?></td>
+    <?php else: ?>
+        <td align="center" valign="top" style="font-size:11px; padding:3px 9px; border-bottom:1px dotted #CCCCCC;">None</td>
     <?php endif; ?>
     <td align="center" valign="top" style="font-size:11px; padding:3px 9px; border-bottom:1px dotted #CCCCCC;">
         <span class="nobr"><?php echo Mage::helper('core')->formatPrice($_item->getTaxAmount(), true); ?></span>

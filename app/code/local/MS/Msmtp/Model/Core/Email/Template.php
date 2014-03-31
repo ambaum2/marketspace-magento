@@ -112,9 +112,11 @@ class MS_Msmtp_Model_Core_Email_Template extends Mage_Core_Model_Email_Template
         $atInfo = $this->getEmAttachments();
         if(!empty($atInfo))
         {
-            $_file = $mail->createAttachment($atInfo['fileContents']);
-            $_file->type = 'application/pdf'; //the type should be as per your file
-            $_file->filename = $atInfo['fileName'];
+            foreach($atInfo as $key => $value) {
+                $_file = $mail->createAttachment($value['fileContents']);
+                $_file->type = 'application/pdf'; //the type should be as per your file
+                $_file->filename = $value['fileName'];
+            }
         }
         try {
             $mail->send();

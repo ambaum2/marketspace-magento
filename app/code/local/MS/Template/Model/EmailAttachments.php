@@ -26,6 +26,7 @@ class MS_Template_Model_EmailAttachments extends Mage_Core_Model_Abstract
      * mailer
      */
     public function put() {
+        $pdfs = array();
         foreach($this->items as $item) {
             $product = Mage::getModel('catalog/product')->load($item->getProductId());
             if($type = $this->type->get($product->getAttributeSetId())) { //probably should add an if to check that type is not an array next
@@ -38,10 +39,13 @@ class MS_Template_Model_EmailAttachments extends Mage_Core_Model_Abstract
                 $html = $AttachmentType->get();
                 $dompdf->load_html($html);
                 $dompdf->render();
-                $output = $dompdf->output();
-                $this->mailer->addAttachment($output, $item->getName().".pdf");
+                $pdfs[$product->getName()] = $dompdf->output();
+                $fp = fopen('data.txt', 'a+');
+                fwrite($fp, $product->getName() . "hello \n");
+                fclose($fp);
+                //$this->mailer->addAttachment($output, $product->getName().".pdf");
             }
         }
-        return $this->mailer;
+        return $pdfs;
     }
 }

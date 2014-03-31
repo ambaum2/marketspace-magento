@@ -14,7 +14,8 @@ class MS_Template_Model_Core_Email_Template_Mailer extends Mage_Core_Model_Email
         $tmp = array();
         $tmp['fileContents'] = $fileContents;
         $tmp['fileName'] = $fileName;
-        $this->_afile = $tmp;
+
+        $this->_afile[] = $tmp;
         return $this;
     }
 
