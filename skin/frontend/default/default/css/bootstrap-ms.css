@@ -367,6 +367,12 @@ h4 {
 .main-container .main .col-main {
 	text-align:left;
 }
+.ms-homepage {
+    background: #D2D2D2;
+}
+.ms-homepage .ms-right-sidbar-homepage .ms-no-left-right-pad {
+    padding-right
+}
 .ms-homepage .ms-slideshow { /* div[class^='col-md-']*/
 	padding-left:0px;
 }
