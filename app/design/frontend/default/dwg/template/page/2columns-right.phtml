@@ -62,7 +62,7 @@
                 	<?php if($homepage) : ?>
                 		<div class="row ms-homepage">
                 			<div class="col-md-9 col-sm-9 ms-slideshow">
-												<?php echo $this->getChildHtml('image_rotator'); ?>
+                                <?php echo $this->getChildHtml('image_rotator'); ?>
                 			</div>
                 			<div class="col-md-3 col-sm-3 ms-right-sidbar-homepage text-center">
                 				<div class="row">
@@ -75,23 +75,27 @@
                                       <a href="/join/become-a-local-partner.html" type="button" class="btn ms-green-gradient ms-full-width">Local Partners</a>
                                     </div>
                 				</div>
-                				<div class="row text-center">
+                                <div class="row text-center ms-about-social-btn">
+                                    <a class="engage-link" href="/about-community-marketspace">
+                                        <h2 class="lead ms-heading-span">
+                                            <img class="ms-social-btn img-responsive" src="<?php print $this->getSkinUrl('images/ms/About_CMS.jpg'); ?>" />
+                                        </h2>
+                                    </a>
+                                </div>
+                				<div class="row text-center ms-social-row">
                 					<div class="text-center">
 	                					<a target="_blank" href="https://www.facebook.com/communitymarketspace" type="button" class="btn ms-no-left-right-pad">	                						
-	                						<img src="/skin/frontend/default/default/images/ms-facebook.jpg" />
-	                					</a>	                						
+	                						<img class="ms-social-btn img-responsive" src="/skin/frontend/default/default/images/ms/SI_Facebook.png" />
+	                					</a>
+                                    </div>
+                                </div>
+                                <div class="row text-center ms-social-row">
+                                    <div class="text-center">
 	                					<a target="_blank" href="https://twitter.com/BoldlyLocal" type="button" class="btn ms-no-left-right-pad">
-	                						<img src="/skin/frontend/default/default/images/ms-twitter.jpg" />
+	                						<img class="ms-social-btn img-responsive" src="/skin/frontend/default/default/images/ms/Twitterimages.png" />
 	                					</a>
                 					</div>               					
                 				</div>
-                				<div class="row text-center">
-                					<a class="engage-link" href="/about-community-marketspace">
-                						<h2 class="lead engage-text ms-heading-span">
-                							About <img src="<?php print $this->getSkinUrl('images/Icon_2_48.jpg'); ?>" /> 
-                						</h2>
-                					</a>
-                				</div>			
                 			</div>
                 		</div>
                 		<div class="row ms-featured-and-ads">

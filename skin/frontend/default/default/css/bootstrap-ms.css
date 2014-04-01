@@ -99,6 +99,22 @@ h4 {
 	color:white;
 	cursor: auto;
 }
+.ms-social-btn {
+    width: 100%;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.ms-social-row {
+    margin-bottom: 5px;
+}
+.ms-about-social-btn .ms-social-btn {
+    padding-left:0px;
+    padding-right:0px;
+}
+.ms-about-social-btn {
+    margin-top: 0px;
+    margin-bottom: 45px;
+}
 .btn-ms-info {
 	background:#dddddd;
 	color:black;
@@ -139,10 +155,10 @@ h4 {
 }
 
 @media (min-width: 992px) {
-	.ms-home-about {
+	/*.ms-home-about {
 		margin-left:-15px;
 		margin-top:20px;
-	}
+	}*/
 	.offer-text {
 		
 	}
@@ -160,21 +176,21 @@ h4 {
 	.ms-featured-content {
 		width: 765px;
 	}
-	.ms-home-about img {
+	/*.ms-home-about img {
 		width:243px;
 		height:58px;
-	}
+	}*/
 }
 
 @media (min-width: 768px) and (max-width: 992px) {
-	.ms-home-about {
+	/*.ms-home-about {
 		margin-left:-15px;
 		margin-top:20px;
 	}
 	.ms-home-about img {
 		width:187px;
 		height:45px;
-	}
+	}*/
 	.offer-text {
 		margin:0px 10px 8px 8px;
 		font-size:11px;
@@ -207,6 +223,7 @@ h4 {
 }
 .product-essential {
 	background:none;
+    padding-top:0px;
 }
 .product-view {
 	border:none;
@@ -220,7 +237,7 @@ h4 {
 	font-size:15px;
 	font-weight:bold;
 	padding: 0 0 1px;
-	margin 0 0 15px;
+	margin: 0 0 15px;
 }
 .product-view .product-img-box {
 	text-align:center;
@@ -245,7 +262,13 @@ h4 {
 .product-view .available-box {
 	padding: 10px 0px 10px 0px;
 }
-
+.product-view .product-collateral {
+    background: white;
+}
+.ms-product-overview {
+    background: #faf7ee url(../images/bkg_product_collateral.gif) 0 0 repeat-x;
+    padding-bottom: 5px;
+}
 .product-view .price-box .price {
 	font-size:20px;
 	color: #970e5a;
@@ -262,8 +285,8 @@ h4 {
 	background:black;
 } /* making the height larger partly fixes the 'bounce' problem */
 #carousel-example-generic img {
-	margin:0 auto;
-	/*max-width: 400px;
+	/*margin:0 auto;
+	max-width: 400px;
 	max-height: 350px;*/
 }
 .main #carousel-example-generic {
@@ -371,7 +394,6 @@ h4 {
     background: #D2D2D2;
 }
 .ms-homepage .ms-right-sidbar-homepage .ms-no-left-right-pad {
-    padding-right
 }
 .ms-homepage .ms-slideshow { /* div[class^='col-md-']*/
 	padding-left:0px;
@@ -436,6 +458,12 @@ h4 {
 }
 .page .ms-content-col2-right .main .breadcrumbs ul {
        padding: 0px;
+}
+.breadcrumb  {
+    margin-bottom: 0px;
+}
+.breadcrumbs {
+    margin-bottom: 0px;
 }
 .page .ms-content-col2-right .main .ms-main-content {
        background: #ffffff;
