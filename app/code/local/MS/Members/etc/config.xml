@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<config>
+  <modules>
+    <MS_Members>
+      <version>0.1.0</version>
+    </MS_Members>
+  </modules>
+  <global>
+    <helpers>
+      <members>
+        <class>MS_Members_Helper</class>
+      </members>
+    </helpers>
+	<models>
+	  <members>
+		<class>MS_Members_Model</class>
+		<resourceModel>members_mysql4</resourceModel>
+	  </members>
+	</models>
+	<resources>
+	  <MsMemberType_setup>
+		<setup>
+		  <module>MS_Members</module>
+		  <class>Mage_Customer_Model_Entity_Setup</class>
+		</setup>
+		<connection>
+		  <use>core_setup</use>
+		</connection>
+	  </MsMemberType_setup>
+	  <MsMemberType_write>
+		<connection>
+		  <use>core_write</use>
+		</connection>
+	  </MsMemberType_write>
+	  <MsMemberType_read>
+		<connection>
+		  <use>core_read</use>
+		</connection>
+	  </MsMemberType_read>
+	</resources>
+    <events>
+	  <catalog_product_type_prepare_full_options> <!-- identifier of the event we want to catch -->
+        <observers>
+          <catalog_product_type_prepare_full_options_handler> <!-- identifier of the event handler -->
+            <type>model</type> <!-- class method call type; valid are model, object and singleton -->
+            <class>members/observer</class> <!-- observers class alias -->
+            <method>catalogProductTypePrepare</method>  <!-- observer's method to be called -->
+            <args></args> <!-- additional arguments passed to observer -->
+          </catalog_product_type_prepare_full_options_handler>
+        </observers>
+      </catalog_product_type_prepare_full_options>
+    </events>
+  </global>
+</config> 
