@@ -48,24 +48,24 @@
             <args></args>
           </catalog_product_type_prepare_full_options_handler>
         </observers>
-      </catalog_product_type_prepare_full_options>-->
-        <checkout_cart_update_items_after> <!-- identifier of the event we want to catch -->
+      </catalog_product_type_prepare_full_options> -->
+        <checkout_cart_update_items_after>
             <observers>
-                <checkout_cart_update_items_after_handler> <!-- identifier of the event handler -->
-                    <type>model</type> <!-- class method call type; valid are model, object and singleton -->
-                    <class>members/observer</class> <!-- observers class alias -->
-                    <method>cartMembershipCheck</method>  <!-- observer's method to be called -->
-                    <args></args> <!-- additional arguments passed to observer -->
+                <checkout_cart_update_items_after_handler>
+                    <type>model</type>
+                    <class>members/observer</class>
+                    <method>cartMembershipCheck</method>
+                    <args></args>
                 </checkout_cart_update_items_after_handler>
             </observers>
         </checkout_cart_update_items_after>
-        <checkout_cart_product_add_after> <!-- identifier of the event we want to catch -->
+        <checkout_cart_product_add_after>
             <observers>
-                <checkout_cart_product_add_after_handler> <!-- identifier of the event handler -->
-                    <type>model</type> <!-- class method call type; valid are model, object and singleton -->
-                    <class>members/observer</class> <!-- observers class alias -->
-                    <method>cartMembershipProductAddCheck</method>  <!-- observer's method to be called -->
-                    <args></args> <!-- additional arguments passed to observer -->
+                <checkout_cart_product_add_after_handler>
+                    <type>model</type>
+                    <class>members/observer</class>
+                    <method>cartMembershipProductAddCheck</method>
+                    <args></args>
                 </checkout_cart_product_add_after_handler>
             </observers>
         </checkout_cart_product_add_after>

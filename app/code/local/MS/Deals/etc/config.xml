@@ -1,0 +1,134 @@
+<?xml version="1.0"?>
+<config>
+  <modules>
+    <MS_Deals>
+      <version>0.1.0</version>
+    </MS_Deals>
+  </modules>
+  <global>
+    <helpers>
+      <deals>
+        <class>MS_Deals_Helper</class>
+      </deals>
+    </helpers>
+	<blocks>
+	  <deals>
+		<class>MS_Deals_Block</class>
+	  </deals>
+	</blocks>
+	<models>
+	  <deals>
+		<class>MS_Deals_Model</class>
+		<resourceModel>deals_mysql4</resourceModel>
+	  </deals>
+      <ms_deals>
+          <class>MS_Deals_Model_SqlAdapter</class>
+      </ms_deals>
+	  <deals_mysql4>
+		<class>MS_Deals_Model_Mysql4</class>
+		<entities>		  
+			  <memberdeals>
+				<table>ms_member_deals</table>
+			  </memberdeals>
+        </entities>
+	  </deals_mysql4>
+	</models>
+	<resources>
+	  <deals_setup>
+		<setup>
+		  <module>MS_Deals</module>
+          <class>Mage_Eav_Model_Entity_Setup</class>
+		</setup>
+		<connection>
+		  <use>core_setup</use>
+		</connection>
+	  </deals_setup>
+	  <deals_write>
+		<connection>
+		  <use>core_write</use>
+		</connection>
+	  </deals_write>
+	  <deals_read>
+		<connection>
+		  <use>core_read</use>
+		</connection>
+	  </deals_read>
+	</resources>
+    <events>
+	  <checkout_cart_product_add_after> <!-- identifier of the event we want to catch -->
+        <observers>
+          <checkout_cart_product_add_after_deal_handler> <!-- identifier of the event handler -->
+            <type>model</type> <!-- class method call type; valid are model, object and singleton -->
+            <class>deals/observer</class> <!-- observers class alias -->
+            <method>addDealToCart</method>  <!-- observer's method to be called -->
+            <args></args> <!-- additional arguments passed to observer -->
+          </checkout_cart_product_add_after_deal_handler>
+        </observers>
+      </checkout_cart_product_add_after>
+	  <sales_order_place_after> <!-- identifier of the event we want to catch -->
+        <observers>
+          <sales_order_place_after_handler> <!-- identifier of the event handler -->
+            <type>model</type> <!-- class method call type; valid are model, object and singleton -->
+            <class>deals/observer</class> <!-- observers class alias -->
+            <method>addDealsOnOrderComplete</method>  <!-- observer's method to be called -->
+            <args></args> <!-- additional arguments passed to observer -->
+          </sales_order_place_after_handler>
+        </observers>
+      </sales_order_place_after>
+    </events>
+  </global>
+  <admin>
+	<routers>
+	  <deals>
+	    <use>admin</use>
+		<args>
+		  <module>MS_Deals</module>
+		  <frontName>deals</frontName>
+		</args>
+	  </deals>
+	</routers>
+  </admin>
+  <adminhtml>
+	<menu>
+	  <deals module="deals">
+		<title>Deals</title>
+		<sort_order>100</sort_order>
+		<children>
+		  <memberdeals module="deals">
+		    <title>Manage Memberdeals</title>
+			<sort_order>0</sort_order>
+			<action>deals/adminhtml_memberdeals</action>
+		  </memberdeals>
+		</children>
+	  </deals>
+	</menu>
+	<acl>
+	  <resources>
+		<all>
+		  <title>Allow Everything</title>
+		</all>
+		<admin>
+		  <children>
+			<deals translate="title" module="deals">
+			  <title>Deals</title>
+			  <sort_order>1000</sort_order>
+			  <children>
+		  <memberdeals translate="title">
+			<title>Manage Memberdeals</title>
+			<sort_order>0</sort_order>
+		  </memberdeals>
+			  </children>
+			</deals>
+		  </children>
+		</admin>
+	  </resources>
+	</acl>
+	<layout>
+	  <updates>
+		<deals>
+		  <file>deals.xml</file>
+		</deals>
+	  </updates>
+	</layout>
+  </adminhtml>
+</config> 

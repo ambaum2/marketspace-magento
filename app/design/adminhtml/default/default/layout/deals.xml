@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+  <deals_adminhtml_memberdeals_index>
+	<reference name="content">
+	  <block type="deals/adminhtml_memberdeals" name="memberdeals" />
+	</reference>
+  </deals_adminhtml_memberdeals_index>
+</layout>

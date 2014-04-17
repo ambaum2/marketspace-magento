@@ -1,6 +1,7 @@
 <?php
 class MS_Members_Model_Observer
 {
+    //@TODO - ideally these would be in a database
     var $membership_products = array(
         'deals' => 42,
         //'woman' => 39,
@@ -12,7 +13,7 @@ class MS_Members_Model_Observer
     var $member_types = array(
         'deals' => 1,
     );
-    protected $customer;
+    public $customer;
 
     public function __construct() {
         $this->customer = Mage::getSingleton('customer/session')->getCustomer();
