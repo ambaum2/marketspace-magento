@@ -20,6 +20,18 @@ class MS_Members_Model_Observer
     }
 
     /**
+     * is product a member type product
+     * @param $product
+     * @return bool
+     */
+    public function isMemberProduct($product) {
+        $result = false;
+        if(in_array($product['entity_id'], $this->membership_products)) {
+            $result = true;
+        }
+        return $result;
+    }
+    /**
      * is the customer a member
      * @param Mage_Customer_Model_Customer $customer
      * @return bool

@@ -9,28 +9,51 @@ class MS_Deals_Model_Observer
     }
 
     /**
-     *
+     * if product is a deal validate that the
+     * user is authorized to use the deal
      * @param $product
      * @return array
      */
-    public function canUserAddDeal($product) {
-        $result = array('can_add' => true, 'error' => '');
+    public function canUserAddDeal($product, $item) {
+        $result = array('can_add' => true, 'is_deal' => false, 'error' => '', 'available_text' => 'Available');
+        //do a check for membership products
+        if($this->Members->isMemberProduct($product)) {
+            if(!Mage::helper('customer')->isLoggedIn()) {
+                $result['available_text'] = "Login to View";
+            } elseif(!$this->Members->isMember($this->Members->customer)) {
+                $result['available_text'] = "Join";
+            } else {
+                $result['can_add'] = false;
+                $result['available_text'] = "Already a Member";
+            }
+        }
+        //check all other products to see if deals
         if($this->MemberDeals->isDeal($product['product_type']) && isset($product['ms_member_deals_limit'])) {
+            $result['is_deal'] = true;
             if(!Mage::helper('customer')->isLoggedIn()) {
                 $result['can_add'] = false;
+                $result['available_text'] = "Login to View Availability";
                 $result['error'] = 'You must register and login in to add a deal';
             }
             $this->MemberDeals->user_id = $this->Members->customer['entity_id'];
             $this->MemberDeals->product_id = $product['entity_id'];
             if(!$this->Members->isMember($this->Members->customer)) {
                 $result['can_add'] = false;
+                $result['available_text'] = "<a href='/customer/account/create/'>Join to Buy Deal</a>";
                 $result['error'] = 'You cannot use this deal. You are not a member.'; //Error: DOCAA1000' . $product['entity_id']
             }
             $user_deals_total = $this->MemberDeals->getTotalDeals();
-            if($user_deals_total >= (int)$product['ms_member_deals_limit']) {
+            if($user_deals_total >= $product['ms_member_deals_limit']) {
                 $result['can_add'] = false;
                 $result['error'] = 'You cannot use this deal. You have exceeded the limit of ' . $product['ms_member_deals_limit']
                     . ' deal(s). You have used ' . $user_deals_total . ' deal(s).'; //Error: DOCAA200' . $product['entity_id']
+            }
+            if($item['qty'] > $product['ms_member_deals_limit']) {
+                $result['can_add'] = false;
+                $item->setQty($product['ms_member_deals_limit'] - $this->MemberDeals->getTotalDeals());
+                $item->save();
+                $result['error'] = 'You cannot add more than ' . $product['ms_member_deals_limit'] . ' deal(s) for '
+                    . $product['name'];
             }
         }
         return $result;
@@ -48,7 +71,7 @@ class MS_Deals_Model_Observer
         $cartItems = $cart->getItems();
         foreach($cartItems as $item) {
             $product = Mage::getModel('catalog/product')->load($item['product_id']);
-            $result = $this->canUserAddDeal($product);
+            $result = $this->canUserAddDeal($product, $item);
             if(!$result['can_add']) {
                 $quote->removeItem($item->getId())->save();
             }
@@ -72,25 +95,10 @@ class MS_Deals_Model_Observer
     {
         $item = $observer->getEvent()->getQuoteItem();
         $product = Mage::getModel('catalog/product')->load($item['product_id']);
-        $result = $this->canUserAddDeal($product);
+        $result = $this->canUserAddDeal($product, $item);
         if(!$result['can_add']) {
             Mage::throwException($result['error']);
         }
-        //Mage::getSingleton('core/session')->addError("You may only purchase " . print_r($this->Members->customer, true));
-        /*if($this->MemberDeals->isDeal($product['product_type']) && isset($product['ms_member_deals_limit'])) {
-            if(!Mage::helper('customer')->isLoggedIn())
-                Mage::throwException('You must register and login in to add a deal');
-            $this->MemberDeals->user_id = $this->Members->customer['entity_id'];
-            $this->MemberDeals->product_id = $product['entity_id'];
-            if(!$this->Members->isMember($this->Members->customer)) {
-                Mage::throwException('You cannot use this deal. You are not a member.'); //Error: DOCAA1000' . $product['entity_id']
-            }
-            $user_deals_total = $this->MemberDeals->getTotalDeals();
-            if($user_deals_total >= (int)$product['ms_member_deals_limit']) {
-                Mage::throwException('You cannot use the deal ' . $product['name'] . '. You have exceeded the limit of ' . $product['ms_member_deals_limit']
-                    . ' deal(s). You have used ' . $user_deals_total . ' deal(s).'); //Error: DOCAA200' . $product['entity_id']
-            }
-        }*/
     }
 
     /**
@@ -100,10 +108,15 @@ class MS_Deals_Model_Observer
      */
     public function updateDealQuantity(Varien_Event_Observer $observer) {
         foreach($observer->getEvent()->getInfo() as $key => $item) {
-            $quote_item = $observer->getEvent()->getCart()->getQuote()->getItemById($key);
-            $product = $quote_item->getProduct();
+            $item = $observer->getEvent()->getCart()->getQuote()->getItemById($key);
+            $product = $item->getProduct();
             $product = Mage::getModel('catalog/product')->load($product->getId());
-            if($this->MemberDeals->isDeal($product['product_type']) && isset($product['ms_member_deals_limit'])) {
+            $result = $this->canUserAddDeal($product, $item);
+            if(!$result['can_add']) {
+                Mage::getSingleton('core/session')->addError($result['error']);
+            }
+
+            /*if($this->MemberDeals->isDeal($product['product_type']) && isset($product['ms_member_deals_limit'])) {
                 $this->MemberDeals->user_id = $this->Members->customer['entity_id'];
                 $this->MemberDeals->product_id = $product->getId();
                 if(($product['ms_member_deals_limit'] - $this->MemberDeals->getTotalDeals()) > 0) {
@@ -116,7 +129,7 @@ class MS_Deals_Model_Observer
                     Mage::throwException("You are over the limit of  "
                         . $product['ms_member_deals_limit'] . ' deals for ' . $product['name'] . " Error DOCUIA200" . $product['entity_id']);
                 }
-            }
+            }*/
         }
     }
     /**
@@ -130,7 +143,24 @@ class MS_Deals_Model_Observer
     {
         foreach ($observer->getEvent()->getOrder()->getAllItems() as $item) {
             $product = Mage::getModel('catalog/product')->load($item->getProductId());
-            if($this->MemberDeals->isDeal($product['product_type']) && isset($product['ms_member_deals_limit'])) {
+            $result = $this->canUserAddDeal($product, $item);
+            if($result['is_deal'] && $result['can_add']) {
+                $model = Mage::getModel("deals/memberdeals")
+                    ->setProductId($item->getProductId())
+                    ->setUserId($this->Members->customer['entity_id'])
+                    ->setQuantity($item->getQtyOrdered())
+                    ->setCreated(time())
+                    ->setModified(time())
+                    ->save();
+
+            } elseif($result['is_deal'] && !$result['can_add']) {
+                Mage::getSingleton('core/session')->addError($result['error']);
+            } else {
+
+            }
+
+
+            /*if($this->MemberDeals->isDeal($product['product_type']) && isset($product['ms_member_deals_limit'])) {
                 if(!Mage::helper('customer')->isLoggedIn())
                     Mage::throwException('You must register and login in to become a member before using deals');
 
@@ -145,7 +175,7 @@ class MS_Deals_Model_Observer
                 } else {
                     Mage::throwException('You are not a member please register for a membership');
                 }
-            }
+            }*/
         }
     }
 
