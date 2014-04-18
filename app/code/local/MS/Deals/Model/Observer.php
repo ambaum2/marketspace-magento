@@ -8,21 +8,52 @@ class MS_Deals_Model_Observer
         $this->Members = new MS_Members_Model_Observer();
     }
 
+    /**
+     *
+     * @param $product
+     * @return array
+     */
+    public function canUserAddDeal($product) {
+        $result = array('can_add' => true, 'error' => '');
+        if($this->MemberDeals->isDeal($product['product_type']) && isset($product['ms_member_deals_limit'])) {
+            if(!Mage::helper('customer')->isLoggedIn()) {
+                $result['can_add'] = false;
+                $result['error'] = 'You must register and login in to add a deal';
+            }
+            $this->MemberDeals->user_id = $this->Members->customer['entity_id'];
+            $this->MemberDeals->product_id = $product['entity_id'];
+            if(!$this->Members->isMember($this->Members->customer)) {
+                $result['can_add'] = false;
+                $result['error'] = 'You cannot use this deal. You are not a member.'; //Error: DOCAA1000' . $product['entity_id']
+            }
+            $user_deals_total = $this->MemberDeals->getTotalDeals();
+            if($user_deals_total >= (int)$product['ms_member_deals_limit']) {
+                $result['can_add'] = false;
+                $result['error'] = 'You cannot use this deal. You have exceeded the limit of ' . $product['ms_member_deals_limit']
+                    . ' deal(s). You have used ' . $user_deals_total . ' deal(s).'; //Error: DOCAA200' . $product['entity_id']
+            }
+        }
+        return $result;
+    }
+    /**
+     * @param Varien_Event_Observer $observer
+     * checkout_cart_save_after
+     */
     public function addDealToCartSaveAfter(Varien_Event_Observer $observer) {
-        Mage::throwException('You cannot us');
-        /*Mage::getSingleton('core/session')->addError('nothing<pre>' . $observer->getEvent()->getQuote().' </pre>item id ');
+       //Mage::getSingleton('core/session')->addError('nothing<pre>' . $observer->getEvent()->getQuote().' </pre>item id ');
         $cart = $observer->getEvent()->getCart();
         $session = Mage::getSingleton('checkout/session');
         $cartHelper = Mage::helper('checkout/cart');
         $quote = $session->getQuote();
         $cartItems = $cart->getItems();
         foreach($cartItems as $item) {
-            //$cartHelper->getCart()->removeItem($item->getItemId())->save();
-            $cart->removeItem($item->getItemId());
-            $quote->removeItem($item->getId())->save();
-            Mage::getSingleton('checkout/session')->setCartWasUpdated(true);
-            $cart->init();
-        }*/
+            $product = Mage::getModel('catalog/product')->load($item['product_id']);
+            $result = $this->canUserAddDeal($product);
+            if(!$result['can_add']) {
+                $quote->removeItem($item->getId())->save();
+            }
+        }
+        //return null;
     }
     /**
      * after product add event
@@ -41,8 +72,12 @@ class MS_Deals_Model_Observer
     {
         $item = $observer->getEvent()->getQuoteItem();
         $product = Mage::getModel('catalog/product')->load($item['product_id']);
+        $result = $this->canUserAddDeal($product);
+        if(!$result['can_add']) {
+            Mage::throwException($result['error']);
+        }
         //Mage::getSingleton('core/session')->addError("You may only purchase " . print_r($this->Members->customer, true));
-        if($this->MemberDeals->isDeal($product['product_type']) && isset($product['ms_member_deals_limit'])) {
+        /*if($this->MemberDeals->isDeal($product['product_type']) && isset($product['ms_member_deals_limit'])) {
             if(!Mage::helper('customer')->isLoggedIn())
                 Mage::throwException('You must register and login in to add a deal');
             $this->MemberDeals->user_id = $this->Members->customer['entity_id'];
@@ -52,10 +87,10 @@ class MS_Deals_Model_Observer
             }
             $user_deals_total = $this->MemberDeals->getTotalDeals();
             if($user_deals_total >= (int)$product['ms_member_deals_limit']) {
-                Mage::throwException('You cannot use this deal. You have exceeded the limit of ' . $product['ms_member_deals_limit']
+                Mage::throwException('You cannot use the deal ' . $product['name'] . '. You have exceeded the limit of ' . $product['ms_member_deals_limit']
                     . ' deal(s). You have used ' . $user_deals_total . ' deal(s).'); //Error: DOCAA200' . $product['entity_id']
             }
-        }
+        }*/
     }
 
     /**
