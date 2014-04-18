@@ -39,7 +39,6 @@ class MS_Members_Model_Observer
      * getInfo() = array([product_id] => array('qty'=>x, 'before_suggest_qty' => x))
      */
     public function cartMembershipCheck(Varien_Event_Observer $observer) {
-        //Mage::getSingleton('core/session')->addError("You may only purchase " . print_r($customer, true));
         foreach($observer->getEvent()->getInfo() as $key => $item) {
             $order_item = $observer->getEvent()->getCart()->getQuote()->getItemById($key);
             $product = $order_item->getProduct();
@@ -59,24 +58,34 @@ class MS_Members_Model_Observer
      * On Add to Cart...prevent an existing member from adding a product or
      * prevent a non member from adding more than 1 (or whatever is specified)
      * @param Varien_Event_Observer $observer
+     * @todo checkout_cart_save_after may be a better observer because it may allow you to actually
+     * remove the item
      */
     public function cartMembershipProductAddCheck(Varien_Event_Observer $observer) {
-        if(!Mage::helper('customer')->isLoggedIn()) {
-            Mage::throwException('You must register and login in to become a member');
-        } else {
-            $order_item = $observer->getEvent()->getQuoteItem();
-            if(in_array($order_item->getProductId(), $this->membership_products)) {
-                if(!$this->isMember($this->customer)) {
-                    if($order_item->getQty() > $this->membership_products_data[$order_item->getProductId()]['max_quantity']) {
-                        $order_item->setQty($this->membership_products_data[$order_item->getProductId()]['max_quantity']);
-                        $order_item->save();
-                        Mage::getSingleton('core/session')->addError("You may only purchase "
-                            . $this->membership_products_data[$order_item->getProductId()]['max_quantity']
-                            . " item for " . $order_item->getName());
-                    }
-                } else {
-                    Mage::throwException('You already a member. error id: #P0000' . $order_item->getProductId());
+        $order_item = $observer->getEvent()->getQuoteItem();
+        if(in_array($order_item->getProductId(), $this->membership_products)) {
+            if(!Mage::helper('customer')->isLoggedIn())
+                Mage::throwException('You must register and login in to become a member');
+            if(!$this->isMember($this->customer)) {
+                if($order_item->getQty() > $this->membership_products_data[$order_item->getProductId()]['max_quantity']) {
+                    $order_item->setQty($this->membership_products_data[$order_item->getProductId()]['max_quantity']);
+                    $order_item->save();
+                    Mage::getSingleton('core/session')->addError("You may only purchase "
+                        . $this->membership_products_data[$order_item->getProductId()]['max_quantity']
+                        . " item for " . $order_item->getName());
                 }
+            } else {
+                $cartHelper = Mage::helper('checkout/cart');
+                $cartHelper->getCart()->removeItem($order_item->getId())->save();
+                /*$items = $cartHelper->getCart()->getItems();
+                foreach ($items as $item) {
+                    if ($item->getProduct()->getId() == $order_item['product_id']) {
+                        $itemId = $item->getItemId();
+                        $cartHelper->getCart()->removeItem($itemId)->save();
+                        break;
+                    }
+                }*/
+                Mage::throwException('You already a member. error id: #P0000' . $order_item->getProductId() . " ID: " . $order_item->getId());
             }
         }
     }
@@ -88,20 +97,19 @@ class MS_Members_Model_Observer
      *
      */
     public function addMembership(Varien_Event_Observer $observer) {
-        if(!Mage::helper('customer')->isLoggedIn()) {
-            Mage::throwException('You must register and login in to become a member');
-        } else {
-            if(!$this->isMember($this->customer)) {
-                foreach ($observer->getEvent()->getOrder()->getAllItems() as $item) {
-                    if(in_array($item->getProductId(), $this->membership_products)) {
-                        $customer = Mage::getSingleton('customer/session')->getCustomer();
-                        $customer->setMsMemberTypes(1);
-                        $customer->setMsMemberSignupDate(date('Y-m-d H:i:s', time()));
-                        $customer->save();
-                    }
+        foreach ($observer->getEvent()->getOrder()->getAllItems() as $item) {
+            if(in_array($item->getProductId(), $this->membership_products)) {
+                if(!Mage::helper('customer')->isLoggedIn()) {
+                    Mage::throwException('You must register and login in to become a member');
                 }
-            } else {
-                Mage::throwException('You already a member please remove membership item from cart');
+                if(!$this->isMember($this->customer)) {
+                    $customer = Mage::getSingleton('customer/session')->getCustomer();
+                    $customer->setMsMemberTypes(1);
+                    $customer->setMsMemberSignupDate(date('Y-m-d H:i:s', time()));
+                    $customer->save();
+                } else {
+                    Mage::throwException('You already a member please remove membership item from cart');
+                }
             }
         }
     }

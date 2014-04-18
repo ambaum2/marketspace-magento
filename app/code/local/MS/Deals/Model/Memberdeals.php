@@ -24,7 +24,7 @@ class MS_Deals_Model_Memberdeals extends Mage_Core_Model_Abstract
      */
     public function isDeal($product_type_id) {
         $result = false;
-        if(in_array($this->deal_products, $product_type_id)) {
+        if(in_array($product_type_id, $this->deal_products)) {
             $result = true;
         }
         return $result;
