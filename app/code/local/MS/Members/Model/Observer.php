@@ -75,8 +75,8 @@ class MS_Members_Model_Observer
                         . " item for " . $order_item->getName());
                 }
             } else {
-                $cartHelper = Mage::helper('checkout/cart');
-                $cartHelper->getCart()->removeItem($order_item->getId())->save();
+                //$cartHelper = Mage::helper('checkout/cart');
+                //$cartHelper->getCart()->removeItem($order_item->getId())->save();
                 /*$items = $cartHelper->getCart()->getItems();
                 foreach ($items as $item) {
                     if ($item->getProduct()->getId() == $order_item['product_id']) {

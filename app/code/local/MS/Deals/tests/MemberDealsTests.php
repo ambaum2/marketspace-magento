@@ -22,10 +22,24 @@ class MS_MemberDeals_Tests extends PHPUnit_Framework_TestCase
 
     public function test_getAllMembersDealsTotalByProductId() {
         $sql = new MS_Deals_Model_SqlAdapter();
-        $result = $sql->getAllMembersDealsTotalByProductId(53, 5);
-        $this->assertEquals(1, $result);
+        $result = $sql->getAllMembersDealsTotalByProductId(53, 6);
+        $this->assertEquals(0, $result);
+        $this->assertTrue(is_int((int)$result));
+        print (int)$result;
     }
 
+    public function test_user_add_to_cart_limit() {
+        $product = Mage::getModel('catalog/product')->load(53);
+        $deals = new MS_Deals_Model_Observer();
+        //Mage::getSingleton('core/session')->addError("You may only purchase " . print_r($this->Members->customer, true));
+        $deals->MemberDeals->user_id = $this->Members->customer['entity_id'];
+        $deals->MemberDeals->product_id = $product['entity_id'];
+        if(($deals->MemberDeals->getTotalDeals()) >= $product['ms_members_deals_limit']) {
+
+            //Mage::throwException('You cannot use this deal. You have exceeded the limit of ' . $product['ms_member_deals_limit']
+            //    . ' deal(s). Error: DOCAA200' . $product['entity_id'] . " " . (int)$this->MemberDeals->getTotalDeals() . ' user: ' . $this->Members->customer['entity_id']);
+        }
+    }
 }
 
 

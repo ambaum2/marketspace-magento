@@ -65,7 +65,7 @@
                 </checkout_cart_update_items_after_deal_handler>
             </observers>
         </checkout_cart_update_items_after>
-      <checkout_cart_save_after>
+      <!--<checkout_cart_save_after>
           <observers>
               <checkout_cart_save_after_deal_handler>
                   <type>model</type>
@@ -74,7 +74,7 @@
                   <args></args>
               </checkout_cart_save_after_deal_handler>
           </observers>
-      </checkout_cart_save_after>
+      </checkout_cart_save_after>-->
 	  <checkout_cart_product_add_after> <!-- may try checkout_cart_save_after instead -->
         <observers>
           <checkout_cart_product_add_after_deal_handler> <!-- identifier of the event handler -->
