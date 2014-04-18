@@ -19,6 +19,30 @@ class MS_Members_Model_Observer
         $this->customer = Mage::getSingleton('customer/session')->getCustomer();
     }
 
+    public function getTemplateInfo($product, $item) {
+        $result = array('can_add' => true, 'is_membership' => false, 'is_deal' => false, 'error' => '', 'available_text' => 'Available');
+        //do a check for membership products
+        if($this->isMemberProduct($product)) {
+            $result['is_membership'] = true;
+            if(!Mage::helper('customer')->isLoggedIn()) {
+                $result['can_add'] = false;
+                $result['error'] = 'You must login to become a member';
+                $result['available_text'] = "Login to View";
+            } elseif($item->getQty() > $this->membership_products_data[$item['product_id']]['max_quantity']) {
+                $result['can_add'] = false;
+                $result['error'] = 'You can not purchase multiple memberships';
+                $result['available_text'] = "Join";
+            } elseif(!$this->isMember($this->customer)) {
+                $result['available_text'] = "Join";
+            } else {
+                $result['can_add'] = false;
+                $result['error'] = 'You are already a member. Please remove item from cart.';
+                $result['available_text'] = "Already a Member";
+            }
+        }
+
+        return $result;
+    }
     /**
      * is product a member type product
      * @param $product
@@ -45,24 +69,40 @@ class MS_Members_Model_Observer
     }
 
     /**
+     * @param Varien_Event_Observer $observer
+     */
+    public function MsSaveBefore(Varien_Event_Observer $observer) {
+        $cart = $observer->getEvent()->getCart();
+        $session = Mage::getSingleton('checkout/session');
+        $cartHelper = Mage::helper('checkout/cart');
+        $quote = $session->getQuote();
+        $cartItems = $cart->getItems();
+        foreach($cartItems as $item) {
+            $product = Mage::getModel('catalog/product')->load($item['product_id']);
+            $result = $this->getTemplateInfo($product, $item);
+            if(!$result['can_add']) {
+                $quote->removeItem($item->getId())->save();
+                Mage::getSingleton('core/session')->addError($result['error']);
+            }
+        }
+        Mage::getSingleton('core/session')->addError($result['error']);
+        return $this;
+    }
+    /**
      * On Cart Quantity update...prevent an existing member from adding a product or
      * prevent a non member from adding more than 1 (or whatever is specified)
      * @param Varien_Event_Observer $observer
-     * getInfo() = array([product_id] => array('qty'=>x, 'before_suggest_qty' => x))
+     * checkout_cart_update_items_after
      */
-    public function cartMembershipCheck(Varien_Event_Observer $observer) {
+    public function cartMembershipUpdateAfter(Varien_Event_Observer $observer) {
         foreach($observer->getEvent()->getInfo() as $key => $item) {
-            $order_item = $observer->getEvent()->getCart()->getQuote()->getItemById($key);
-            $product = $order_item->getProduct();
-            if(in_array($product['entity_id'], $this->membership_products)) {
-                if($item['qty'] > $this->membership_products_data[$product['entity_id']]['max_quantity']) {
-                    $order_item->setQty($this->membership_products_data[$product['entity_id']]['max_quantity']);
-                    $order_item->save();
-                    Mage::getSingleton('core/session')->addError("You may only purchase "
-                        . $this->membership_products_data[$product['entity_id']]['max_quantity']
-                        . " item for " . $product['name']);
-                    //Mage::throwException('You can only buy ' . $this->membership_products_data[$key]['max_quantity'] . ' product at a time.');
-                }
+            $item = $observer->getEvent()->getCart()->getQuote()->getItemById($key);
+            $product = $product = Mage::getModel('catalog/product')->load($item['product_id']);
+            $result = $this->getTemplateInfo($product, $item);
+            if(!$result['can_add']) {
+                $item->setQty($this->membership_products_data[$item['product_id']]['max_quantity']);
+                $item->save();
+                Mage::getSingleton('core/session')->addError($result['error']);
             }
         }
     }
@@ -74,8 +114,13 @@ class MS_Members_Model_Observer
      * remove the item
      */
     public function cartMembershipProductAddCheck(Varien_Event_Observer $observer) {
-        $order_item = $observer->getEvent()->getQuoteItem();
-        if(in_array($order_item->getProductId(), $this->membership_products)) {
+        $item = $observer->getEvent()->getQuoteItem();
+        $product = Mage::getModel('catalog/product')->load($item['product_id']);
+        $result = $this->getTemplateInfo($product, $item);
+        if(!$result['can_add']) {
+            Mage::getSingleton('core/session')->addError($result['error']);
+        }
+        /*if(in_array($order_item->getProductId(), $this->membership_products)) {
             if(!Mage::helper('customer')->isLoggedIn())
                 Mage::throwException('You must register and login in to become a member');
             if(!$this->isMember($this->customer)) {
@@ -87,19 +132,9 @@ class MS_Members_Model_Observer
                         . " item for " . $order_item->getName());
                 }
             } else {
-                //$cartHelper = Mage::helper('checkout/cart');
-                //$cartHelper->getCart()->removeItem($order_item->getId())->save();
-                /*$items = $cartHelper->getCart()->getItems();
-                foreach ($items as $item) {
-                    if ($item->getProduct()->getId() == $order_item['product_id']) {
-                        $itemId = $item->getItemId();
-                        $cartHelper->getCart()->removeItem($itemId)->save();
-                        break;
-                    }
-                }*/
                 Mage::throwException('You already a member. error id: #P0000' . $order_item->getProductId() . " ID: " . $order_item->getId());
             }
-        }
+        }*/
     }
 
     /**

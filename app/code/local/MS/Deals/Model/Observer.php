@@ -14,19 +14,8 @@ class MS_Deals_Model_Observer
      * @param $product
      * @return array
      */
-    public function canUserAddDeal($product, $item) {
+    public function getTemplateInfo($product, $item) {
         $result = array('can_add' => true, 'is_deal' => false, 'error' => '', 'available_text' => 'Available');
-        //do a check for membership products
-        if($this->Members->isMemberProduct($product)) {
-            if(!Mage::helper('customer')->isLoggedIn()) {
-                $result['available_text'] = "Login to View";
-            } elseif(!$this->Members->isMember($this->Members->customer)) {
-                $result['available_text'] = "Join";
-            } else {
-                $result['can_add'] = false;
-                $result['available_text'] = "Already a Member";
-            }
-        }
         //check all other products to see if deals
         if($this->MemberDeals->isDeal($product['product_type']) && isset($product['ms_member_deals_limit'])) {
             $result['is_deal'] = true;
@@ -50,8 +39,6 @@ class MS_Deals_Model_Observer
             }
             if($item['qty'] > $product['ms_member_deals_limit']) {
                 $result['can_add'] = false;
-                $item->setQty($product['ms_member_deals_limit'] - $this->MemberDeals->getTotalDeals());
-                $item->save();
                 $result['error'] = 'You cannot add more than ' . $product['ms_member_deals_limit'] . ' deal(s) for '
                     . $product['name'];
             }
@@ -62,7 +49,7 @@ class MS_Deals_Model_Observer
      * @param Varien_Event_Observer $observer
      * checkout_cart_save_after
      */
-    public function addDealToCartSaveAfter(Varien_Event_Observer $observer) {
+    public function addDealToCartSaveBefore(Varien_Event_Observer $observer) {
        //Mage::getSingleton('core/session')->addError('nothing<pre>' . $observer->getEvent()->getQuote().' </pre>item id ');
         $cart = $observer->getEvent()->getCart();
         $session = Mage::getSingleton('checkout/session');
@@ -71,12 +58,13 @@ class MS_Deals_Model_Observer
         $cartItems = $cart->getItems();
         foreach($cartItems as $item) {
             $product = Mage::getModel('catalog/product')->load($item['product_id']);
-            $result = $this->canUserAddDeal($product, $item);
+            $result = $this->getTemplateInfo($product, $item);
             if(!$result['can_add']) {
                 $quote->removeItem($item->getId())->save();
+                Mage::getSingleton('core/session')->addError($result['error']);
             }
         }
-        //return null;
+        return $this;
     }
     /**
      * after product add event
@@ -95,7 +83,7 @@ class MS_Deals_Model_Observer
     {
         $item = $observer->getEvent()->getQuoteItem();
         $product = Mage::getModel('catalog/product')->load($item['product_id']);
-        $result = $this->canUserAddDeal($product, $item);
+        $result = $this->getTemplateInfo($product, $item);
         if(!$result['can_add']) {
             Mage::throwException($result['error']);
         }
@@ -111,25 +99,12 @@ class MS_Deals_Model_Observer
             $item = $observer->getEvent()->getCart()->getQuote()->getItemById($key);
             $product = $item->getProduct();
             $product = Mage::getModel('catalog/product')->load($product->getId());
-            $result = $this->canUserAddDeal($product, $item);
+            $result = $this->getTemplateInfo($product, $item);
             if(!$result['can_add']) {
+                $item->setQty($product['ms_member_deals_limit'] - $this->MemberDeals->getTotalDeals());
+                $item->save();
                 Mage::getSingleton('core/session')->addError($result['error']);
             }
-
-            /*if($this->MemberDeals->isDeal($product['product_type']) && isset($product['ms_member_deals_limit'])) {
-                $this->MemberDeals->user_id = $this->Members->customer['entity_id'];
-                $this->MemberDeals->product_id = $product->getId();
-                if(($product['ms_member_deals_limit'] - $this->MemberDeals->getTotalDeals()) > 0) {
-                    $quote_item->setQty($product['ms_member_deals_limit'] - $this->MemberDeals->getTotalDeals());
-                    $quote_item->save();
-                    Mage::throwException("You may only use the deal " . $product['name']
-                        . ' ' . $product['ms_member_deals_limit'] . ' time(s). You have ' . ($product['ms_member_deals_limit'] - $this->MemberDeals->getTotalDeals())
-                        . ' deal(s) remaining. Error DOCUIA100' . $product['entity_id']);
-                } elseif($this->MemberDeals->getTotalDeals() >= $product['ms_member_deals_limit']) {
-                    Mage::throwException("You are over the limit of  "
-                        . $product['ms_member_deals_limit'] . ' deals for ' . $product['name'] . " Error DOCUIA200" . $product['entity_id']);
-                }
-            }*/
         }
     }
     /**
@@ -143,7 +118,7 @@ class MS_Deals_Model_Observer
     {
         foreach ($observer->getEvent()->getOrder()->getAllItems() as $item) {
             $product = Mage::getModel('catalog/product')->load($item->getProductId());
-            $result = $this->canUserAddDeal($product, $item);
+            $result = $this->getTemplateInfo($product, $item);
             if($result['is_deal'] && $result['can_add']) {
                 $model = Mage::getModel("deals/memberdeals")
                     ->setProductId($item->getProductId())
@@ -158,24 +133,6 @@ class MS_Deals_Model_Observer
             } else {
 
             }
-
-
-            /*if($this->MemberDeals->isDeal($product['product_type']) && isset($product['ms_member_deals_limit'])) {
-                if(!Mage::helper('customer')->isLoggedIn())
-                    Mage::throwException('You must register and login in to become a member before using deals');
-
-                if($this->Members->isMember($this->Members->customer)) {
-                    $model = Mage::getModel("deals/memberdeals")
-                        ->setProductId($item->getProductId())
-                        ->setUserId($this->Members->customer['entity_id'])
-                        ->setQuantity($item->getQtyOrdered())
-                        ->setCreated(time())
-                        ->setModified(time())
-                        ->save();
-                } else {
-                    Mage::throwException('You are not a member please register for a membership');
-                }
-            }*/
         }
     }
 

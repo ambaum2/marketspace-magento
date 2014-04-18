@@ -60,7 +60,7 @@
                 <checkout_cart_save_before_deal_handler>
                     <type>model</type>
                     <class>deals/observer</class>
-                    <method>addDealToCartSaveAfter</method>
+                    <method>addDealToCartSaveBefore</method>
                     <args></args>
                 </checkout_cart_save_before_deal_handler>
             </observers>
