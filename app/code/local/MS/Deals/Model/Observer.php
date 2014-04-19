@@ -15,13 +15,21 @@ class MS_Deals_Model_Observer
      * @return array
      */
     public function getTemplateInfo($product, $item) {
-        $result = array('can_add' => true, 'is_deal' => false, 'error' => '', 'available_text' => 'Available');
+        $result = array('can_add' => true,
+            'is_deal' => false,
+            'error' => '',
+            'available_text' => 'Available',
+            'show_add_to_cart' => true,
+            'show_quantity' => true,
+        );
         //check all other products to see if deals
         if($this->MemberDeals->isDeal($product['product_type']) && isset($product['ms_member_deals_limit'])) {
             $result['is_deal'] = true;
             if(!Mage::helper('customer')->isLoggedIn()) {
                 $result['can_add'] = false;
                 $result['available_text'] = "Login to View Availability";
+                $result['show_add_to_cart'] = false;
+                $result['show_quantity'] = false;
                 $result['error'] = 'You must register and login in to add a deal';
             }
             $this->MemberDeals->user_id = $this->Members->customer['entity_id'];
@@ -29,11 +37,15 @@ class MS_Deals_Model_Observer
             if(!$this->Members->isMember($this->Members->customer)) {
                 $result['can_add'] = false;
                 $result['available_text'] = "<a href='/customer/account/create/'>Join to Buy Deal</a>";
+                $result['show_add_to_cart'] = false;
                 $result['error'] = 'You cannot use this deal. You are not a member.'; //Error: DOCAA1000' . $product['entity_id']
             }
             $user_deals_total = $this->MemberDeals->getTotalDeals();
             if($user_deals_total >= $product['ms_member_deals_limit']) {
                 $result['can_add'] = false;
+                $result['available_text'] = "You have used all of your deals";
+                $result['show_add_to_cart'] = false;
+                $result['show_quantity'] = false;
                 $result['error'] = 'You cannot use this deal. You have exceeded the limit of ' . $product['ms_member_deals_limit']
                     . ' deal(s). You have used ' . $user_deals_total . ' deal(s).'; //Error: DOCAA200' . $product['entity_id']
             }

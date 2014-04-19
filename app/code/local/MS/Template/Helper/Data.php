@@ -1,6 +1,24 @@
 <?php
 class MS_Template_Helper_Data extends Mage_Core_Helper_Abstract
 {
+    /**
+     * get theme information for a product
+     * @param $product
+     * @return array
+     * @todo refactor the structure of MS_members and Ms_deals observers the below is not sustainable
+     */
+    public function getMsProductThemeInfo($product) {
+        $Ms_Members = new MS_Members_Model_Observer();
+        $item = array('qty' => 0); //hardcode for now
+        if($Ms_Members->isMemberProduct($product)) {
+            $result = $Ms_Members->getTemplateInfo($product, $item);
+        } else {
+            $Ms_Deals = new MS_Deals_Model_Observer();
+            $result = $Ms_Deals->getTemplateInfo($product, $item);
+        }
+
+        return $result;
+    }
     public function getSellerProfile($_item) {
         $SellerProfile = new MS_Template_Model_SellerProfile();
         $result = "Community MarketSpace";

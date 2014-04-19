@@ -20,15 +20,23 @@ class MS_Members_Model_Observer
     }
 
     public function getTemplateInfo($product, $item) {
-        $result = array('can_add' => true, 'is_membership' => false, 'is_deal' => false, 'error' => '', 'available_text' => 'Available');
+        $result = array('can_add' => true,
+            'is_membership' => false,
+            'is_deal' => false,
+            'error' => '',
+            'available_text' => 'Available',
+            'show_add_to_cart' => true,
+            'show_quantity' => true,
+        );
         //do a check for membership products
         if($this->isMemberProduct($product)) {
             $result['is_membership'] = true;
             if(!Mage::helper('customer')->isLoggedIn()) {
                 $result['can_add'] = false;
+                $result['show_add_to_cart'] = false;
                 $result['error'] = 'You must login to become a member';
-                $result['available_text'] = "Login to View";
-            } elseif($item->getQty() > $this->membership_products_data[$item['product_id']]['max_quantity']) {
+                $result['available_text'] = "<a href='/customer/account/create/'>Register To Become A Member</a>";
+            } elseif($item['qty'] > $this->membership_products_data[$item['product_id']]['max_quantity']) {
                 $result['can_add'] = false;
                 $result['error'] = 'You can not purchase multiple memberships';
                 $result['available_text'] = "Join";
@@ -36,6 +44,7 @@ class MS_Members_Model_Observer
                 $result['available_text'] = "Join";
             } else {
                 $result['can_add'] = false;
+                $result['show_add_to_cart'] = false;
                 $result['error'] = 'You are already a member. Please remove item from cart.';
                 $result['available_text'] = "Already a Member";
             }
@@ -85,7 +94,7 @@ class MS_Members_Model_Observer
                 Mage::getSingleton('core/session')->addError($result['error']);
             }
         }
-        Mage::getSingleton('core/session')->addError($result['error']);
+        //Mage::getSingleton('core/session')->addError($result['error']);
         return $this;
     }
     /**
@@ -102,7 +111,7 @@ class MS_Members_Model_Observer
             if(!$result['can_add']) {
                 $item->setQty($this->membership_products_data[$item['product_id']]['max_quantity']);
                 $item->save();
-                Mage::getSingleton('core/session')->addError($result['error']);
+                Mage::throwException($result['error']);
             }
         }
     }
@@ -118,7 +127,7 @@ class MS_Members_Model_Observer
         $product = Mage::getModel('catalog/product')->load($item['product_id']);
         $result = $this->getTemplateInfo($product, $item);
         if(!$result['can_add']) {
-            Mage::getSingleton('core/session')->addError($result['error']);
+            Mage::throwException($result['error']);
         }
         /*if(in_array($order_item->getProductId(), $this->membership_products)) {
             if(!Mage::helper('customer')->isLoggedIn())

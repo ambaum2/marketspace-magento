@@ -27,11 +27,13 @@
 
 <?php $_product = $this->getProduct(); ?>
 <?php 
-  $_product = $this->getProduct();
-  $stock = (int) Mage::getModel('cataloginventory/stock_item')->loadByProduct($_product)->getQty();
-	/* @TODO refactor push up into model */
-	$show = true;
-  $showQuantity = true;
+    $_product = $this->getProduct();
+    $stock = (int) Mage::getModel('cataloginventory/stock_item')->loadByProduct($_product)->getQty();
+    /* @TODO refactor push up into model */
+    $show = true;
+    $ms_template = $this->helper('ms_template/data')->getMsProductThemeInfo($_product);
+    $showQuantity = $ms_template['show_quantity'];
+
     //@todo junk add this to ms_template module
     if(in_array($_product['product_type'], array(4, 3, 9, 12))) {
         $format = '<button type="button" title="' . $this->__('Add to Cart') .'" class="btn btn-ms-action-cart" onclick="productAddToCartForm.submit(this)"><span><span>'
@@ -40,34 +42,36 @@
         $format = '<button type="button" title="' . $this->__('Reserve') .'" class="btn btn-ms-action-cart" onclick="productAddToCartForm.submit(this)"><span><span>'
             . $this->__("Reserve") . '</span></span></button>';
     } elseif(in_array($_product['product_type'], array(7))) {
-    $format = '<button type="button" title="' . $this->__('Get Coupon') .'" class="btn btn-ms-action-cart" onclick="productAddToCartForm.submit(this)"><span><span>'
-      . $this->__("Get Coupon") . '</span></span></button>';
+        $format = '<button type="button" title="' . $this->__('Get Coupon') .'" class="btn btn-ms-action-cart" onclick="productAddToCartForm.submit(this)"><span><span>'
+          . $this->__("Get Coupon") . '</span></span></button>';
     } elseif(in_array($_product['product_type'], array(11))) {
-    $format = '<button type="button" title="' . $this->__('Submit') .'" class="btn btn-ms-action-cart" onclick="productAddToCartForm.submit(this)"><span><span>'
-      . $this->__("Submit") . '</span></span></button>';
+        $format = '<button type="button" title="' . $this->__('Submit') .'" class="btn btn-ms-action-cart" onclick="productAddToCartForm.submit(this)"><span><span>'
+          . $this->__("Submit") . '</span></span></button>';
     } elseif(in_array($_product['product_type'], array(21))) {
         $format = '<button type="button" title="' . $this->__('Join') .'" class="btn btn-ms-action-cart" onclick="productAddToCartForm.submit(this)"><span><span>'
             . $this->__("Join") . '</span></span></button>';
     } else {
         $show = false;
     }
-	if(in_array($_product['product_type'], array(11, 12, 21))) {
-	  $showQuantity = false;
-  }
+    if(in_array($_product['product_type'], array(11, 12, 21))) {
+      $showQuantity = false;
+    }
 ?>
 
 <?php if($_product->isSaleable() && $show): ?>
     <div class="add-to-cart row">
-    	<div class="col-lg-6 col-md-6 col-sm-6">
-    	<div class="input-group">
-        <?php if(!$_product->isGrouped()): ?>
-					  <span <?php ($showQuantity) ? print '' : print 'style="display:none;"'; ?> class="input-group-addon"><?php echo $this->__('Qty:') ?></span>
-					  <input type="text" <?php ($showQuantity) ? print '' : print 'style="display:none;"'; ?>name="qty" maxlength="12" value="<?php echo $this->getMinimalQty($_product) ?>" title="<?php echo $this->__('Qty') ?>" class="input-text qty product_qty_select form-control" />				
-        <?php endif; ?>
-        <span class="input-group-btn">
-          <?php print $format; ?>
-      	</span>
-      </div>
-    </div>
+        <div class="col-lg-6 col-md-6 col-sm-6">
+            <div class="input-group">
+            <?php if(!$_product->isGrouped()): ?>
+                <span <?php ($showQuantity) ? print '' : print 'style="display:none;"'; ?> class="input-group-addon"><?php echo $this->__('Qty:') ?></span>
+                <input type="text" <?php ($showQuantity) ? print '' : print 'style="display:none;"'; ?>name="qty" maxlength="12" value="<?php echo $this->getMinimalQty($_product) ?>" title="<?php echo $this->__('Qty') ?>" class="input-text qty product_qty_select form-control" />
+            <?php endif; ?>
+            <span class="input-group-btn">
+                <?php if($ms_template['show_add_to_cart']) : ?>
+                    <?php print $format; ?>
+                <?php endif; ?>
+            </span>
+            </div>
+        </div>
     </div>
 <?php endif; ?>

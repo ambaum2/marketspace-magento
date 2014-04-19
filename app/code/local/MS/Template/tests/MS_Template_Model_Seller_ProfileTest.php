@@ -20,7 +20,18 @@ class MS_Template_Model_Seller_ProfileTest extends PHPUnit_Framework_TestCase {
         $this->hasProducts = false;
         $this->sellerProfileModel = new MS_Template_Model_SellerProfile();
     }
-    public function test_getTerms() {
+
+    public function test_get_template_info() {
+        $template = new MS_Template_Helper_Data();
+        $product = Mage::getModel('catalog/product')->load(42);
+        $Members = new MS_Members_Model_Observer();
+        $item = array('qty' => 0);
+        $this->assertTrue($Members->isMemberProduct($product));
+        print_r($Members->getTemplateInfo($product, $item));
+        $result = $template->getMsProductThemeInfo($product);
+        print_r($result);
+    }
+    /*public function test_getTerms() {
         //print_r($this->sellerProfile->getData());
         $sellerProfile = Mage::getModel('catalog/product')->load(45);
         print $sellerProfile->getData('seller_terms_refund');
@@ -72,6 +83,6 @@ class MS_Template_Model_Seller_ProfileTest extends PHPUnit_Framework_TestCase {
         $mailerover = new MS_Template_Model_Core_Email_Template_Mailer();
         //$mail_template = new MS_Template_Model_Core_Email_Template();
         $sales_order = new MS_Template_Model_Sales_Order();
-    }
+    }*/
 }
  
