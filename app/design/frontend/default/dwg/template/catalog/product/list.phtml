@@ -96,20 +96,22 @@
     <?php $_collectionSize = $_productCollection->count() ?>
     <?php $_columnCount = $this->getColumnCount() + 1; //columns per page ?> 
     <?php $i=0; foreach ($_productCollection as $_product): ?>
-    	<?php
-				$show = true;
-				if(in_array($_product['product_type'], array(5))) {
-					$show = false;
-				} else {
-					$show = true;
-				}
-				$show_deals = false;
-				if(in_array($_product['product_type'], array(8, 9))) {
-					$show_deals = true;
-				} else {
-					$show_deals = false;
-				}				
-			?>
+    <?php
+        $product = Mage::getModel('catalog/product')->load($_product->getId());
+        $ms_template = $this->helper('ms_template/data')->getMsProductThemeInfo($product);
+        $show = true;
+        if(in_array($_product['product_type'], array(5))) {
+            $show = false;
+        } else {
+            $show = true;
+        }
+        $show_deals = false;
+        if(in_array($_product['product_type'], array(8, 9))) {
+            $show_deals = true;
+        } else {
+            $show_deals = false;
+        }
+    ?>
         <?php if ($i++%$_columnCount==0): ?>
         <ul class="products-grid">
         <?php endif ?>
@@ -122,12 +124,12 @@
                 <?php print $this->getPriceHtml($_product, true) ?>      
                 <div class="actions">
                 	<?php if($show) : ?>
-                    <?php if($_product->isSaleable()): ?>
-                        <button type="button" style="display:none;" title="<?php echo $this->__('Add to Cart') ?>" class="btn btn-ms-action-cart" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')"><span><span><?php echo $this->__("Add To Cart") ?></span></span></button>
-                        <button type="button" class="pull-left btn text-left btn-ms-action text-ms-label"><?php echo $this->__("Available"); ?><br /></button>
-                    <?php else: ?>                   
-                        <button type="button" class="pull-left btn text-left btn-ms-action text-ms-label"><?php echo $this->__("Not Available"); ?><br /></button>
-                    <?php endif; ?>
+                        <?php if($_product->isSaleable()): ?>
+                            <button type="button" style="display:none;" title="<?php echo $this->__('Add to Cart') ?>" class="btn btn-ms-action-cart" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')"><span><span><?php echo $this->__("Add To Cart") ?></span></span></button>
+                            <button type="button" class="pull-left btn text-left btn-ms-action text-ms-label"><?php echo $this->__("Available"); ?><br /></button>
+                        <?php else: ?>
+                            <button type="button" class="pull-left btn text-left btn-ms-action text-ms-label"><?php echo $this->__("Not Available"); ?><br /></button>
+                        <?php endif; ?>
                   <?php endif; ?>
                   <?php if($show_deals) : ?>
                   	<img class="pull-left" src="<?php print $this->getSkinUrl('css/images/CM_DEAL.png') ?>" />
