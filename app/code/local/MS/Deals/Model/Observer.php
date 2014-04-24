@@ -15,7 +15,8 @@ class MS_Deals_Model_Observer
      * @return array
      */
     public function getTemplateInfo($product, $item) {
-        $result = array('can_add' => true,
+        $result = array(
+            'can_add' => true,
             'is_deal' => false,
             'error' => '',
             'available_text' => 'Available',
@@ -27,32 +28,34 @@ class MS_Deals_Model_Observer
             $result['is_deal'] = true;
             if(!Mage::helper('customer')->isLoggedIn()) {
                 $result['can_add'] = false;
-                $result['available_text'] = "Please Login";
+                $result['available_text'] = "<a href='/customer/account/login'>Please Login</a>";
                 $result['show_add_to_cart'] = false;
                 $result['show_quantity'] = false;
                 $result['error'] = 'You must register and login in to add a deal';
-            }
-            $this->MemberDeals->user_id = $this->Members->customer['entity_id'];
-            $this->MemberDeals->product_id = $product['entity_id'];
-            if(!$this->Members->isMember($this->Members->customer)) {
-                $result['can_add'] = false;
-                $result['available_text'] = "<a href='/customer/account/create/'>Join to Use Deal</a>";
-                $result['show_add_to_cart'] = false;
-                $result['error'] = 'You cannot use this deal. You are not a member.'; //Error: DOCAA1000' . $product['entity_id']
-            }
-            $user_deals_total = $this->MemberDeals->getTotalDeals();
-            if($user_deals_total >= $product['ms_member_deals_limit']) {
-                $result['can_add'] = false;
-                $result['available_text'] = "Already Used Deal";
-                $result['show_add_to_cart'] = false;
-                $result['show_quantity'] = false;
-                $result['error'] = 'You cannot use this deal. You have exceeded the limit of ' . $product['ms_member_deals_limit']
-                    . ' deal(s). You have used ' . $user_deals_total . ' deal(s).'; //Error: DOCAA200' . $product['entity_id']
-            }
-            if($item['qty'] > ($product['ms_member_deals_limit'] - $user_deals_total)) {
-                $result['can_add'] = false;
-                $result['error'] = 'You cannot add more than ' . $product['ms_member_deals_limit'] . ' deal(s) for '
-                    . $product['name'];
+            } else {
+                $this->MemberDeals->user_id = $this->Members->customer['entity_id'];
+                $this->MemberDeals->product_id = $product['entity_id'];
+                $user_deals_total = $this->MemberDeals->getTotalDeals();
+                if(!$this->Members->isMember($this->Members->customer)) {
+                    $result['can_add'] = false;
+                    $result['available_text'] = "<a href='/join/become-member.html'>Join to Use Deal</a>";
+                    $result['show_add_to_cart'] = false;
+                    $result['show_quantity'] = false;
+                    $result['error'] = 'You cannot use this deal. You are not a member.'; //Error: DOCAA1000' . $product['entity_id']
+                } elseif($user_deals_total >= $product['ms_member_deals_limit']) {
+                    $result['can_add'] = false;
+                    $result['available_text'] = "Already Used Deal";
+                    $result['show_add_to_cart'] = false;
+                    $result['show_quantity'] = false;
+                    $result['error'] = 'You cannot use this deal. You have exceeded the limit of ' . $product['ms_member_deals_limit']
+                        . ' deal(s). You have used ' . $user_deals_total . ' deal(s).'; //Error: DOCAA200' . $product['entity_id']
+                } elseif($item['qty'] > ($product['ms_member_deals_limit'] - $user_deals_total)) {
+                    $result['can_add'] = false;
+                    $result['error'] = 'You cannot add more than ' . $product['ms_member_deals_limit'] . ' deal(s) for '
+                        . $product['name'];
+                } else {
+                  //this user was a member and is not over any limit
+                }
             }
         }
         return $result;

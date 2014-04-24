@@ -150,7 +150,6 @@ class MS_Members_Model_Observer
      * Add membership for non member after order is complete
      * sales_order_place_after
      * @param Varien_Event_Observer $observer
-     *
      */
     public function addMembership(Varien_Event_Observer $observer) {
         foreach ($observer->getEvent()->getOrder()->getAllItems() as $item) {
