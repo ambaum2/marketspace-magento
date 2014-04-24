@@ -35,13 +35,13 @@ class MS_Members_Model_Observer
                 $result['can_add'] = false;
                 $result['show_add_to_cart'] = false;
                 $result['error'] = 'Please Login';
-                $result['available_text'] = "<a href='/customer/account/create/'>Register To Become A Member</a>";
+                $result['available_text'] = "<a href='/customer/account/login'>Please Login Or Register</a>";
             } elseif($item['qty'] > $this->membership_products_data[$item['product_id']]['max_quantity']) {
                 $result['can_add'] = false;
                 $result['error'] = 'You may not purchase multiple memberships';
-                $result['available_text'] = "Join";
+                $result['available_text'] = "Available";
             } elseif(!$this->isMember($this->customer)) {
-                $result['available_text'] = "Join";
+                $result['available_text'] = "Available";
             } else {
                 $result['can_add'] = false;
                 $result['show_add_to_cart'] = false;
