@@ -25,6 +25,7 @@ class MS_Members_Model_Observer
             'is_deal' => false,
             'error' => '',
             'available_text' => 'Available',
+            'available_link' => null,
             'show_add_to_cart' => true,
             'show_quantity' => true,
         );
@@ -35,7 +36,8 @@ class MS_Members_Model_Observer
                 $result['can_add'] = false;
                 $result['show_add_to_cart'] = false;
                 $result['error'] = 'Please Login';
-                $result['available_text'] = "<a href='/customer/account/login'>Please Login Or Register</a>";
+                $result['available_text'] = "Please Login Or Register";
+				$result['available_link'] = "/customer/account/login";
             } elseif($item['qty'] > $this->membership_products_data[$item['product_id']]['max_quantity']) {
                 $result['can_add'] = false;
                 $result['error'] = 'You may not purchase multiple memberships';

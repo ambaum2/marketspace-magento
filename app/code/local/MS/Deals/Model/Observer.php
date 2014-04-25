@@ -20,6 +20,7 @@ class MS_Deals_Model_Observer
             'is_deal' => false,
             'error' => '',
             'available_text' => 'Available',
+            'available_link' => null,
             'show_add_to_cart' => true,
             'show_quantity' => true,
         );
@@ -28,7 +29,8 @@ class MS_Deals_Model_Observer
             $result['is_deal'] = true;
             if(!Mage::helper('customer')->isLoggedIn()) {
                 $result['can_add'] = false;
-                $result['available_text'] = "<a href='/customer/account/login'>Please Login</a>";
+                $result['available_text'] = "Please Login";
+				$result['available_link'] = "/customer/account/login";
                 $result['show_add_to_cart'] = false;
                 $result['show_quantity'] = false;
                 $result['error'] = 'You must register and login in to add a deal';
@@ -38,7 +40,8 @@ class MS_Deals_Model_Observer
                 $user_deals_total = $this->MemberDeals->getTotalDeals();
                 if(!$this->Members->isMember($this->Members->customer)) {
                     $result['can_add'] = false;
-                    $result['available_text'] = "<a href='/join/become-member.html'>Join to Use Deal</a>";
+                    $result['available_text'] = "Join to Use Deal";
+					$result['available_link'] = "/join/become-member.html";
                     $result['show_add_to_cart'] = false;
                     $result['show_quantity'] = false;
                     $result['error'] = 'You cannot use this deal. You are not a member.'; //Error: DOCAA1000' . $product['entity_id']
