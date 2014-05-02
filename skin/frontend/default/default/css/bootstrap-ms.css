@@ -1,4 +1,4 @@
-@import url(http://fonts.googleapis.com/css?family=Roboto+Slab|Ubuntu+Condensed);
+@import url(https://fonts.googleapis.com/css?family=Roboto+Slab|Ubuntu+Condensed);
 body {background: #341b00;color:#341b00;}
 .cms-page-view ul {
 	list-style-position: inside;
@@ -118,9 +118,8 @@ h4 {
 .btn-ms-info {
 	background:#dddddd;
 	color:black;
-	cursor:pointer;
+	cursor:auto;
 }
-
 .btn-ms-action-cart {
 	background: #BFC932;
 	color:black;
