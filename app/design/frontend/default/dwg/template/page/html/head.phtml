@@ -62,7 +62,7 @@ $_product = Mage::registry('current_product');
     }
   </style>
 <![endif]-->
-
+<script type="text/javascript" src="<?php print $this->getSkinUrl("scripts/google_analytics.js"); ?>"></script>
 <?php echo $this->getCssJsHtml() ?>
 <?php echo $this->getChildHtml() ?>
 <?php echo $this->helper('core/js')->getTranslatorScript() ?>
