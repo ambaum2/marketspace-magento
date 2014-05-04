@@ -60,8 +60,9 @@ h4 {
 .btn-ms-info {
 	background:#dddddd;
 	color:black;
-	cursor:auto;
+	cursor:pointer;
 }
+
 .btn-ms-action-cart {
 	background: #BFC932;
 	color:black;
