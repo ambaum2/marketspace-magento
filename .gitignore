@@ -6,5 +6,8 @@ var/session/*
 var/report/*
 app/etc/local.xml
 media/*
+media/*/*
+**media/
 skin/frontend/default/msil/*
 app/design/frontend/default/msil/*
+media/catalog/product/cache/*/*/*/*/*/*/
