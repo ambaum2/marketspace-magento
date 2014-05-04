@@ -118,9 +118,8 @@ h4 {
 .btn-ms-info {
 	background:#dddddd;
 	color:black;
-	cursor:pointer;
+	cursor:auto;
 }
-
 .btn-ms-action-cart {
 	background: #BFC932;
 	color:black;
@@ -357,7 +356,7 @@ h4 {
 #headerMainMenu .mainLink {position:relative;}
 #headerMainMenu .mainLink .subLinks {text-decoration:none;}
 #headerMainMenu .mainLink .subMenu {display:none;position:absolute;z-index:100;left:0px;top:30px;text-align:left;padding:5px;border:1px solid #899BA5;background:white;}
-#headerMainMenu .mainLink .subMenu li {background:#ffffff;width:250px;padding:8px;}
+#headerMainMenu .mainLink .subMenu li {background:#ffffff;width:241px;padding:8px;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius:0px;}
 #headerMainMenu .mainLink .subMenu li a {color:black;display:block;}
 #headerMainMenu .mainLink .subMenu li a:hover {
 	background:#9DCECE;
