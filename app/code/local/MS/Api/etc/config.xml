@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <MS_Api>
+            <version>0.1.0</version>
+        </MS_Api>
+    </modules>
+    <frontend>
+        <routers>
+            <mspace_api>
+                <use>standard</use>
+                <args>
+                    <module>MS_Api</module>
+                    <frontName>ms-api</frontName>
+                </args>
+            </mspace_api>
+        </routers>
+    </frontend>
+    <global>
+        <models>
+            <ms_api>
+                <interface>MS_Api_Model_ApiAuth</interface>
+                <class>MS_Api_Model_Service</class>
+                <class>MS_Api_Model_ApiAuthToken</class>
+                <class>MS_Api_Model_Adapters_ProductsSql</class>
+                <class>MS_Api_Model_Products_Users_Lists_ProductType</class>
+            </ms_api>
+        </models>
+        <helpers>
+            <ms_api>
+                <class>MS_Api_Helper</class>
+            </ms_api>
+        </helpers>
+        <controllers>
+        </controllers>
+    </global>
+</config>
