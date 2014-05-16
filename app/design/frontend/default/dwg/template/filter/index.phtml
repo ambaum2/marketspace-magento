@@ -9,7 +9,7 @@ $products = $this->getProductsByMarketspaceOwnerId($this->getOwnerId());
 				<div class="row">
 			<?php endif; ?>
 				<div class="col-xs-12 col-sm-3 col-md-3 ms-featured-item">
-					<div class='thumbnail'>
+					<div class='thumbnail text-center'>
 					  <a class="product-image" href="<?php print $product->getProductUrl() ?>">
 						<img src="<?php print $this->helper('catalog/image')->init($product, 'thumbnail')->resize(135)?>" /></a>
 						<a href="<?php print $product->getProductUrl() ?>"<h2 class='text-ms-label product-name'><?php print $product->getName() ?>"</h2></a>
