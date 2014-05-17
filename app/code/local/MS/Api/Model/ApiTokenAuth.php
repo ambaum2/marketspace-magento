@@ -1,7 +1,8 @@
 <?php
 
-class MS_Api_Model_ApiTokenAuth extends Mage_Core_Model_Abstract implements MS_Api_ApiAuth {
+class MS_Api_Model_ApiTokenAuth extends Mage_Core_Model_Abstract implements MS_Api_Model_ApiAuth {
     public $Text;
+    protected $UnencryptedText;
     public $Iv;
     public $Request;
     protected static $secret = "a42342963283bb395a0430346e4d49ad";
@@ -21,12 +22,12 @@ class MS_Api_Model_ApiTokenAuth extends Mage_Core_Model_Abstract implements MS_A
      *  true if token is valid false otherwise
      */
     public function Validate() {
-        if(!isset($this->iv) && !isset($this->Text))
+        if(!isset($this->Iv) && !isset($this->Text))
             throw new Exception("IV or Token Not Set");
 
         $this->Iv = base64_decode($this->Iv);
-        $Unencrypted = $this->Decrypt($this->Text);
-        $AuthInfo = $this->getAuthInfoArray($Unencrypted);
+        $this->UnencryptedText = $this->Decrypt($this->Text);
+        $AuthInfo = $this->GetAuthInfo();
         if(isset($AuthInfo[1])) {
             if($AuthInfo[0] == self::$secret) {
                 if((time() - $AuthInfo[1]) < 600) {
@@ -48,7 +49,7 @@ class MS_Api_Model_ApiTokenAuth extends Mage_Core_Model_Abstract implements MS_A
      * @return array
      */
     public function GetAuthInfo() {
-        $authInfo = explode("|", $this->Text);
+        $authInfo = explode("|", $this->UnencryptedText);
         return $authInfo;
     }
     /**
@@ -93,5 +94,14 @@ class MS_Api_Model_ApiTokenAuth extends Mage_Core_Model_Abstract implements MS_A
         $base64_encoded_data = $this->encryptBase64($data, $iv);
         $data_url_encode = urlencode($base64_encoded_data);
         return $data_url_encode;
+    }
+
+    /**
+     * create iv for encryption
+     * @return string
+     *  return an iv
+     */
+    public function CreateIv() {
+        return mcrypt_create_iv(mcrypt_get_iv_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC), MCRYPT_DEV_URANDOM);
     }
 }

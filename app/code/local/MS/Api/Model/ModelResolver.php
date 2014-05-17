@@ -2,18 +2,20 @@
 
 class MS_Api_Model_ModelResolver {
     public $Adapter;
-    public $AuthType;
     public $Auth;
     public $RequestMethod;
 
-    function __construct() {
-        if(isset($this->AuthType)) {
-            $AuthClass = "MS_Api_Model_" . $this->AuthType;
-            $this->Auth = new $AuthClass;
-        }
+    /**
+     * @param $AuthType
+     * @param $RequestMethod
+     */
+    function __construct(MS_Api_Model_ApiAuth $AuthMethod, $RequestMethod) {
+        $this->Auth = $AuthMethod;
 
-        if(empty($this->RequestMethod)) {
+        if(empty($RequestMethod)) {
             $this->RequestMethod = "GET";
+        } else {
+            $this->RequestMethod = $RequestMethod;
         }
     }
 
@@ -33,10 +35,11 @@ class MS_Api_Model_ModelResolver {
      * @return bool
      */
     public function Authenticate() {
+        $result = false;
         try {
             $result = $this->Auth->Validate();
         } catch(Exception $e) {
-            $result = false;
+            throw new Exception("Access denied " . $e->getMessage());
         }
         return $result;
     }
@@ -46,7 +49,6 @@ class MS_Api_Model_ModelResolver {
      * @return array
      */
     public function Call(MS_Api_Model_Service $Model) {
-        $result = array("error" => "Api Call Failed");
         try {
             $Authorized = true;
             if(isset($this->Auth)) {

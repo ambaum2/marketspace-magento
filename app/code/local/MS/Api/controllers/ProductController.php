@@ -20,7 +20,11 @@ class MS_Api_ProductController extends Mage_Core_Controller_Front_Action {
 
         $json = $app->get('/ms-api/product/users/{Uid:[0-9]+}/lists/{ListName}', function($Uid, $ListName = "ProductType") {
             try {
-                $ModelResolver = new MS_Api_Model_ModelResolver();
+                $Authentication = new MS_Api_Model_ApiTokenAuth();
+                $Authentication->Iv = $_SERVER['HTTP_AUTHIV'];
+                $Authentication->Text = $_SERVER['HTTP_AUTHTOKEN'];
+
+                $ModelResolver = new MS_Api_Model_ModelResolver($Authentication, $_SERVER["REQUEST_METHOD"]);
                 $ModelName = "MS_Api_Model_Products_Users_Lists_" . $ListName;
                 $Model = $ModelResolver->ResolveModelName($ModelName);
                 $Model->Uid = $Uid;
