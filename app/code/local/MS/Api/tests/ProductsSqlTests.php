@@ -20,10 +20,8 @@ class ProductSqlTest extends PHPUnit_Framework_TestCase
             ->where('pv.value = ?', $Uid);
         $productData = $this->conn->fetchAll($select);
         print_r($productData);*/
-        $collection = Mage::getModel('catalog/product')->getCollection();
-        $collection->addAttributeToFilter('marketspace_owner', array(
-            'eq' => 2,
-        ));
-        print_r($collection->getData());
+        $Model = new MS_Api_Model_Adapters_ProductsSql();
+        $collection = $Model->GetUsersListProductType(2);
+        print_r($collection);
     }
 }

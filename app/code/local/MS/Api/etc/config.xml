@@ -7,13 +7,13 @@
     </modules>
     <frontend>
         <routers>
-            <mspace_api>
+            <ms_api>
                 <use>standard</use>
                 <args>
                     <module>MS_Api</module>
                     <frontName>ms-api</frontName>
                 </args>
-            </mspace_api>
+            </ms_api>
         </routers>
     </frontend>
     <global>

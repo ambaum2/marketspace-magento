@@ -10,7 +10,6 @@ class Api_Integration_Tests extends PHPUnit_Framework_TestCase {
     }
     public function testApiAuthentication() {
         $apiAuth = new MS_Api_Model_ApiTokenAuth();
-        $responseCheck = '"{\"\":\"\",\"7\":\"Coupon \\\u2013 Buy\",\"4\":\"Item for Sale\",\"5\":\"Profile \\\u2013 Request\",\"6\":\"Profile \\\u2013 Standard\",\"3\":\"Ticket\"}"';
         $secret = "a42342963283bb395a0430346e4d49ad";
         $time = time();
         $text = $secret . "|" . $time;
