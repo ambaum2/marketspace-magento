@@ -21,6 +21,7 @@ class MS_Api_Model_Adapters_ProductsSql extends Mage_Core_Model_Abstract {
 
         $collection->addAttributeToSelect('name', true);
         $collection->addAttributeToSelect('thumbnail', true);
+        $collection->addAttributeToSelect('product_type', true);
         return $collection->getData();
     }
 }

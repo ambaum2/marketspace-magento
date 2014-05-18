@@ -30,6 +30,7 @@ class Api_Integration_Tests extends PHPUnit_Framework_TestCase {
         //$headers_raw = curl_getinfo($handle);
         curl_close($handle);
         $data = json_decode($data);
+        print_r($data);
         $this->assertGreaterThan(2, count($data));
     }
 }
