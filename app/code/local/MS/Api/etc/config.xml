@@ -23,7 +23,9 @@
                 <class>MS_Api_Model_Service</class>
                 <class>MS_Api_Model_ApiAuthToken</class>
                 <class>MS_Api_Model_Adapters_ProductsSql</class>
+                <class>MS_Api_Model_Adapters_ReportsSql</class>
                 <class>MS_Api_Model_Adapters_CategoriesSql</class>
+                <class>MS_Api_Model_Reports_Owners_Orders_Types_AllOrders</class>
                 <class>MS_Api_Model_Products_Users_Lists_ProductType</class>
                 <class>MS_Api_Model_Categories_Tree_Lists_Nested</class>
             </ms_api>
