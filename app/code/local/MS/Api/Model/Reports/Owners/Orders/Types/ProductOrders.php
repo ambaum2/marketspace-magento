@@ -1,6 +1,6 @@
 <?php
 
-class MS_Api_Model_Reports_Owners_Orders_Types_AllOrders extends Mage_Core_Model_Abstract implements MS_Api_Model_Service {
+class MS_Api_Model_Reports_Owners_Orders_Types_ProductOrders extends Mage_Core_Model_Abstract implements MS_Api_Model_Service {
     public $Adapter;
     public $Uid;
     /**
@@ -25,7 +25,7 @@ class MS_Api_Model_Reports_Owners_Orders_Types_AllOrders extends Mage_Core_Model
     {
         if(empty($this->Uid))
             throw new Exception('Uid not set');
-        $result = $this->Daa->GetOwnersOrdersProductCount($this->Uid);
+        $result = $this->Daa->GetOwnersOrdersProductsCountByMonth($this->Uid, $this->Products);
         return $result;
     }
 

@@ -47,10 +47,16 @@ class MS_Api_Model_Adapters_ReportsSql extends Mage_Core_Model_Abstract {
         ;
         $items->getSelect()->group('product_id');
         $items->getSelect()->columns(array('total_ordered' => 'SUM(qty_ordered)'));
-        $items->getSelect()->join( array('product'=>'catalog_product_entity_varchar'), 'main_table.product_id = product.entity_id',
-            array('product.value as marketspace_owner', 'main_table.row_total as sale_price'));
-        $items->getSelect()->where('attribute_id=?', 136);
-        $items->getSelect()->where('product.value=?', $Uid);
+        $items->getSelect()->join( array('owner'=>'catalog_product_entity_varchar'), 'main_table.product_id = owner.entity_id',
+            array('owner.value as marketspace_owner', 'main_table.row_total as sale_price'));
+        $items->getSelect()->where('owner.attribute_id=?', 136);
+        $items->getSelect()->where('owner.value=?', $Uid);
+        $items->getSelect()->join( array('pname'=>'catalog_product_entity_varchar'), 'main_table.product_id = pname.entity_id',
+            array('pname.value as name'));
+        $items->getSelect()->where('pname.attribute_id=?', 71);
+        $items->getSelect()->join( array('thumbnail'=>'catalog_product_entity_varchar'), 'main_table.product_id = thumbnail.entity_id',
+            array('thumbnail.value as thumbnail'));
+        $items->getSelect()->where('thumbnail.attribute_id=?', 87);
         return $items->getData();
     }
 
