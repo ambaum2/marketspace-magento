@@ -13,6 +13,7 @@ class MS_Ship_Model_Products_Rates_Types extends Mage_Core_Model_Abstract
         2 => 'MS_Ship_Model_Products_Rates_Totals_Order',
         3 => 'MS_Ship_Model_Products_Rates_Totals_Product_By_Weight',
         4 => 'MS_Ship_Model_Products_Rates_Totals_Free',
+        5 => 'MS_Ship_Model_Products_Rates_Totals_PickupInStore',
       );
       if($types[$type]) {
         $result = $types[$type];

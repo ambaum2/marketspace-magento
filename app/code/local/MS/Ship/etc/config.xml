@@ -23,12 +23,14 @@
         <class>MS_Ship_Model_Products_Rates_Totals_Product_By_Weight</class>
         <class>MS_Ship_Model_Products_Rates_Totals_Product</class>
         <class>MS_Ship_Model_Products_Rates_Totals_Free</class>
+        <class>MS_Ship_Model_Products_Rates_Totals_PickupInStore</class>
         <class>MS_Ship_Model_Products_Rates_Types</class>
         <class>MS_Ship_Model_Types</class>
 	  	<class>MS_Ship_Model_Rates_Totals_Order</class>
 	  	<class>MS_Ship_Model_Rates_Totals_Product_By_Weight</class>
 	  	<class>MS_Ship_Model_Rates_Totals_Product</class>
 	  	<class>MS_Ship_Model_Rates_Totals_Free</class>
+        <class>MS_Ship_Model_Rates_Totals_PickupInStore</class>
 	  	<class>MS_Ship_Model_Rates_Calculate</class> <!-- must put file in a folder and name should be calculate to work-->
 	  </ms_ship>
 	</models>

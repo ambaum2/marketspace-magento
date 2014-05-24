@@ -30,7 +30,10 @@ class MS_Ship_Model_Eav_Entity_Attribute_Source_Productshippingoptions extends M
                     "label" => Mage::helper("eav")->__("Free Shipping"),
                     "value" =>  4
                 ),
-	
+                array(
+                    "label" => Mage::helper("eav")->__("Pick Up In Store"),
+                    "value" =>  5
+                ),
             );
         }
         return $this->_options;
