@@ -86,6 +86,7 @@ class MS_Api_Model_Adapters_ReportsSql extends Mage_Core_Model_Abstract {
                 'title' => array(
                     'text' => 'Total Orders'
                 ),
+                'allowDecimals' => false,
                 'min' => 0,
                 'plotLines' => array(
                     array('value' => 0),
@@ -97,9 +98,9 @@ class MS_Api_Model_Adapters_ReportsSql extends Mage_Core_Model_Abstract {
                 'suffix' => ' orders',
             ),
             'legend' => array(
-                'layout' => 'vertical',
-                'align' => 'right',
-                'verticalAlign' => 'middle',
+                'layout' => 'horizontal',
+                'align' => 'center',
+                'verticalAlign' => 'bottom',
                 'borderWidth' => 0
             ),
         );
