@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Class MS_Api_Model_Adapters_ReportsSql
+ */
 class MS_Api_Model_Adapters_ReportsSql extends Mage_Core_Model_Abstract {
     protected $coreResource;
     protected $conn;
@@ -13,7 +16,7 @@ class MS_Api_Model_Adapters_ReportsSql extends Mage_Core_Model_Abstract {
      * @param $Uid
      * @return mixed
      */
-    public function GetAllOwnersOrders($Uid) {
+    public function GetAllOwnersOrdersItems($Uid) {
         $items = Mage::getModel('sales/order_item')
             ->getCollection()
             ->addFieldToSelect('product_id')
@@ -21,16 +24,64 @@ class MS_Api_Model_Adapters_ReportsSql extends Mage_Core_Model_Abstract {
             ->addFieldToSelect('updated_at')
             ->addFieldToSelect('created_at')
             ->addFieldToSelect('qty_ordered')
+
         ;
 
-        $items->getSelect()->join( array('product'=>'catalog_product_entity_varchar'), 'main_table.product_id = product.entity_id',
-            array('product.value as marketspace_owner', 'main_table.row_total as sale_price'));
-        $items->getSelect()->where('attribute_id=?', 136);
-        $items->getSelect()->where('product.value=?', $Uid);
+        $items->getSelect()->join( array('owner'=>'catalog_product_entity_varchar'), 'main_table.product_id = owner.entity_id',
+            array('owner.value as marketspace_owner', 'main_table.row_total as sale_price'));
+        $items->getSelect()->where('owner.attribute_id=?', 136);
+        $items->getSelect()->where('owner.value=?', $Uid);
+        $items->getSelect()->join( array('pname'=>'catalog_product_entity_varchar'), 'main_table.product_id = pname.entity_id',
+            array('pname.value as name'));
+        $items->getSelect()->where('pname.attribute_id=?', 71);
         //print $items->getSelect();
         return $items->getData();
     }
 
+    /**
+     * Get all owners order items
+     * this has shipping and item information
+     * so can be used in a detail and list view
+     * @todo create a seperate list view and detail type
+     * for mobile
+     * @param $Uid
+     * @return array
+     */
+    public function GetAllOwnersOrders($Uid) {
+        $orders = new Mage_Sales_Model_Order();
+        /** @var $collection Mage_Core_Model_Mysql4_Collection_Abstract */
+        $collection = $orders->getCollection();
+        $collection
+            ->addFieldToSelect('entity_id')
+            ->addFieldToSelect('created_at')
+            ->addFieldToSelect('updated_at')
+            ->addFieldToSelect('status')
+            ->addFieldToSelect('state')
+            ->addFieldToSelect('increment_id')
+            ->addFieldToSelect('customer_email')
+            ->addFieldToSelect('customer_firstname')
+            ->addFieldToSelect('customer_lastname')
+        ;
+        $collection->getSelect()->joinInner( array('order_item'=>'sales_flat_order_item'), 'main_table.entity_id = order_item.order_id',
+            array('main_table.is_virtual', 'order_item.item_id', 'order_item.name as name', 'order_item.sku as sku', 'order_item.weight'
+            , 'order_item.qty_ordered as qty', 'order_item.price as price', 'tax_amount as tax', 'row_total as total'
+            , 'base_price_incl_tax as total_incl_tax'));
+        $collection->getSelect()->joinInner(array('payment' => 'sales_flat_order_payment'), 'main_table.entity_id = payment.parent_id',
+            array('payment.method'));
+        $collection->getSelect()->joinLeft(array('address' => 'sales_flat_order_address'), 'address.parent_id = main_table.entity_id
+            and address.address_type = "shipping"', array('address.fax', 'address.region', 'postcode', 'street', 'city', 'telephone', 'country_id'));
+        $collection->getSelect()->joinInner( array('owner'=>'catalog_product_entity_varchar'), 'order_item.product_id = owner.entity_id',
+            array('owner.value as marketspace_owner', 'order_item.row_total as sale_price'));
+        $collection->getSelect()->where('owner.attribute_id=?', 136);
+        $collection->getSelect()->where('owner.value=?', $Uid);
+        return $collection->getData();
+    }
+
+    public function GetOwnersOrder($id) {
+        $order = new Mage_Sales_Model_Order_Item();
+        $orderItem = $order->load($id);
+        return $orderItem->getData();
+    }
     /**
  * Get the total ordered grouped by
  * product id
