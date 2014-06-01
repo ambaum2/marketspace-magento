@@ -21,7 +21,11 @@ class CategoriesSqlTest extends PHPUnit_Framework_TestCase
         $productData = $this->conn->fetchAll($select);
         print_r($productData);*/
         $Model = new MS_Api_Model_Adapters_CategoriesSql();
-        $collection = $Model->GetCategoriesTree();
-        print_r($collection);
+        $category = Mage::getModel('catalog/category');
+        $category->load(49);
+        $collection = $Model->GetCategoryFirstChildrenList($category);
+        foreach($collection as $cat) {
+            print $cat['name'] . ' path: ' . $cat['url_path'] . "\n";
+        }
     }
 }

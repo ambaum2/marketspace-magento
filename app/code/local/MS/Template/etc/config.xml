@@ -25,6 +25,9 @@
     </frontend>
     <global>
     <blocks>
+        <template>
+            <class>MS_Template_Block_Category</class>
+        </template>
         <ms_template>
             <class>MS_Template_Block</class>
         </ms_template>

@@ -1,0 +1,20 @@
+<?php
+/* @var $this MS_Template_Block_Category */
+/* @var $category Mage_Catalog_Model_Category */
+$category = $this->_category;
+?>
+<?php if($category->hasChildren()) : ?>
+    <?php $collection = $this->GetChildrenForNavigationLinks($category); ?>
+    <ul class="nav nav-pills">
+        <h4>Categories</h4>
+        <?php $i = 0; ?>
+        <?php foreach($collection as $key => $cat) : ?>
+            <li>
+                <a class="btn-ms-info" href="/<?php print $cat['url_path']; ?>">
+                    <?php print $cat['name']; ?>
+                </a>
+            </li>
+        <?php $i++; ?>
+        <?php endforeach; ?>
+    </ul>
+<?php endif; ?>

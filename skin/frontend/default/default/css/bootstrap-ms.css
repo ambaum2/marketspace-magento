@@ -353,7 +353,15 @@ h4 {
 	background: linear-gradient(to bottom,  #cfdb0e 0%,#a2ad0d 100%); /* W3C */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cfdb0e', endColorstr='#a2ad0d',GradientType=0 ); /* IE6-8 */
 }
-#headerMainMenu .mainLink {position:relative;}
+#headerMainMenu .mainLink {
+    position:relative;
+}
+#headerMainMenu .mainLink a {
+    cursor: default;
+}
+#headerMainMenu .mainLink .subLinks {
+    cursor: pointer;
+}
 #headerMainMenu .mainLink .subLinks {text-decoration:none;}
 #headerMainMenu .mainLink .subMenu {display:none;position:absolute;z-index:100;left:0px;top:30px;text-align:left;padding:5px;border:1px solid #899BA5;background:white;}
 #headerMainMenu .mainLink .subMenu li {background:#ffffff;width:241px;padding:8px;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius:0px;}
@@ -467,5 +475,10 @@ h4 {
 }
 .page .ms-content-col2-right .main .ms-main-content {
        background: #ffffff;
+}
+
+.ms-category-nav-links .btn-ms-info {
+    margin-bottom: 5px;
+    margin-right: 2px;
 }
 

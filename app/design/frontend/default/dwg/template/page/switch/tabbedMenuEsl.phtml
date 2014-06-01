@@ -57,7 +57,7 @@ foreach($linkArr as $link) {
 		$subMenu .= "</ul>";
 	}
 	$output = '<li class="mainLink">'
-		. '<a href="/'. $link->getUrlPath() . '"><span class="linkName">' . $link->getName()
+		. '<a href="#"><span class="linkName">' . $link->getName()
 		. '</span></a>' . $subMenu . '</li>';
 	//$output = '<li class="mainLink"><a href="/'.$link["name"].'.html"><img src="/skin/frontend/default/default/images/es15/'.$link["tabname"].'_1.png" /></a>'.$subMenu.'</li>';
 	echo $output;

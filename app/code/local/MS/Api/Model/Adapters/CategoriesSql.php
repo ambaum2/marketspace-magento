@@ -64,4 +64,27 @@ class MS_Api_Model_Adapters_CategoriesSql extends Mage_Core_Model_Abstract {
 
         return $result;
     }
+
+    /**
+     * @param $category_id
+     */
+    public function GetCategoryFirstChildrenList(Mage_Catalog_Model_Category $category) {
+        /* @var $collection Mage_Catalog_Model_Resource_Category_Collection */
+        /*$collection = Mage::getModel('catalog/category')->getCollection();
+            //->setStoreId($this->_getStoreId($store))
+
+            $collection
+                ->addAttributeToSelect('children')
+                ->addAttributeToSelect('name')
+                ->addAttributeToFilter('parent_id', array('eq' => $category->getId()))
+            ;
+        return $collection;*/
+        $subcategory_ids = $category->getChildren();
+        $categoryCollection = Mage::getModel('catalog/category')->getCollection();
+        $categoryCollection->addAttributeToSelect('name');
+        $categoryCollection->addAttributeToSelect('url_path');
+        $categoryCollection->addIdFilter($subcategory_ids);
+        $categoryCollection->addIsActiveFilter();
+        return $categoryCollection;
+    }
 }
