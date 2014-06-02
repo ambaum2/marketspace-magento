@@ -15,7 +15,7 @@ $category = $this->_category;
             <?php if($i % 9 == 0) : ?>
                 <div class="row">
             <?php endif; ?>
-            <?php if($i % 3 == 0) : ?>
+            <?php if($i % 1 == 0) : ?>
                 <div class="col-md-4 col-sm-6 col-xs-6">
                     <ul class="nav nav-stacked">
             <?php endif; ?>
@@ -25,7 +25,7 @@ $category = $this->_category;
                 </a>
             </li>
         <?php $i++; ?>
-        <?php if($i % 3 == 0 || (($i + 1) > $total)) : ?>
+        <?php if($i % 1 == 0 || (($i + 1) > $total)) : ?>
                 </ul>
             </div>
         <?php endif; ?>
