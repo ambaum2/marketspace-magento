@@ -4,17 +4,33 @@
 $category = $this->_category;
 ?>
 <?php if($category->hasChildren()) : ?>
-    <?php $collection = $this->GetChildrenForNavigationLinks($category); ?>
-    <ul class="nav nav-pills">
-        <h4>Categories</h4>
+    <?php
+        /* @var $collection Mage_Catalog_Model_Resource_Category_Collection */
+        $collection = $this->GetChildrenForNavigationLinks($category);
+    ?>
+        <h4>Sub-Categories</h4>
         <?php $i = 0; ?>
+        <?php $total = $collection->count(); ?>
         <?php foreach($collection as $key => $cat) : ?>
+            <?php if($i % 9 == 0) : ?>
+                <div class="row">
+            <?php endif; ?>
+            <?php if($i % 3 == 0) : ?>
+                <div class="col-md-4 col-sm-6 col-xs-6">
+                    <ul class="nav nav-stacked">
+            <?php endif; ?>
             <li>
-                <a class="btn-ms-info" href="/<?php print $cat['url_path']; ?>">
+                <a class="ms-green-text" href="/<?php print $cat['url_path']; ?>">
                     <?php print $cat['name']; ?>
                 </a>
             </li>
         <?php $i++; ?>
+        <?php if($i % 3 == 0 || (($i + 1) > $total)) : ?>
+                </ul>
+            </div>
+        <?php endif; ?>
+        <?php if($i % 9 == 0 || (($i + 1) > $total)) : ?>
+            </div>
+        <?php endif; ?>
         <?php endforeach; ?>
-    </ul>
 <?php endif; ?>
