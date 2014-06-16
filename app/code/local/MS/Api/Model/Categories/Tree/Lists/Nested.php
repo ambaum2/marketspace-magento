@@ -2,6 +2,9 @@
 
 class MS_Api_Model_Categories_Tree_Lists_Nested extends Mage_Core_Model_Abstract implements MS_Api_Model_Service {
     public $Adapter;
+    public $parentCategory; //var int
+    public $categories;
+    public $maxDepth;
     protected $Daa;
     function __construct() {
         if(isset($this->Adapter)) {
@@ -13,7 +16,9 @@ class MS_Api_Model_Categories_Tree_Lists_Nested extends Mage_Core_Model_Abstract
 
     public function get()
     {
-        return $this->Daa->GetCategoriesTree();
+        !is_array($this->categories) ? $this->categories = array() : '';
+        //!empty($this->maxDepth) ? $this
+        return $this->Daa->GetCategoriesTree($this->parentCategory, $this->categories, $this->maxDepth);
     }
 
     public function post()

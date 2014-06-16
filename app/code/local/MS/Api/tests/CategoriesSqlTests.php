@@ -10,7 +10,11 @@ class CategoriesSqlTest extends PHPUnit_Framework_TestCase
         $this->conn = $this->coreResource->getConnection('core_read');
     }
 
-
+    public function testGetCategoriesNestedTree() {
+        $Model = new MS_Api_Model_Adapters_CategoriesSql();
+        $collection = $Model->GetCategoriesTree(1, array(98, 57, 91, 51), 10);
+        print_r($collection);
+    }
     public function testGetCategoriesTree() {
         $Uid = 2;
         /*$select = $this->conn->select()
@@ -25,7 +29,7 @@ class CategoriesSqlTest extends PHPUnit_Framework_TestCase
         $category->load(49);
         $collection = $Model->GetCategoryFirstChildrenList($category);
         foreach($collection as $cat) {
-            print $cat['name'] . ' path: ' . $cat['url_path'] . "\n";
+            //print $cat['name'] . ' path: ' . $cat['url_path'] . "\n";
         }
     }
 }
