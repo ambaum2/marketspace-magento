@@ -130,6 +130,7 @@ class MS_Template_Model_SellerProfile extends Mage_Core_Model_Abstract
             ->getCollection()
             ->addAttributeToSelect('url_path')
             ->addAttributeToSelect('caption_for_see_all_products')
+            ->addFieldToFilter('attribute_set_id', 12)
             ->addFieldToFilter('marketspace_owner', $_product->getMarketspaceOwner())
             ->getFirstItem();
         $result = $product->getData();

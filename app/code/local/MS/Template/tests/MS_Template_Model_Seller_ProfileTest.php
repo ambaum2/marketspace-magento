@@ -16,21 +16,28 @@ class MS_Template_Model_Seller_ProfileTest extends PHPUnit_Framework_TestCase {
     function __construct()
     {
         Mage::app();
-        $this->sellerProfile = Mage::getModel('catalog/product')->load(54);
+        $this->sellerProfile = Mage::getModel('catalog/product')->load(67);
         $this->hasProducts = false;
         $this->sellerProfileModel = new MS_Template_Model_SellerProfile();
     }
-
+    public function test_get_see_all_products_url() {
+        $ProfileModel = new MS_Template_Model_SellerProfile();
+        //$result = $ProfileModel->getDisplaySellerProfileData($this->sellerProfile);
+        $result = $this->sellerProfileModel->getSeeAllProductsUrl($this->sellerProfile);
+        print_r($result);
+        $result = $ProfileModel->getDisplaySellerProfileData($this->sellerProfile);
+        print_r($result);
+    }/*
     public function test_get_template_info() {
         $template = new MS_Template_Helper_Data();
         $product = Mage::getModel('catalog/product')->load(42);
         $Members = new MS_Members_Model_Observer();
         $item = array('qty' => 0);
         $this->assertTrue($Members->isMemberProduct($product));
-        print_r($Members->getTemplateInfo($product, $item));
+        //print_r($Members->getTemplateInfo($product, $item));
         $result = $template->getMsProductThemeInfo($product);
-        print_r($result);
-    }
+        //print_r($result);
+    }*/
     /*public function test_getTerms() {
         //print_r($this->sellerProfile->getData());
         $sellerProfile = Mage::getModel('catalog/product')->load(45);
