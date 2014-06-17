@@ -48,24 +48,25 @@ class MS_Api_Model_Adapters_CategoriesSql extends Mage_Core_Model_Abstract {
      */
     public function SortCategoriesTree(Varien_Data_Tree_Node $node, $max_level, &$result = array(), &$count = -1) {
         // Only basic category data up to the specied max level unless max level is false
-        if($node->getLevel() <= $max_level || !$max_level) {
+        if(($node->getLevel() <= $max_level || !$max_level)) {
             $count++;
-            $result[$count]['category_id'] = $node->getId();
-            $result[$count]['parent_id']   = $node->getParentId();
-            $result[$count]['name']        = $node->getName();
-            $result[$count]['is_active']   = $node->getIsActive();
-            $result[$count]['position']    = $node->getPosition();
-            $result[$count]['level']       = $node->getLevel();
-
             $children = $node->getChildren();
+            if($node->getIsActive() == 1 || $node->getId() == 1) {
+                $result[$count]['category_id'] = $node->getId();
+                $result[$count]['parent_id']   = $node->getParentId();
+                $result[$count]['name']        = $node->getName();
+                $result[$count]['is_active']   = $node->getIsActive();
+                $result[$count]['position']    = $node->getPosition();
+                $result[$count]['level']       = $node->getLevel();
 
-            if($children->count() > 0) {
-                $result[$count]['has_children'] = true;
-            } else {
-                $result[$count]['has_children'] = false;
-            }
-            foreach ($children as $child) {
-                $this->SortCategoriesTree($child, $max_level, $result, $count);
+                if($children->count() > 0) {
+                    $result[$count]['has_children'] = true;
+                } else {
+                    $result[$count]['has_children'] = false;
+                }
+                foreach ($children as $child) {
+                    $this->SortCategoriesTree($child, $max_level, $result, $count);
+                }
             }
         }
         return $result;
@@ -85,9 +86,9 @@ class MS_Api_Model_Adapters_CategoriesSql extends Mage_Core_Model_Abstract {
      */
     public function FilteredSortCategoriesTree(Varien_Data_Tree_Node $node, $categories, $max_level, &$result = array(), &$count = -1) {
         // Only basic category data up to the specied max level unless max level is false
-        if($node->getLevel() <= $max_level || !$max_level) {
+        if(($node->getLevel() <= $max_level || !$max_level) ) {
             $children = $node->getChildren();
-            if(in_array($node->getId(), $categories)) {
+            if(in_array($node->getId(), $categories) && $node->getIsActive() == 1) {
                 $count++;
                 $result[$count]['category_id'] = $node->getId();
                 $result[$count]['parent_id']   = $node->getParentId();
