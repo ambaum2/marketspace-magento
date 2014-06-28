@@ -46,6 +46,10 @@ class MS_Msmtp_Helper_Data extends Mage_Core_Helper_Abstract
         return $transport;
     }
 
+    /**
+     * @param string $recipient
+     * @param string $from
+     */
     public function sendTestEmail($recipient = 'ambaum2@gmail.com', $from = "info@communitymarketspace.com") {
         $to = $recipient;//Mage::getStoreConfig('contacts/email/recipient_email', $websiteModel->getId());
 

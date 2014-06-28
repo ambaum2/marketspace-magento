@@ -57,6 +57,7 @@
         <ms_template>
             <class>MS_Template_Model_SellerProfile</class>
             <class>MS_Template_Model_EmailAttachments</class>
+            <class>MS_Template_Model_SalesNotifications</class>
             <class>MS_Template_Model_Attachments_Types</class>
             <class>MS_Template_Model_Attachments_Types_Coupons</class>
             <class>MS_Template_Model_Attachments_Types_Tickets</class>
