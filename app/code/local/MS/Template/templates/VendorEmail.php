@@ -50,14 +50,22 @@
                 <?php endif; ?>
             </tr>
             <tr>
-                <?php foreach($columns as $col) : ?>
-                    <td style="background:#EAEAEA;font-size: 13px; padding: 3px  9px;"><?php print $col; ?></td>
-                <?php endforeach; ?>
-            </tr>
-            <tr>
-                <?php foreach($info as $attr) : ?>
-                    <td style="font-size: 11px; padding: 3px  9px; border-bottom: 1px  dotted  #CCCCCC;"><?php print $attr; ?></td>
-                <?php endforeach; ?>
+                <table>
+                    <thead>
+                        <tr>
+                            <?php foreach($columns as $col) : ?>
+                                <td style="background:#EAEAEA;font-size: 13px; padding: 3px  9px;"><?php print $col; ?></td>
+                            <?php endforeach; ?>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <?php foreach($info as $attr) : ?>
+                                <td style="font-size: 11px; padding: 3px  9px; border-bottom: 1px  dotted  #CCCCCC;"><?php print $attr; ?></td>
+                            <?php endforeach; ?>
+                        </tr>
+                    </tbody>
+                </table>
             </tr>
         </tbody>
     </table>
