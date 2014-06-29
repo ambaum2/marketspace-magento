@@ -87,6 +87,9 @@ class MS_Template_Model_Sales_Order extends Mage_Sales_Model_Order
         $mailer = $EmailAttachments->put();
         $mailer->send();
 
+        $EmailNotifications = new MS_Template_Model_SalesNotifications($this->getAllItems(), $this);
+        $EmailNotifications->VendorNotification();
+
         $this->setEmailSent(true);
         $this->_getResource()->saveAttribute($this, 'email_sent');
 

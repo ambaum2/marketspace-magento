@@ -6,6 +6,11 @@
     </MS_Msmtp>
   </modules>
   <global>
+    <models>
+        <msmtp>
+            <class>MS_Msmtp_Model_Email</class>
+        </msmtp>
+    </models>
     <helpers>
       <msmtp>
         <class>MS_Msmtp_Helper</class>
