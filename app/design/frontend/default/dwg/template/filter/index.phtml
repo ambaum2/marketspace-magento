@@ -5,14 +5,30 @@ $products = $this->getProductsByMarketspaceOwnerId($this->getOwnerId());
 <?php if (count($products) > 0) : ?>
 	<div class="row">
 		<?php foreach($products as $key => $product) : ?>
+            <?php
+                $show_deals = false;
+                if(in_array($product['product_type'], array(8, 9))) {
+                    $show_deals = true;
+                } else {
+                    $show_deals = false;
+                }
+            ?>
 			<?php if($i % 4 == 0) : ?>
 				<div class="row">
 			<?php endif; ?>
 				<div class="col-xs-12 col-sm-3 col-md-3 ms-featured-item">
 					<div class='thumbnail text-center'>
-					  <a class="product-image" href="<?php print $product->getProductUrl() ?>">
-						<img src="<?php print $this->helper('catalog/image')->init($product, 'thumbnail')->resize(135)?>" /></a>
-						<a href="<?php print $product->getProductUrl() ?>"<h2 class='text-ms-label product-name'><?php print $product->getName() ?>"</h2></a>
+                        <a class="product-image" href="<?php print $product->getProductUrl() ?>">
+                            <img src="<?php print $this->helper('catalog/image')->init($product, 'thumbnail')->resize(135)?>" />
+                        </a>
+                        <a href="<?php print $product->getProductUrl() ?>">
+                            <h2 class='text-ms-label product-name'>
+                                <?php print $product->getName() ?>
+                            </h2>
+                        </a>
+                        <?php if($show_deals) : ?>
+                            <img src="<?php print $this->getSkinUrl('css/images/CM_DEAL.png') ?>" />
+                        <?php endif; ?>
 					</div>
 				</div>
 			<?php $i++ ?>
