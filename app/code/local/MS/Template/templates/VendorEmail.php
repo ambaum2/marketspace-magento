@@ -1,6 +1,6 @@
 <div>
 
-    <?php $columns = array('order id', 'product', 'price', 'weight', 'quantity', 'tax', 'order total'); ?>
+    <?php $columns = array('order item id', 'product', 'price', 'weight', 'quantity', 'tax', 'order total'); ?>
     <?php $info = array($item['order_id'], $product->getData('name'), $sales_order->formatPrice($item->getPrice()), $item['weight'],
         $item->getQtyOrdered(), $sales_order->formatPrice($item['tax_amount']), $sales_order->formatPrice($item['row_total']));
     ?>
@@ -35,16 +35,16 @@
                 <?php if(!empty($shipping_address_data)) : ?>
                     <table>
                         <thead>
-                        <tr>
-                            <th>Shipping Address</th>
-                        </tr>
+                            <tr>
+                                <span style="font-weight: 800">Shipping Address</span>
+                            </tr>
                         </thead>
                         <tbody>
-                        <?php foreach($address_data as $adr) : ?>
-                            <tr>
-                                <td><?php print $adr; ?></td>
-                            </tr>
-                        <?php endforeach; ?>
+                            <?php foreach($address_data as $adr) : ?>
+                                <tr>
+                                    <td><?php print $adr; ?></td>
+                                </tr>
+                            <?php endforeach; ?>
                         </tbody>
                     </table>
                 <?php endif; ?>

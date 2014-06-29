@@ -25,7 +25,7 @@ class MS_Template_Model_SalesNotifications extends Mage_Core_Model_Abstract
         $address = $this->address;
         foreach($this->items as $item) {
             $product = Mage::getModel('catalog/product')->load($item->getProductId());
-            ($product->getVendorEmail()) ? $vendor_emails = explode(',', $product->getVendorEmail()) : $vendor_emails = array('sales_copy@communitymarketspace.com');
+            ($product->getVendorEmail()) ? $vendor_emails = explode(',', str_replace(" ", "", $product->getVendorEmail())) : $vendor_emails = array('sales_copy@communitymarketspace.com');
             ob_start();
             require(Mage::getModuleDir('templates', 'MS_Template') . '/templates/VendorEmail.php');
             $html = ob_get_clean();
