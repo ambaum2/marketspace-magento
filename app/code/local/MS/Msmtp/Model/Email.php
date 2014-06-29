@@ -55,28 +55,21 @@ class MS_Msmtp_Model_Email extends Mage_Core_Model_Abstract
             $port = Mage::getStoreConfig('system/msmtp/port', $id);
             $ssl = Mage::getStoreConfig('system/msmtp/ssl', $id);
             $auth = Mage::getStoreConfig('system/msmtp/authentication', $id);
-
             // Set up the config array
-
             $config = array();
-
             if ($auth != "none") {
                 $config['auth'] = $auth;
                 $config['username'] = $username;
                 $config['password'] = $password;
             }
-
             if ($port) {
                 $config['port'] = $port;
             }
-
             if ($ssl != "none" ) {
                 $config['ssl'] = $ssl;
             }
-
             $transport = new Zend_Mail_Transport_Smtp($host, $config);
         }
-
         return $transport;
     }
     /**
@@ -101,12 +94,12 @@ class MS_Msmtp_Model_Email extends Mage_Core_Model_Abstract
         if($this->host !== 'test') { //if not test server @todo change this to something more modular and reliable
             $this->cc = $cc;
         } else {
-            /*$test_cc = array();
+            $test_cc = array();
             foreach($cc as $copy) {
                 if(in_array($copy, array('abaum@aaortho.org', 'jim@thedotworldgroup.com')))
                     $test_cc[] = $copy;//'sales_copy@communitymarketspace.com');
-            }*/
-            $this->cc = $cc;
+            }
+            $this->cc = $test_cc;
         }
     }
 
@@ -146,7 +139,6 @@ class MS_Msmtp_Model_Email extends Mage_Core_Model_Abstract
      */
     public function setHost()
     {
-
         if(!isset($this->host) && strpos($_SERVER['HTTP_HOST'], 'test') === FALSE) {
             $this->host = $_SERVER['HTTP_HOST'];
         } else {
