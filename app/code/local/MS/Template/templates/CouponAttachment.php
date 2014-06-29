@@ -5,7 +5,7 @@
     <link type="text/css" href="<?php print Mage::getDesign()->getSkinBaseDir() . DS . "css/bootstrap.min.css"; ?>" rel="stylesheet" />
     <style>
         div { width: 100%; margin: .25em; }
-        span { width: 33%; display: inline-block; }
+        span { width: 100%; display: inline-block; }
         h2 {padding-bottom: 5px;margin-bottom:5px;}
         h5 {font-weight: 900;}
         h5 span {font-weight: 200;}
@@ -39,7 +39,7 @@
         <div class="row">
             <div class="col-md-12">
                 <h5>Description</h5>
-                <?php if($description = $product->getData('description')) : ?>
+                <?php if(!empty($description)) : ?>
                     <?php print $description; ?>
                 <?php else : ?>
 

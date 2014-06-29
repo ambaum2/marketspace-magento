@@ -96,7 +96,7 @@ class MS_Msmtp_Model_Email extends Mage_Core_Model_Abstract
         } else {
             $test_cc = array();
             foreach($cc as $copy) {
-                if(in_array($copy, array('abaum@aaortho.org', 'jim@thedotworldgroup.com')))
+                if(in_array($copy, array('abaum@aaortho.org', 'jim@thedotworldgroup.com', 'test_vendor@aaortho.org')))
                     $test_cc[] = $copy;//'sales_copy@communitymarketspace.com');
             }
             $this->cc = $test_cc;

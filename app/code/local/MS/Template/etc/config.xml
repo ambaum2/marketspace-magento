@@ -61,6 +61,7 @@
             <class>MS_Template_Model_Attachments_Types</class>
             <class>MS_Template_Model_Attachments_Types_Coupons</class>
             <class>MS_Template_Model_Attachments_Types_Tickets</class>
+            <class>MS_Template_Model_StringFormatting</class>
             <interface>MS_Template_Model_Core_Email_Template_Mailer_Interface</interface>
         </ms_template>
         <sales>

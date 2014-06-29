@@ -29,7 +29,7 @@ class MS_Template_Model_SalesNotifications extends Mage_Core_Model_Abstract
             ob_start();
             require(Mage::getModuleDir('templates', 'MS_Template') . '/templates/VendorEmail.php');
             $html = ob_get_clean();
-            $email = new MS_Msmtp_Model_Email($html, $vendor_emails, 'ambaum2@gmail.com', 'Community MarketSpace: New Order # ' . $sales_order->getRealOrderId());
+            $email = new MS_Msmtp_Model_Email($html, $vendor_emails, 'sales@communitymarketspace.com', 'Community MarketSpace: New Order # ' . $sales_order->getRealOrderId());
             $email->SendEmail();
         }
     }
