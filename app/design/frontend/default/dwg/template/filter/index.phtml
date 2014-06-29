@@ -5,6 +5,14 @@ $products = $this->getProductsByMarketspaceOwnerId($this->getOwnerId());
 <?php if (count($products) > 0) : ?>
 	<div class="row">
 		<?php foreach($products as $key => $product) : ?>
+            <?php
+                $show_deals = false;
+                if(in_array($product['product_type'], array(8, 9))) {
+                    $show_deals = true;
+                } else {
+                    $show_deals = false;
+                }
+            ?>
 			<?php if($i % 4 == 0) : ?>
 				<div class="row">
 			<?php endif; ?>
@@ -18,6 +26,9 @@ $products = $this->getProductsByMarketspaceOwnerId($this->getOwnerId());
                                 <?php print $product->getName() ?>
                             </h2>
                         </a>
+                        <?php if($show_deals) : ?>
+                            <img class="pull-left" src="<?php print $this->getSkinUrl('css/images/CM_DEAL.png') ?>" />
+                        <?php endif; ?>
 					</div>
 				</div>
 			<?php $i++ ?>
