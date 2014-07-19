@@ -5,7 +5,8 @@ class MS_Filter_Block_Index extends Mage_Core_Block_Template{
 		$productData = Mage::getModel('catalog/product')
 			->getCollection()
 			->addAttributeToSelect(array('name', 'url_key', 'url_path', 'thumbnail'))
-			->addFieldToFilter('marketspace_owner', $owner_id);
+			->addFieldToFilter('marketspace_owner', $owner_id)
+            ->addFieldToFilter('status', 1);
 		return $productData;
 	}
 }
