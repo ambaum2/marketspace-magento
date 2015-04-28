@@ -306,8 +306,8 @@ h4 {
 	padding:0px;
 }
 .header {
-	background:url("images/ms-banner.jpg") no-repeat #dcf1fd;
-	background-position: 50% 100%;
+background: #dcf1fd;
+
 }
 .header #search_mini_form {
 	margin: 0px;
