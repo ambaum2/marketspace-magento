@@ -4,6 +4,7 @@ var/package/*
 var/report/*
 var/session/*
 var/report/*
+var/export/*
 app/etc/local.xml
 media/*
 media/*/*
