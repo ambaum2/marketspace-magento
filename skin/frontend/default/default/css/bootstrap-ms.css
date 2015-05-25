@@ -266,7 +266,8 @@ h4 {
     background: white;
 }
 .ms-product-overview {
-    background: #faf7ee url(../images/bkg_product_collateral.gif) 0 0 repeat-x;
+    /*background: #faf7ee url(../images/bkg_product_collateral.gif) 0 0 repeat-x;*/
+    background: #ffffff;
     padding-bottom: 5px;
 }
 .product-view .price-box .price {
