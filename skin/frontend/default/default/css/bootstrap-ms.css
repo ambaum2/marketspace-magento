@@ -311,7 +311,7 @@ background: #dcf1fd;
 
 }
 .header #search_mini_form {
-	margin: 0px;
+	margin: 5px 0px 0px 0px;
 }
 .header .navbar .nav,
 .header .navbar .nav > li {
@@ -320,6 +320,9 @@ background: #dcf1fd;
   *display:inline; /* ie7 fix */
   *zoom:1; /* hasLayout ie7 trigger */
   vertical-align: top;
+}
+#vl-top-nav-dropdown .navbar-nav {
+  margin-top: 5px;
 }
 .header .navbar {
 	border:none;

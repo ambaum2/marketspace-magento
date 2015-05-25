@@ -31,13 +31,11 @@
     <div class="header">
 			<div class="topNavHolder row">
 				<?php echo $this->getChildHtml('linksEsl') ?>
-				<?php  ?>
+
 			</div>
-      <div class="row" id="headerLogoContainer">
-    		<a href="<?php echo str_replace("index.php/", "", $this->getUrl('')) ?>" title="<?php echo $this->getLogoAlt() ?>" class="logo">
-    			<img class="img-responsive" src="<?php echo $this->getSkinUrl('images/vl/wel-wordmark-black.png'); ?>" alt="<?php echo $this->getLogoAlt() ?>" />
-  			</a><!-- <?php echo $this->getLogoSrc() ?> -->
-			</div>
+<!--      <div class="row" id="headerLogoContainer">-->
+<!--<!-- --><?php //echo $this->getLogoSrc() ?>
+<!--			</div>-->
 	  	<div class="row">
 		    <div class="collapse navbar-collapse navbar" id="headerMainMenu">
 		    	<?php echo '<ul class="nav navbar-nav">' .$this->getChildHtml('tabbedMenuEsl') .'</ul>' ?>
