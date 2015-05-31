@@ -12,3 +12,5 @@ media/*/*
 skin/frontend/default/msil/*
 app/design/frontend/default/msil/*
 media/catalog/product/cache/*/*/*/*/*/*/
+includes/*
+downloader/*
