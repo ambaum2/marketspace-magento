@@ -145,6 +145,9 @@
     	<div class="col-md-12">
     		<?php echo $this->getChildHtml('additional'); ?>
     	</div>
+      <div class="col-md-12">
+        <?php $this->helper('yotpo')->showWidget($this, $_product); ?>
+      </div>
     </div>
 		<div class="row">
 			<div class="col-md-12">

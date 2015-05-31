@@ -1,0 +1,44 @@
+<?php
+  //set up the order manually. id is entity id in catalog_category_entity. name is link name and tabname the image prefix tab_name_1.png for
+  //example. All of this except tabname could and should be handled programatically and we can do that now iwth isactive on the collection filter
+  $linkArr = array(1=>array('id'=>4,'name'=>'romance','tabname'=>'tab_romance'),2=>array('id'=>5,'name'=>'nightlife','tabname'=>'tab_fun'),
+    3=>array('id'=>17,'name'=>'occasions','tabname'=>'tab_occasions'),4=>array('id'=>7,'name'=>'adventures','tabname'=>'tab_adventures'),
+    5 =>array('id'=>8,'name'=>'meetings','tabname'=>'tab_meetings'),6 =>array('id'=>9,'name'=>'venues-1','tabname'=>'tab_venues'),
+    7 =>array('id'=>64,'name'=>'classes-and-interests','tabname'=>'tab_marketplace'),8=>array('id'=>95,'name'=>'communities','tabname'=>'tab_communities'));
+  $linkArr = Mage::getModel('catalog/category')->getCollection()
+    ->addAttributeToSelect('*')
+    ->addAttributeToFilter('is_active',1)
+    ->addAttributeToFilter('level',2)
+    ->addAttributeToSort('position','ASC');
+?>
+<?php foreach($linkArr as $link) : ?>
+  <div class="vl-nav">
+  <?php //get category id's of the children (on level 3) of our parent category
+    $category = Mage::getModel('catalog/category')->getCollection()
+      ->addAttributeToSelect('*')
+      ->addAttributeToFilter('parent_id',$link->getId()) //$link["id"])
+      ->addAttributeToFilter('level',3)
+      ->addAttributeToSort('position','ASC');
+  ?>
+<!--  $subMenu = ""; //clear menu for next catory-->
+  <?php if($category->count() > 0) : //make sure parent has children ?>
+    <ul class="dropdown-menu vl-dropdown-first-level" role="menu" aria-labelledby="dropdownMenu" style="float:none;position:static;display: block; margin-bottom: 5px; *width: 180px;">
+      <li class="dropdown-submenu">
+        <a href="#">
+          <span class="linkName"><?php print $link->getName(); ?></span>
+        </a>
+        <ul class="dropdown-menu">
+          <?php foreach($category as $cat) : ?>
+            <li>
+              <a href='<?php print $cat->getUrlPath(); ?>'>
+                <?php print $cat->getName(); ?>
+              </a>
+            </li>
+          <?php endforeach; ?>
+        </ul>
+      </li>
+    </ul>
+  <?php endif; ?>
+  </div>
+<?php endforeach; ?>
+
