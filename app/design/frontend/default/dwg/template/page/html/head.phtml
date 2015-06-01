@@ -23,7 +23,9 @@
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
-$_product = Mage::registry('current_product'); 
+$_product = Mage::registry('current_product');
+$homepage = Mage::getBlockSingleton('page/html_header')->getIsHomePage();
+
 //$image_path = Mage::helper('catalog/image')->init(Mage::registry('current_product'), 'small_image')->resize(100,100);
 ?>
 <?php Mage::helper('ms_template')->redirectUnsupportedBrowser($_SERVER['HTTP_USER_AGENT'], Mage::helper('core/url')->getCurrentUrl()); ?>
@@ -67,3 +69,11 @@ $_product = Mage::registry('current_product');
 <?php echo $this->getChildHtml() ?>
 <?php echo $this->helper('core/js')->getTranslatorScript() ?>
 <?php echo $this->getIncludes() ?>
+<?php if($homepage) : ?>
+  <script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+  <script src="//cdn.jsdelivr.net/algoliasearch.helper/2/algoliasearch.helper.min.js"></script>
+  <script src="//cdn.jsdelivr.net/hogan.js/3.0.0/hogan.common.js"></script>
+  <script src="<?php print $this->getSkinUrl("scripts/bootstrap-checkbox.js"); ?>"></script>
+  <script src="<?php print $this->getSkinUrl("scripts/bootstrap-slider.js"); ?>"></script>
+  <script src="<?php print $this->getSkinUrl("scripts/algolia-search-app.js"); ?>"></script>
+<?php endif; ?>

@@ -65,15 +65,13 @@
 
                     <label>Navigation Bar</label>
                 </block>
-                <block type="page/html_wrapper" name="top.container" as="topContainer" translate="label">
-                    <label>Page Header</label>
-                    <action method="setElementClass"><value>top-container</value></action>
-                </block>
             </block>
             <block type="promotionsmgr/promotionsmgr" name="image_rotator" template="promotionsmgr/image_rotator.phtml" />
             <block type="promotionsmgr/promotionsmgr" name="right_sidebar_content" template="promotionsmgr/right_sidebar_content.phtml" />
             <block type="promotionsmgr/promotionsmgr" name="featured_products" template="promotionsmgr/featured_products.phtml" />
             <block type="promotionsmgr/promotionsmgr" name="vl_sidebar_menu" template="promotionsmgr/vl_sidebar_menu.phtml" />
+            <block type="promotionsmgr/promotionsmgr" name="wel_instant_search" template="promotionsmgr/wel_instant_search.phtml" />
+
             <block type="page/html_breadcrumbs" name="breadcrumbs" as="breadcrumbs"/>
 
             <block type="core/text_list" name="left" as="left" translate="label">
