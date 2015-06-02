@@ -153,3 +153,4 @@ if ($installer instanceof Mage_Install_Model_Installer_Console) {
     }
 }
 exit(1); // don't delete this as this should notify about failed installation
+

@@ -63,23 +63,24 @@
                 		<div class="row ms-homepage">
                 			<div class="col-md-3 col-sm-5 ms-slideshow">
                         <?php echo $this->getChildHtml('vl_sidebar_menu'); ?>
+                        <div class="row ms-ads-sidebar">
+                          <?php $this->getChild('right_sidebar_content')->setData('ads_count', 2); ?>
+                          <?php echo $this->getChildHtml('right_sidebar_content'); ?>
+                        </div>
                 			</div>
                 			<div class="col-md-9 col-sm-7 ms-right-sidbar-homepage text-center">
                         <?php echo $this->getChildHtml('wel_instant_search'); ?>
                 			</div>
                 		</div>
                 		<div class="row ms-featured-and-ads">
-                			<div class="col-md-8 well col-sm-9 ms-featured-content white-well">
+                			<div class="col-md-12 well col-sm-12 white-well">
                 				<div class="row ms-featured">
                 					<?php echo $this->getChildHtml('featured_products') ?>
                 				</div>
                 			</div>
-                			<div class="col-md-4 col-sm-3 ms-ads-sidebar">
-                        <div class="row">
-                          <?php $this->getChild('right_sidebar_content')->setData('ads_count', 2); ?>
-                          <?php echo $this->getChildHtml('right_sidebar_content'); ?>
-                        </div>
-                			</div>                  			           			
+<!--                			<div class="col-md-4 col-sm-3 ms-ads-sidebar">-->
+<!---->re
+<!--                			</div>                  			           			-->
                 		</div>
                 	<?php elseif($page_type == 'category' || $page_type == 'result') : //on a category page?>
                     <?php echo $this->getChildHtml('global_messages') ?>
@@ -110,20 +111,7 @@
             </div>
         </div>
         <?php echo $this->getChildHtml('footer') ?>
-      <div class="row text-center ms-social-row">
-        <div class="text-center">
-          <a target="_blank" href="https://www.facebook.com/communitymarketspace" type="button" class="btn ms-no-left-right-pad">
-            <img class="ms-social-btn img-responsive" src="/skin/frontend/default/default/images/ms/SI_Facebook.png" />
-          </a>
-        </div>
-      </div>
-      <div class="row text-center ms-social-row">
-        <div class="text-center">
-          <a target="_blank" href="https://twitter.com/BoldlyLocal" type="button" class="btn ms-no-left-right-pad">
-            <img class="ms-social-btn img-responsive" src="/skin/frontend/default/default/images/ms/Twitterimages.png" />
-          </a>
-        </div>
-      </div>
+
         <?php echo $this->getChildHtml('before_body_end') ?>
     </div>
 </div>

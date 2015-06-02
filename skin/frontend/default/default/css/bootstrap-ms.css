@@ -210,6 +210,9 @@ h4 {
 		-webkit-border-radius: 10px 10px 10px 10px; 		
 	}
 }
+.media:first-child {
+    margin-top: 15px;
+}
 .ms-slideshow {padding-right:0px;}
 
 .ms-featured-and-ads {
@@ -396,7 +399,7 @@ background: #dcf1fd;
 }
 
 .main-container {
-	background:#a2ad0d;
+	background:#ffffff;
 	text-align:center;
 }
 .main-container .main {
@@ -409,6 +412,10 @@ background: #dcf1fd;
     background: #D2D2D2;
 }
 .ms-homepage .ms-right-sidbar-homepage .ms-no-left-right-pad {
+}
+
+.ms-homepage .ms-right-sidbar-homepage {
+    background: #eeeeee;
 }
 .ms-homepage .ms-slideshow { /* div[class^='col-md-']*/
 	padding-left:0px;

@@ -1,41 +1,41 @@
 <div id="search_input" class="input-group input-lg m-t">
-  <input type="text" name="q" id="q" autocomplete="off" spellcheck="false" autocorrect="false" class="form-control input-lg string" placeholder="Search by name, category etc"/>
+  <input type="text" name="q" id="q" autocomplete="off" spellcheck="false" autocorrect="false" class="form-control input-lg string" placeholder="Search for wel drops by name, keyword etc"/>
   <span class="input-group-addon"><i id="input-loop" class="glyphicon glyphicon-search"></i></span>
 </div>
 
 <div class="row">
 
   <!-- Left Column -->
-  <div class="col-md-3 col-md-offset-1 col-xs-12 hidden-sm hidden-xs">
-    <div class="main_caption">
-      <p class="main-caption_text"></p>
-    </div>
-    <!-- Facets -->
-    <div id="facets" class="hidden-sm hidden-xs"></div>
-  </div>
+<!--  <div class="col-md-3 col-md-offset-1 col-xs-12 hidden-sm hidden-xs">-->
+<!--    <div class="main_caption">-->
+<!--      <p class="main-caption_text"></p>-->
+<!--    </div>-->
+<!--    <!-- Facets -->
+<!--    <div id="facets" class="hidden-sm hidden-xs"></div>-->
+<!--  </div>-->
   <!-- /Left Column -->
 
   <!-- Right Column -->
-  <div class="col-md-7 col-xs-12">
+  <div class="col-md-12 col-xs-12">
 
     <!-- Stats + sort order menu -->
-    <div class="page-header">
-      <div class="pull-right sort-orders">
-        <span id="sort-by" class="text-muted">Sort by:</span>
-        <div class="btn-group">
-          <button id="sort-button" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-            <span class="sort-by">Relevance</span> <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu" role="menu">
-            <li><a href="#" class="sortBy" data-index-suffix="">Relevance</a></li>
-            <li><a href="#" class="sortBy" data-index-suffix="_price_asc">Lowest Price</a></li>
-            <li><a href="#" class="sortBy" data-index-suffix="_price_desc">Highest Price</a></li>
-          </ul>
-        </div>
-      </div>
-      <span id="stats"></span>
+<!--    <div class="page-header">-->
+<!--      <div class="pull-right sort-orders">-->
+<!--        <span id="sort-by" class="text-muted">Sort by:</span>-->
+<!--        <div class="btn-group">-->
+<!--          <button id="sort-button" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">-->
+<!--            <span class="sort-by">Relevance</span> <span class="caret"></span>-->
+<!--          </button>-->
+<!--          <ul class="dropdown-menu" role="menu">-->
+<!--            <li><a href="#" class="sortBy" data-index-suffix="">Relevance</a></li>-->
+<!--            <li><a href="#" class="sortBy" data-index-suffix="_price_asc">Lowest Price</a></li>-->
+<!--            <li><a href="#" class="sortBy" data-index-suffix="_price_desc">Highest Price</a></li>-->
+<!--          </ul>-->
+<!--        </div>-->
+<!--      </div>-->
+      <div id="pagination"></div><span class="pull-left" id="stats"></span>
       <div style="clear:both;"></div>
-    </div>
+<!--    </div>-->
     <!-- /Stats + sort order menu -->
 
     <!-- Hits -->
@@ -43,7 +43,7 @@
     <!-- /Hits -->
 
     <!-- Pagination -->
-    <div id="pagination"></div>
+
     <!-- /Pagination -->
 
     <!-- /Right Column -->
@@ -109,31 +109,17 @@
 
 <!-- Hit template -->
 <script type="text/template" id="hit-template">
-  <div class="hit media">
+  <div class="hit media pull-left" style="height:250px;width:165px;overflow:hidden;">
     <a class="pull-left" href="{{ url }}">
-      <img class="media-object" src="{{ image }}" alt="{{ name }}">
+      <img width="150px" class="media-object" src="{{ image_url }}" alt="{{ name }}">
+      {{ name }}
     </a>
-    <div class="media-body">
-      <h3 class="hit_price pull-right text-right text-danger">
-        ${{ salePrice }}
-      </h3>
-      <h4 class="hit_name">{{{ _highlightResult.name.value }}}</h4>
-      <p>
-        {{{ _highlightResult.shortDescription.value }}}
-      </p>
-      <ul class="hit_tags list-inline">
-        {{#_highlightResult.manufacturer}}<li>{{{ _highlightResult.manufacturer.value }}}</li>{{/_highlightResult.manufacturer}}
-        {{#_highlightResult.category}}<li>{{{ _highlightResult.category.value }}}</li>{{/_highlightResult.category}}
-        {{#type}}<li>{{{ type }}}</li>{{/type}}
-        <!-- TODO TODO Use Bootstrap labels here -->
-      </ul>
-    </div>
   </div>
 </script>
 
 <!-- Pagination template -->
 <script type="text/template" id="pagination-template">
-  <div class="text-center">
+  <div class="text-left">
     <ul class="pagination">
       <li {{^prev_page}}class="disabled"{{/prev_page}}><a href="#" {{#prev_page}} class="gotoPage" data-page="{{ prev_page }}" {{/prev_page}}>&#60;</a></li>
       {{#pages}}
@@ -146,5 +132,6 @@
 
 <!-- Stats template -->
 <script type="text/template" id="stats-template">
-  <h5>{{ nbHits }} RESULT{{#nbHits_plural}}S{{/nbHits_plural}} <span class="text-muted hidden-sm hidden-xs">Found in {{ processingTimeMS }}ms</span></h5>
+  <h5>{{ nbHits }} WEL drop{{#nbHits_plural}}s{{/nbHits_plural}} found </h5>
+  <!--<span class="text-muted hidden-sm hidden-xs">Found in {{ processingTimeMS }}ms</span>-->
 </script>

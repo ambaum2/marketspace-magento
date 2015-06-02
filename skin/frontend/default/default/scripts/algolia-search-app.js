@@ -89,10 +89,11 @@ jQuery(document).ready(function() {
 
   function renderHits(content) {
     var hitsHtml = '';
+      console.log(content);//
     for (var i = 0; i < content.hits.length; ++i) {
       hitsHtml += hitTemplate.render(content.hits[i]);
     }
-    if (content.hits.length === 0) hitsHtml = '<p id="no-hits">We didn\'t find any products for your search.</p>';
+    if (content.hits.length === 0) hitsHtml = '<p id="no-hits">We didn\'t find any results for your search.</p>';
     $hits.html(hitsHtml);
   }
 
