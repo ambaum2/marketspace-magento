@@ -71,7 +71,7 @@
             <block type="promotionsmgr/promotionsmgr" name="featured_products" template="promotionsmgr/featured_products.phtml" />
             <block type="promotionsmgr/promotionsmgr" name="vl_sidebar_menu" template="promotionsmgr/vl_sidebar_menu.phtml" />
             <block type="promotionsmgr/promotionsmgr" name="wel_instant_search" template="promotionsmgr/wel_instant_search.phtml" />
-
+            <block type="promotionsmgr/promotionsmgr" name="wel_footer" template="promotionsmgr/wel_footer.phtml" />
             <block type="page/html_breadcrumbs" name="breadcrumbs" as="breadcrumbs"/>
 
             <block type="core/text_list" name="left" as="left" translate="label">
@@ -89,8 +89,7 @@
                 <label>Right Column</label>
             </block>
 
-            <block type="page/html_footer" name="footer" as="footer" template="page/html/footer.phtml">
-            </block>
+
 
             <block type="core/text_list" name="before_body_end" as="before_body_end" translate="label">
                 <label>Page Bottom</label>

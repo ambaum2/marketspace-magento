@@ -72,16 +72,13 @@
                         <?php echo $this->getChildHtml('wel_instant_search'); ?>
                 			</div>
                 		</div>
-                		<div class="row ms-featured-and-ads">
-                			<div class="col-md-12 well col-sm-12 white-well">
-                				<div class="row ms-featured">
-                					<?php echo $this->getChildHtml('featured_products') ?>
-                				</div>
-                			</div>
-<!--                			<div class="col-md-4 col-sm-3 ms-ads-sidebar">-->
-<!---->re
-<!--                			</div>                  			           			-->
-                		</div>
+<!--                		<div class="row ms-featured-and-ads">-->
+<!--                			<div class="col-md-12 well col-sm-12 white-well">-->
+<!--                				<div class="row ms-featured">-->
+<!--                					--><?php //echo $this->getChildHtml('featured_products') ?>
+<!--                				</div>-->
+<!--                			</div>-->
+<!--                		</div>-->
                 	<?php elseif($page_type == 'category' || $page_type == 'result') : //on a category page?>
                     <?php echo $this->getChildHtml('global_messages') ?>
                    	<div class="row">
@@ -110,7 +107,7 @@
                 </div>
             </div>
         </div>
-        <?php echo $this->getChildHtml('footer') ?>
+<!--        --><?php //echo $this->getChildHtml('wel_footer') ?>
 
         <?php echo $this->getChildHtml('before_body_end') ?>
     </div>
