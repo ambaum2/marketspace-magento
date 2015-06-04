@@ -9,9 +9,9 @@ jQuery(document).ready(function() {
   var APPLICATION_ID = 'VTZP9QFZAS';
   var SEARCH_ONLY_API_KEY = 'c6f4d2a013728f2e42cc7f4a63733e2f';
   var INDEX_NAME = 'magento_default_products';
-  var HITS_PER_PAGE = 10;
+  var HITS_PER_PAGE = 12;
   var FACET_CONFIG = [
-    { name: 'name', title: 'Type', disjunctive: false, sortFunction: sortByCountDesc },
+    { name: 'name', title: 'Type', disjunctive: false, sortFunction: sortByName },
     { name: 'stock_qty', title: 'Shipping', disjunctive: false, sortFunction: sortByCountDesc },
     { name: 'price', title: 'Price Slider', disjunctive: true, type: 'slider' },
     { name: 'categories', title: 'Category', disjunctive: true, sortFunction: sortByCountDesc, topListIfRefined: true }
@@ -89,7 +89,6 @@ jQuery(document).ready(function() {
 
   function renderHits(content) {
     var hitsHtml = '';
-      console.log(content);//
     for (var i = 0; i < content.hits.length; ++i) {
       hitsHtml += hitTemplate.render(content.hits[i]);
     }

@@ -13,7 +13,7 @@ class CategoriesSqlTest extends PHPUnit_Framework_TestCase
     public function testGetCategoriesNestedTree() {
         $Model = new MS_Api_Model_Adapters_CategoriesSql();
         $collection = $Model->GetCategoriesTree(1, array(98, 57, 91, 51), 10);
-        print_r($collection);
+        //print_r($collection);
     }
     public function testGetCategoriesTree() {
         $Uid = 2;
@@ -31,5 +31,16 @@ class CategoriesSqlTest extends PHPUnit_Framework_TestCase
         foreach($collection as $cat) {
             //print $cat['name'] . ' path: ' . $cat['url_path'] . "\n";
         }
+    }
+    public function testGetCategoriesMenu() {
+      $sub_category_2 = Mage::getModel('catalog/category')->getCollection()
+        ->addAttributeToSelect(array('name', 'url_path', 'thumbnail'))
+       // ->addAttributeToFilter('parent_id',$cat->getId()) //$link["id"])
+        ->addAttributeToFilter('is_active',1)
+        ->addAttributeToFilter('level',2)
+        ->setPageSize(1)
+        ->addAttributeToSort('position','ASC');
+      print count($sub_category_2);
+      print "\n product count| " . $sub_category_2->getProductCount();
     }
 }

@@ -2,7 +2,6 @@
   <div class="footer">
     <ul class="nav nav-pills">
       <?php print str_replace(array("<ul>", "</ul>"), "", Mage::getModel('cms/block')->load('footer_links')->getContent()); ?>
-      <?php //echo str_replace(array("<ul>", "</ul>"), "", $this->getChildHtml()) ?>
     </ul>
   </div>
 </div>
