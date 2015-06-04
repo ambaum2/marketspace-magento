@@ -24,6 +24,19 @@
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 $_product = Mage::registry('current_product');
+$page_type = Mage::app()->getFrontController()->getRequest()->getControllerName(); //get page controller for logic
+$page_type_class = '';
+switch ($page_type) {
+  case 'product':
+    $page_type_class = "ms-product-col2-right";
+    break;
+  case 'category':
+    $page_type_class = "ms-content-col2-right";
+    break;
+  default:
+
+    break;
+}
 $homepage = Mage::getBlockSingleton('page/html_header')->getIsHomePage();
 $useragent=$_SERVER['HTTP_USER_AGENT'];
 $is_mobile = false;

@@ -59,7 +59,7 @@
         <div class="main-container col2-right-layout <?php ($homepage) ? print 'ms-homepage-col2-right' : print $page_type_class; ?>">
             <div class="main container">
                 <div class="col-main">
-                	<?php if($homepage) : ?>
+                	<?php if($homepage || $page_type == 'category' ) : ?>
                 		<div class="row ms-homepage">
                 			<div class="col-md-3 col-sm-5 ms-slideshow">
                         <?php echo $this->getChildHtml('vl_sidebar_menu'); ?>
@@ -70,6 +70,10 @@
                 			</div>
                 			<div class="col-md-9 col-sm-7 ms-right-sidbar-homepage text-center">
                         <?php echo $this->getChildHtml('wel_instant_search'); ?>
+                        <?php if($page_type === 'category') : ?>
+                          <?php echo $this->getChildHtml('breadcrumbs') ?>
+                          <?php echo $this->getChildHtml('content') ?>
+                        <?php endif; ?>
                 			</div>
                 		</div>
 <!--                		<div class="row ms-featured-and-ads">-->
