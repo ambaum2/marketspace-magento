@@ -5,6 +5,7 @@ var/report/*
 var/session/*
 var/report/*
 var/export/*
+var/backups/*
 app/etc/local.xml
 media/*
 media/*/*

@@ -29,7 +29,7 @@
          href="<?php echo str_replace("index.php/", "", $this->getUrl('')); ?>"
          title="<?php echo $this->getLogoAlt() ?>">
         <img class="img-responsive" width="250px"
-             src="<?php echo $this->getSkinUrl('images/vl/wel-wordmark-black.png'); //$this->getLogoSrc() ?>"
+             src="<?php echo $this->getSkinUrl('images/vl/wel-wordmark-green.png'); //$this->getLogoSrc() ?>"
              alt="<?php echo $this->getLogoAlt() ?>"
         />
       </a>
@@ -37,17 +37,16 @@
 
     <div class="collapse navbar-collapse" id="vl-top-nav-dropdown">
       <ul class="nav navbar-nav pull-left">
+        <li class="topLink btn"><a href="<?php print Mage::getBaseUrl() ?>about-community-marketspace">ABOUT</a></li>
         <li class="topLink btn"><a href="<?php print Mage::getBaseUrl() ?>customer/account">MY ACCOUNT</a></li>
         <li class="topLink btn"><a href="<?php print Mage::getBaseUrl() ?>checkout/cart">SHOPPING CART</a></li>
-        <li class="topLink btn"><a href="<?php print Mage::getBaseUrl() ?>about-community-marketspace">ABOUT</a></li>
-
         <?php if (! Mage::getSingleton('customer/session')->isLoggedIn()): ?>
           <li class="topLink btn"><a href="<?php echo Mage::helper('customer')->getLoginUrl(); ?>">LOGIN</a></li>
         <?php else: ?>
           <li class="topLink btn"><a href="<?php echo Mage::helper('customer')->getLogoutUrl(); ?>">LOGOUT</a></li>
         <?php endif; ?>
       </ul>
-
+<!--      --><?php //echo $this->getChildHtml('topSearch'); ?>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>

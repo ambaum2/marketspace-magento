@@ -1,0 +1,213 @@
+<?php
+$catalogSearchHelper = $this->helper('catalogsearch'); /** @var $catalogSearchHelper Mage_CatalogSearch_Helper_Data */
+$algoliaSearchHelper = $this->helper('algoliasearch'); /** @var $algoliaSearchHelper Algolia_Algoliasearch_Helper_Data */
+?>
+
+
+<form id="search_mini_form" action="<?php echo $catalogSearchHelper->getResultUrl() ?>" method="get">
+  <div class="form-search input-group input-lg m-t">
+    <input id="search"  class="form-control input-lg string" type="text" name="<?php echo $catalogSearchHelper->getQueryParamName() ?>" value="<?php echo $catalogSearchHelper->getEscapedQueryText() ?>"
+           class="input-text" autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off" />
+    <span class="input-group-addon"><i id="input-loop" class="glyphicon glyphicon-search"></i></span>
+    <div id="search_autocomplete" class="algoliasearch-autocomplete">
+      <div class="result-set" id="search_autocomplete_categories"></div>
+      <div class="result-set" id="search_autocomplete_products"></div>
+      <div class="result-set" id="search_autocomplete_pages"></div>
+    </div>
+  </div>
+</form>
+<script type="text/javascript">
+  //<![CDATA[
+  var algoliaLiveSearch = new AlgoliaLiveSearch({
+    placeholder: '<?php echo $this->__('Search entire store here...') ?>',
+    applicationID: '<?php echo $algoliaSearchHelper->getApplicationID() ?>',
+    apiKey: '<?php echo $algoliaSearchHelper->getSearchOnlyAPIKey() ?>',
+    indexName: '<?php echo $algoliaSearchHelper->getIndexName() ?>',
+    productsQueryOptions: {
+      hitsPerPage: <?php echo (int) $algoliaSearchHelper->getNumberOfProductSuggestions() ?>,
+      attributesToHighlight: 'name'
+    },
+    categoriesQueryOptions: {
+      hitsPerPage: <?php echo (int) $algoliaSearchHelper->getNumberOfCategorySuggestions() ?>,
+      attributesToHighlight: 'path'
+    },
+    pagesQueryOptions: {
+      hitsPerPage: <?php echo (int) $algoliaSearchHelper->getNumberOfPageSuggestions() ?>,
+      attributesToHighlight: 'name'
+    },
+
+    renderResults: function (results) {
+      var k = 0;
+
+
+      $('search_autocomplete_products').update('');
+      $('search_autocomplete_categories').update('');
+      $('search_autocomplete_pages').update('');
+
+      /**
+       * Handle products
+       */
+
+      if (this.options.productsQueryOptions.hitsPerPage > 0)
+      {
+        var products_hits   = results[k].hits;
+        var products = [];
+        var html_products;
+
+        products_hits.each(function(hit) {
+          products.push(hit);
+        });
+
+        if (products.length > 0)
+        {
+          html_products = '<div class="algoliasearch-autocomplete-title"><?php echo $this->__('WEL Drops') ?></div>';
+          if (products.length > 0)
+          {
+            for (var i = 0; i < products.length; ++i)
+            {
+              var hit = products[i];
+
+              /** Handle Configurable Product **/
+              if (Array.isArray(hit._highlightResult.name))
+                hit._highlightResult.name = hit._highlightResult.name[0];
+
+              if (Array.isArray(hit.price))
+                hit.price = hit.price[0];
+
+              html_products += '<a class="algoliasearch-autocomplete-hit" href="' + hit.url + '">' +
+              (hit.thumbnail_url ? '<div class="thumb"><img src="' + hit.thumbnail_url + '" /></div>' : '') +
+              '<div class="info">' +
+              hit._highlightResult.name.value +
+              (hit.categories && hit.categories.length > 0 ? '<div class="algoliasearch-autocomplete-category">in ' + hit.categories.join(', ') + '</div>' : '') +
+              (hit.price && hit.price > 0 ? '<div class="algoliasearch-autocomplete-price">' + hit.price + '$</div>' : '') +
+              '</div>' +
+              '<div style="clear: both;"></div>' +
+              '</a>';
+            }
+          }
+          else
+            html_products += '<div><?php echo $this->__('No results.') ?></div>'
+        }
+        else
+          html_products = '';
+
+        $('search_autocomplete_products').update(html_products);
+
+        k++;
+      }
+
+
+
+
+      /**
+       * Handle categories
+       */
+
+      if (this.options.categoriesQueryOptions.hitsPerPage > 0)
+      {
+        var categories_hits = results[k].hits;
+        var categories = [];
+        var html_categories;
+
+        categories_hits.each(function(hit) {
+          categories.push(hit);
+        });
+
+        if (categories.length > 0)
+        {
+          html_categories = '<div class="algoliasearch-autocomplete-title"><?php echo $this->__('Categories') ?></div>';
+
+          for (i = 0; i < categories.length; ++i)
+          {
+            hit = categories[i];
+            html_categories += '<a class="algoliasearch-autocomplete-hit" href="' + hit.url + '">' +
+            (hit.image_url ? '<div class="thumb"><img src="' + hit.image_url + '" /></div>' : '');
+
+            if (hit.image_url)
+              html_categories += '<div class="info">';
+            else
+              html_categories += '<div class="info-without-thumb">';
+
+
+            html_categories += hit._highlightResult.path.value;
+
+            if (hit.product_count != undefined)
+              html_categories += ' <small>(' + hit.product_count + ')</small>';
+
+            html_categories += '</div>' +
+            '<div style="clear: both;"></div>' +
+            '</a>';
+          }
+        }
+        else
+          html_categories = '';
+
+        $('search_autocomplete_categories').update(html_categories);
+
+        k++;
+      }
+
+
+      /**
+       * Handle Pages
+       */
+
+      if (this.options.pagesQueryOptions.hitsPerPage > 0)
+      {
+        var pages_hits = results[k].hits;
+        var pages = [];
+        var html_pages;
+
+        pages_hits.each(function(hit) {
+          pages.push(hit);
+        });
+
+        if (pages.length > 0)
+        {
+          html_pages = '<div class="algoliasearch-autocomplete-title"><?php echo $this->__('Pages') ?></div>';
+
+          for (i = 0; i < pages.length; ++i)
+          {
+            hit = pages[i];
+            html_pages += '<a class="algoliasearch-autocomplete-hit" href="' + hit.url + '">';
+
+            html_pages += '<div class="info-without-thumb">';
+
+            html_pages += hit._highlightResult.name.value;
+
+            html_pages += '</div>' +
+            '<div style="clear: both;"></div>' +
+            '</a>';
+          }
+        }
+        else
+          html_pages = '';
+
+        $('search_autocomplete_pages').update(html_pages);
+
+        k++;
+      }
+
+
+      this.options.resultLinks = $('search_autocomplete').select('a');
+
+      <?php if ($algoliaSearchHelper->getSaveLastQuery()): ?>
+      var searchQuery = algoliaLiveSearch.searchForm.field.getValue();
+      if(searchQuery){
+        $('search_autocomplete').select('a').invoke('observe', 'click', function(e){
+          Mage.Cookies.set('lastSearchQuery', searchQuery);
+        });
+      }
+      <?php endif ?>
+    },
+    clearResults: function() {
+      // delay the dropdown menu clearing to ensure the click on hits can be processed
+      setTimeout(function() {
+        $('search_autocomplete_categories').update('');
+        $('search_autocomplete_products').update('');
+        $('search_autocomplete_pages').update('');
+      }, 100);
+    }
+  });
+  //]]>
+</script>

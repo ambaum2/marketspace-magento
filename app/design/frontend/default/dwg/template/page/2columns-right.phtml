@@ -29,21 +29,7 @@
  * Template for Mage_Page_Block_Html
  */
 ?>
-<?php 
-	$page_type = Mage::app()->getFrontController()->getRequest()->getControllerName(); //get page controller for logic
-	$page_type_class = '';
-	switch ($page_type) {
-		case 'product':
-			$page_type_class = "ms-product-col2-right";
-			break;
-		case 'category':
-			$page_type_class = "ms-content-col2-right";
-			break;
-		default:
-			
-			break;
-	}
-?>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->getLang() ?>" lang="<?php echo $this->getLang() ?>">
 <head>
@@ -56,10 +42,10 @@
     <?php echo $this->getChildHtml('global_notices') ?>
     <div class="page">
         <?php echo $this->getChildHtml('header') ?>
-        <div class="main-container col2-right-layout <?php ($homepage) ? print 'ms-homepage-col2-right' : print $page_type_class; ?>">
+        <div class="main-container col2-right-layout <?php ($homepage) ? print 'ms-homepage-col2-right' : print Mage::registry('wel_page_type_class'); ?>">
             <div class="main container">
                 <div class="col-main">
-                	<?php if($homepage || $page_type == 'category' ) : ?>
+                	<?php if($homepage || in_array(Mage::registry('wel_page_type'), array('category', 'page'))) : ?>
                 		<div class="row ms-homepage">
                 			<div class="col-md-3 col-sm-5 ms-slideshow">
                         <?php echo $this->getChildHtml('vl_sidebar_menu'); ?>
@@ -69,9 +55,13 @@
                         </div>
                 			</div>
                 			<div class="col-md-9 col-sm-7 ms-right-sidbar-homepage text-center">
-                        <?php echo $this->getChildHtml('wel_instant_search'); ?>
-                        <?php if($page_type === 'category') : ?>
+                        <?php if($homepage) : ?>
+                          <?php echo $this->getChildHtml('wel_instant_search'); ?>
+                        <?php else : ?>
                           <?php echo $this->getChildHtml('breadcrumbs') ?>
+                          <?php echo $this->getChildHtml('wel_category_search'); ?>
+                        <?php endif; ?>
+                        <?php if(in_array(Mage::registry('wel_page_type'), array('category', 'page'))) : ?>
                           <?php echo $this->getChildHtml('content') ?>
                         <?php endif; ?>
                 			</div>
@@ -83,7 +73,7 @@
 <!--                				</div>-->
 <!--                			</div>-->
 <!--                		</div>-->
-                	<?php elseif($page_type == 'category' || $page_type == 'result') : //on a category page?>
+                	<?php elseif(in_array(Mage::registry('wel_page_type'), array('category', 'result'))) : //on a category page?>
                     <?php echo $this->getChildHtml('global_messages') ?>
                    	<div class="row">
                    		<div class="col-md-9 col-sm-9 ms-main-content">

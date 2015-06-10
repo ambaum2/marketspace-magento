@@ -57,7 +57,7 @@
                 <!--<block type="page/template_links" name="top.links" as="topLinks"/>-->
                 <block type="page/switch" name="linksEsl" as="linksEsl" template="page/switch/toplinksEsl.phtml">
                     <block type="core/template" name="vlMiniSearch" as="vlMiniSearch" template="promotionsmgr/vl_mini_search.phtml"/>
-
+                    <!--<block type="core/template" name="top.search" as="topSearch" template="catalogsearch/form.mini.phtml"/>-->
                 </block>
                 <block type="page/switch" name="tabbedMenuEsl" as="tabbedMenuEsl" template="page/switch/tabbedMenuEsl.phtml" />
                 <block type="page/switch" name="store_language" as="store_language" template="page/switch/languages.phtml" />
@@ -70,8 +70,11 @@
             <block type="promotionsmgr/promotionsmgr" name="right_sidebar_content" template="promotionsmgr/right_sidebar_content.phtml" />
             <block type="promotionsmgr/promotionsmgr" name="featured_products" template="promotionsmgr/featured_products.phtml" />
             <block type="promotionsmgr/promotionsmgr" name="vl_sidebar_menu" template="promotionsmgr/vl_sidebar_menu.phtml" />
-            <block type="promotionsmgr/promotionsmgr" name="wel_instant_search" template="promotionsmgr/wel_instant_search.phtml" />
+            <block type="promotionsmgr/promotionsmgr" name="wel_instant_search" template="promotionsmgr/wel_instant_search.phtml" /> <!-- algoliasearch.xml overrides this -->
+            <block type="promotionsmgr/promotionsmgr" name="wel_category_search" template="vl_mini_search.phtml" />
+            <block type="core/template" name="top.search" as="topSearch" template="catalogsearch/form.mini.phtml"/>
             <block type="promotionsmgr/promotionsmgr" name="wel_footer" template="promotionsmgr/wel_footer.phtml" />
+            <!--<block type="algoliasearch/algoliasearch" name="wel_category_search" template="algoliasearch/categorySearch.phtml" />-->
             <block type="page/html_breadcrumbs" name="breadcrumbs" as="breadcrumbs"/>
 
             <block type="core/text_list" name="left" as="left" translate="label">
@@ -133,6 +136,9 @@
             <action method="setTemplate"><template>page/2columns-right.phtml</template></action>
             <!-- Mark root page block that template is applied -->
             <action method="setIsHandle"><applied>1</applied></action>
+        </reference>
+        <reference name="top.search">
+            <action method="setTemplate"><template>algoliasearch/categorySearch.phtml</template></action>
         </reference>
     </page_two_columns_right>
 

@@ -41,7 +41,7 @@
         $_imgHtml = $_helper->categoryAttribute($_category, $_imgHtml, 'image');
     }
 ?>
-<div class="page-title category-title">
+<div class="page-title category-title text-left col-md-12">
     <?php if($this->IsRssCatalogEnable() && $this->IsTopCategory()): ?>
       <a href="<?php echo $this->getRssLink() ?>" class="link-rss"><?php echo $this->__('Subscribe to RSS Feed') ?></a>
     <?php endif; ?>
@@ -58,7 +58,7 @@
 <?php if($slider = $promotions->getImageRotatorImages(array('category_id' => $_category->getId()))) : ?>
 		<?php echo $this->getChildHtml('image_rotator'); ?>
 <?php endif; ?>
-<div class="row">
+<div class="row text-left">
     <div class="col-md-12 ms-category-nav-links">
         <?php $this->getChild('ms_subcategory_nav')->setData('_category', $_category); ?>
         <?php echo $this->getChildHtml('ms_subcategory_nav'); ?>
