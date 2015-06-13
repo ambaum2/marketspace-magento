@@ -115,30 +115,13 @@ class MS_Api_Model_Adapters_CategoriesSql extends Mage_Core_Model_Abstract {
      */
     public function GetCategoryFirstChildrenList(Mage_Catalog_Model_Category $category) {
         /* @var $collection Mage_Catalog_Model_Resource_Category_Collection */
-        /*$collection = Mage::getModel('catalog/category')->getCollection();
-            //->setStoreId($this->_getStoreId($store))
-
-            $collection
-                ->addAttributeToSelect('children')
-                ->addAttributeToSelect('name')
-                ->addAttributeToFilter('parent_id', array('eq' => $category->getId()))
-            ;
-        return $collection;*/
-        /*$category = new Mage_Catalog_Model_Category_Api();
-return $category->tree(null, null);*/
-        /*$category = new Mage_Catalog_Model_Category_Api();
-        return $category->level(null, null, 2);*/
-        /*$collection = Mage::getModel('catalog/category')->getCollection()
-            //->setStoreId($this->_getStoreId($store))
-            ->addAttributeToSelect('name')
-            ->addAttributeToSelect('is_active');
-        return $collection->getData();*/
         $subcategory_ids = $category->getChildren();
         $categoryCollection = Mage::getModel('catalog/category')->getCollection();
         $categoryCollection->addAttributeToSelect('name');
         $categoryCollection->addAttributeToSelect('url_path');
         $categoryCollection->addIdFilter($subcategory_ids);
         $categoryCollection->addIsActiveFilter();
+        $categoryCollection->addAttributeToSort('position','ASC');
         return $categoryCollection;
     }
 }
