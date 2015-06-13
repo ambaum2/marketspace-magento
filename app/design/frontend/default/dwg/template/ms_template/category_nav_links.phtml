@@ -8,7 +8,6 @@ $category = $this->_category;
         /* @var $collection Mage_Catalog_Model_Resource_Category_Collection */
         $collection = $this->GetChildrenForNavigationLinks($category);
     ?>
-        <h4>Sub-Categories</h4>
         <?php $i = 0; ?>
         <?php $total = $collection->count(); ?>
         <?php foreach($collection as $key => $cat) : ?>

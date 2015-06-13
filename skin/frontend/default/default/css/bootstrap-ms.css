@@ -4,12 +4,17 @@
   padding: 0;
 }
 body {
-  background: #aaaaaa;
+  background: #dddddd;
   color:#341b00;
 }
 .cms-page-view ul {
 	list-style-position: inside;
-	list-style-type: disc;
+	list-style-type: none;
+}
+
+.cms-page-view ul .vl-nav {
+	list-style-position: inside;
+	list-style-type: none;
 }
 ul {
 	list-style-type: none;
@@ -284,6 +289,11 @@ background: #dcf1fd;
 #vl-top-nav-dropdown .navbar-nav {
   margin-top: 5px;
 }
+#vl-top-nav-dropdown .navbar-nav .topLink a:hover {
+  background: #89CA63;
+  color: white;
+}
+
 .header .navbar {
 	border:none;
 	margin-bottom: 0px;
@@ -368,7 +378,7 @@ background: #dcf1fd;
 }
 
 .ms-homepage .ms-right-sidbar-homepage {
-    background: #eeeeee;
+    background: #ffffff;
 }
 .ms-homepage .ms-slideshow { /* div[class^='col-md-']*/
 	padding-left:0px;
@@ -379,15 +389,16 @@ background: #dcf1fd;
 .footer .nav {
 	float:none;
 	display:inline-block;
-	color:white;
-	margin-top:20px;
+	color:black;
+	margin-top:5px;
+  margin-bottom: 20px;
 }
 .footer .nav li a {
-	color:white;
+	color:black;
 }
 .footer .nav li a:hover {
-	background: #cfdb0e;
-	color:black;
+  background: #89CA63;
+  color: white;
 }
 
 /* grid view */
@@ -397,9 +408,11 @@ background: #dcf1fd;
 .products-grid li.item {
 	width: 160px;
 }
-.products-grid .text-ms-label a {
-	font-size: 16px;
+.products-grid .text-ms-label a,
+#hits div a {
+	font-size: 14px;
 	color:#970e5a;
+  font-weight: bold;
 }
 .products-grid .btn-ms-action {
 	margin-top:5px;
@@ -436,6 +449,7 @@ background: #dcf1fd;
 }
 .breadcrumb  {
     margin-bottom: 0px;
+    background: #ffffff;
 }
 .breadcrumbs {
     margin-bottom: 0px;

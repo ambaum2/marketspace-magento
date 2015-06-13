@@ -42,7 +42,8 @@
     <?php echo $this->getChildHtml('global_notices') ?>
     <div class="page">
         <?php echo $this->getChildHtml('header') ?>
-        <div class="main-container col2-right-layout <?php ($homepage) ? print 'ms-homepage-col2-right' : print Mage::registry('wel_page_type_class'); ?>">
+        <div class="main-container col2-right-layout
+          <?php ($homepage) ? print 'ms-homepage-col2-right' : print Mage::registry('wel_page_type_class'); ?>">
             <div class="main container">
                 <div class="col-main">
                 	<?php if($homepage || in_array(Mage::registry('wel_page_type'), array('category', 'page'))) : ?>
@@ -54,7 +55,7 @@
                           <?php echo $this->getChildHtml('right_sidebar_content'); ?>
                         </div>
                 			</div>
-                			<div class="col-md-9 col-sm-7 ms-right-sidbar-homepage text-center">
+                			<div class="col-md-9 col-sm-7 ms-right-sidbar-homepage text-left">
                         <?php if($homepage) : ?>
                           <?php echo $this->getChildHtml('wel_instant_search'); ?>
                         <?php else : ?>
